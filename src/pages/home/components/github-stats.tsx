@@ -32,7 +32,7 @@ const GithubStats = () => {
     })))
   }, [])
 
-  return <div className={"flex flex-col items-start justify-center gap-4"}>
+  return <section className={"flex flex-col items-start justify-center gap-4 w-full"}>
     <h3 className={"text-2xl font-bold"}>GitHub Stats</h3>
 
     <div className={"grid grid-cols-2 md:grid-cols-4 gap-4"}>
@@ -48,7 +48,7 @@ const GithubStats = () => {
         </Card>
       ))}
     </div>
-  </div>;
+  </section>;
 }
 
 export default GithubStats;

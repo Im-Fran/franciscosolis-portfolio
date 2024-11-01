@@ -1,4 +1,5 @@
 import GithubStats from "@/pages/home/components/github-stats.tsx";
+import Projects from "@/pages/home/components/projects.tsx";
 
 const Home = () => {
   const personalInfo = {
@@ -18,7 +19,12 @@ const Home = () => {
 
     <span className={"text-md text-neutral-500 dark:text-neutral-400 my-5 max-w-md md:max-w-2xl text-center"}>{personalInfo.bio}</span>
 
-    <GithubStats/>
+
+    <div className={"flex flex-col items-center justify-center gap-10 max-w-3xl"}>
+      <GithubStats/>
+
+      <Projects/>
+    </div>
   </div>
 }
 

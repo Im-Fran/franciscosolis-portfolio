@@ -8,28 +8,38 @@ const Projects = () => {
     {
       title: "Portfolio",
       description: "A website to showcase my work, experience and skills.",
-      github: "https://github.com/Im-Fran/franciscosolis-portfolio",
-      live: "https://franciscosolis.cl"
+      links: [
+        {label: "View on GitHub", href: "https://github.com/Im-Fran/franciscosolis-portfolio", variant: "outline"},
+        {label: "View Live", href: "https://franciscosolis.cl", variant: "defaultOutline"},
+      ],
     },
     {
       title: "RubyBox",
       description: "A Laravel Backend and ViteJS Frontend project to manage the inventory and a business dashboard.",
-      github: "https://github.com/Im-Fran/rubybox.cl",
+      links: [
+        {label: "View on GitHub", href: "https://github.com/Im-Fran/rubybox.cl", variant: "outline"},
+      ],
     },
     {
       title: "Mi UTEM",
       description: "A mobile app for the Universidad Tecnológica Metropolitana (UTEM) students.",
-      github: "https://github.com/exdevutem/mi-utem",
+      links: [
+        {label: "View on GitHub", href: "https://github.com/exdevutem/mi-utem", variant: "outline"},
+      ],
     },
     {
       title: "SonatypeCentralUpload",
       description: "A Gradle plugin to upload artifacts to Sonatype Central.",
-      github: "https://github.com/Im-Fran/SonatypeCentralUpload",
+      links: [
+        {label: "View on GitHub", href: "https://github.com/Im-Fran/SonatypeCentralUpload", variant: "outline"},
+      ]
     },
     {
       title: "More Projects",
       description: "Check out more projects on my GitHub profile.",
-      github: "https://github.com/Im-Fran/"
+      links: [
+        {label: "Visit on GitHub", href: "https://github.com/Im-Fran/", variant: "outline"}
+      ],
     }
   ]
 
@@ -47,20 +57,13 @@ const Projects = () => {
             <CardDescription>{project.description}</CardDescription>
           </CardHeader>
           <CardFooter className={"gap-5"}>
-            {project.github && <Button variant={"outline"} asChild>
-              <a className={"flex items-center justify-center gap-0.5"} href={project.github} target="_blank"
+            {project.links.map(link => <Button variant={link.variant === 'outline' ? 'outline' : (link.variant === 'defaultOutline' ? 'defaultOutline' : 'default')} asChild>
+              <a className={"flex items-center justify-center gap-0.5"} href={link.href} target="_blank"
                  rel="noopener noreferrer">
-                View on GitHub
+                {link.label}
                 <ArrowUpRight size={16}/>
               </a>
-            </Button>}
-            {project.live && <Button variant={"defaultOutline"} asChild>
-              <a className={"flex items-center justify-center gap-0.5"} href={project.live} target="_blank"
-                 rel="noopener noreferrer">
-                View Live
-                <ArrowUpRight size={16}/>
-              </a>
-            </Button>}
+            </Button>)}
           </CardFooter>
         </Card>
       ))}

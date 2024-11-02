@@ -154,6 +154,10 @@
     "footer": {
       "all_rights_reserved": "© FranciscoSolis {year}. All Rights Reserved.",
       "toggle_lang": "Cambiar Idioma ({lang})"
+    },
+    "cookies": {
+      "message": "We use cookies to improve your experience on our site. By using our site, you consent to cookies.",
+      "accept": "Accept"
     }
   },
   "es": {
@@ -311,6 +315,11 @@
     "footer": {
       "all_rights_reserved": "© FranciscoSolis {year}. Todos los derechos reservados.",
       "toggle_lang": "Toggle Language ({lang})"
+    },
+
+    "cookies": {
+      "message": "Utilizamos cookies para mejorar tu experiencia en nuestro sitio. Al utilizar nuestro sitio, aceptas las cookies.",
+      "accept": "Aceptar"
     }
   }
 }

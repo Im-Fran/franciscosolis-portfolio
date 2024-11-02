@@ -1,19 +1,17 @@
 import GithubStats from "@/pages/home/components/github-stats.tsx";
 import Projects from "@/pages/home/components/projects.tsx";
+import Experience from "@/pages/home/components/experience.tsx";
+import {useEffect, useState} from "react";
+import {i18n} from "@/translations/translations.ts";
 
 const Home = () => {
-  const personalInfo = {
-    name: "Francisco Solís",
-    title: "Full Stack & Mobile Developer",
-    bio: "I'm passionate about creating elegant solutions to complex problems. I have experience with many frontend, backend and mobile tools.",
-    github: "Im-Fran",
-    linkedin: "franciscosolismat",
-    email: "fsolism@franciscosolis.cl"
-  }
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(i18n.translations[i18n.locale].personal_info)
+
+  useEffect(() => i18n.onChange(() => setPersonalInfo(i18n.translations[i18n.locale].personal_info)), [])
 
   return <div className={"flex flex-col items-center justify-center h-full w-full py-20 gap-5"}>
     <div className={"flex flex-col items-center justify-center gap-2.5"}>
-      <h1 className={"text-4xl font-bold"}>{personalInfo.name}</h1>
+      <h1 className={"text-4xl font-bold"}>Francisco Solís Maturana</h1>
       <h4 className={"text-xl text-neutral-500 dark:text-neutral-400"}>{personalInfo.title}</h4>
     </div>
 
@@ -24,8 +22,18 @@ const Home = () => {
       <GithubStats/>
 
       <Projects/>
+
+      <Experience/>
     </div>
   </div>
+}
+
+interface PersonalInfo {
+  title: string | null | undefined;
+  bio: string | null | undefined;
+  github: string | null | undefined;
+  linkedin: string | null | undefined;
+  email: string | null | undefined;
 }
 
 export default Home;

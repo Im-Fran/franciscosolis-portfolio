@@ -1,0 +1,226 @@
+{
+  "en": {
+    "personal_info": {
+      "title": "Full Stack & Mobile Developer",
+      "bio": "I'm passionate about creating elegant solutions to complex problems. I have experience with many frontend, backend and mobile tools."
+    },
+
+    "github_stats": {
+      "title": "GitHub Stats",
+      "description": "Here are some of my GitHub stats.",
+
+      "repositories": "Repositories",
+      "stars": "Stars",
+      "followers": "Followers",
+      "total_commits": "Total Commits",
+      "pull_requests": "Pull Requests"
+    },
+
+    "projects": {
+      "title": "Projects",
+      "description": "Here are some of the projects I've worked on.",
+
+      "values": [
+        {
+          "title": "Portfolio",
+          "description": "This website is a portfolio of my work. It was built using ViteJS with React and Tailwind CSS. The backend is written in TypeScript using Cloudflare Workers.",
+          "links": [
+            {
+              "label": "View Source",
+              "href": "https://github.com/Im-Fran/franciscosolis-portfolio",
+              "variant": "outline"
+            },
+            {
+              "label": "View Live",
+              "href": "https://franciscosolis.cl",
+              "variant": "defaultOutline"
+            }
+          ]
+        },
+        {
+          "title": "RubyBox",
+          "description": "A Laravel Backend and ViteJS Frontend project to manage the inventory and a business dashboard.",
+          "links": [
+            {
+              "label": "View Source",
+              "href": "https://github.com/Im-Fran/rubybox.cl",
+              "variant": "outline"
+            }
+          ]
+        },
+        {
+          "title": "Mi UTEM",
+          "description": "A mobile app for the Universidad Tecnológica Metropolitana (UTEM) students.",
+          "links": [
+            {
+              "label": "View Source",
+              "href": "https://github.com/exdevutem/mi-utem",
+              "variant": "outline"
+            }
+          ]
+        },
+        {
+          "title": "SonatypeCentralUpload",
+          "description": "A Gradle plugin to upload artifacts to Sonatype Central.",
+          "links": [
+            {
+              "label": "View Source",
+              "href": "https://github.com/Im-Fran/SonatypeCentralUpload",
+              "variant": "outline"
+            }
+          ]
+        },
+        {
+          "title": "More Projects",
+          "description": "Check out more projects on my GitHub profile.",
+          "links": [
+            {
+              "label": "Visit GitHub Profile",
+              "href": "https://github.com/Im-Fran/",
+              "variant": "outline"
+            }
+          ]
+        }
+      ]
+    },
+
+    "experience": {
+      "title": "Experience",
+      "description": "Here are some of the companies and groups I've worked with.",
+
+      "values": [
+        {
+          "title": "Director of Marketplace Operations",
+          "company": "Songoda LLC",
+          "period": "Oct 2020 - Sept 2022",
+          "location": "US, Remote",
+          "description": "I led the online community and the development of the Songoda marketplace platform. I focused on implementing continuous technical improvements, using advanced technologies such as Laravel, Vue.js and TailwindCSS, and optimized server management in Ubuntu, as well as databases in PostgreSQL and Redis."
+        },
+        {
+          "title": "Director of Web Operations",
+          "company": "Songoda LLC",
+          "period": "May 2021 - Sept 2022",
+          "location" : "US, Remote",
+          "description": "As Director of Web Operations, I was responsible for the technical direction and development coordination in the marketplace, I optimized the platform using Laravel, Vue.js and TailwindCSS, strengthening performance and supervising the administration of infrastructure and databases."
+        }
+      ]
+    },
+
+    "footer": {
+      "all_rights_reserved": "© FranciscoSolis {year}. All Rights Reserved.",
+      "toggle_lang": "Cambiar Idioma ({lang})"
+    }
+  },
+  "es": {
+    "personal_info": {
+      "title": "Desarrollador Full Stack y Móvil",
+      "bio": "Me apasiona crear soluciones elegantes a problemas complejos. Tengo experiencia con diversas herramientas de frontend, backend y desarrollo móvil."
+    },
+
+    "github_stats": {
+      "title": "Estadísticas de GitHub",
+      "description": "Aquí están algunas de mis estadísticas de GitHub.",
+
+      "repositories": "Repositorios",
+      "stars": "Estrellas",
+      "followers": "Seguidores",
+      "total_commits": "Commits",
+      "pull_requests": "Pull Requests"
+    },
+
+    "projects": {
+      "title": "Proyectos",
+      "description": "Aquí están algunos de los proyectos en los que he trabajado.",
+
+      "values": [
+        {
+          "title": "Portafolio",
+          "description": "Este sitio web es un portafolio de mi trabajo. Fue construido usando ViteJS con React y Tailwind CSS. El backend está escrito en TypeScript usando Cloudflare Workers.",
+          "links": [
+            {
+              "label": "Ver Código",
+              "href": "https://github.com/Im-Fran/franciscosolis-portfolio",
+              "variant": "outline"
+            },
+            {
+              "label": "Ver en Vivo",
+              "href": "https://franciscosolis.cl",
+              "variant": "defaultOutline"
+            }
+          ]
+        },
+        {
+          "title": "RubyBox",
+          "description": "Proyecto con un Backend en Laravel y un Frontend en ViteJS para gestionar inventario y un panel de control empresarial.",
+          "links": [
+            {
+              "label": "Ver Código",
+              "href": "https://github.com/Im-Fran/rubybox.cl",
+              "variant": "outline"
+            }
+          ]
+        },
+        {
+          "title": "Mi UTEM",
+          "description": "Una aplicación móvil para los estudiantes de la Universidad Tecnológica Metropolitana (UTEM).",
+          "links": [
+            {
+              "label": "Ver Código",
+              "href": "https://github.com/exdevutem/mi-utem",
+              "variant": "outline"
+            }
+          ]
+        },
+        {
+          "title": "SonatypeCentralUpload",
+          "description": "Un plugin Gradle para subir artefactos a Sonatype Central.",
+          "links": [
+            {
+              "label": "Ver Código",
+              "href": "https://github.com/Im-Fran/SonatypeCentralUpload",
+              "variant": "outline"
+            }
+          ]
+        },
+        {
+          "title": "Más Proyectos",
+          "description": "Descubre más proyectos en mi perfil de GitHub.",
+          "links": [
+            {
+              "label": "Visitar Perfil de GitHub",
+              "href": "https://github.com/Im-Fran/",
+              "variant": "outline"
+            }
+          ]
+        }
+      ]
+    },
+
+    "experience": {
+      "title": "Experiencia",
+      "description": "Aquí están algunas de las empresas y grupos con los que he trabajado.",
+
+      "values": [
+        {
+          "title": "Director de Operaciones de Marketplace",
+          "company": "Songoda LLC",
+          "period": "Oct 2020 - Sept 2022",
+          "location": "EE.UU., Remoto",
+          "description": "Lideré la comunidad en línea y el desarrollo de la plataforma de marketplace de Songoda. Me enfoqué en implementar mejoras técnicas continuas, utilizando tecnologías avanzadas como Laravel, Vue.js y TailwindCSS, y optimicé la gestión de servidores en Ubuntu, así como las bases de datos en PostgreSQL y Redis."
+        },
+        {
+          "title": "Director de Operaciones Web",
+          "company": "Songoda LLC",
+          "period": "May 2021 - Sept 2022",
+          "location": "EE.UU., Remoto",
+          "description": "Como Director de Operaciones Web, fui responsable de la dirección técnica y la coordinación de desarrollo en el marketplace. Optimicé la plataforma usando Laravel, Vue.js y TailwindCSS, fortaleciendo el rendimiento y supervisando la administración de infraestructura y bases de datos."
+        }
+      ]
+    },
+
+    "footer": {
+      "all_rights_reserved": "© FranciscoSolis {year}. Todos los derechos reservados.",
+      "toggle_lang": "Toggle Language ({lang})"
+    }
+  }
+}

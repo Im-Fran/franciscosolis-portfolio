@@ -1,6 +1,7 @@
 import {Outlet, ScrollRestoration} from "react-router-dom";
 import {clsx} from "clsx";
 import {BaseProperties} from "@/main.tsx";
+import Footer from "@/components/footer.tsx";
 
 const Layout = ({ className, ...rest }: LayoutProps) => {
   const containerClasses = clsx([
@@ -16,7 +17,9 @@ const Layout = ({ className, ...rest }: LayoutProps) => {
         </div>
       </div>
     </div>
+
     <ScrollRestoration />
+    <Footer/>
   </div>;
 };
 

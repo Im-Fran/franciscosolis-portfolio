@@ -28,11 +28,8 @@ const Projects = () => {
           <CardDescription>{project.description}</CardDescription>
         </CardHeader>
         <CardFooter className={"gap-5"}>
-          {project.links?.map((link: Link) => <Button key={link.label}
-                                                      variant={link.variant === 'outline' ? 'outline' : (link.variant === 'defaultOutline' ? 'defaultOutline' : 'default')}
-                                                      asChild>
-            <a className={"flex items-center justify-center gap-0.5"} href={link.href || '#'} target="_blank"
-               rel="noopener noreferrer">
+          {project.links?.map((link: Link) => <Button key={link.label} variant={link.variant === 'outline' ? 'outline' : (link.variant === 'defaultOutline' ? 'defaultOutline' : 'default')} asChild>
+            <a className={"flex items-center justify-center gap-0.5"} href={link.href || '#'} target={"_blank"} rel={"noopener noreferrer"}>
               {link.label}
               <ArrowUpRight size={16}/>
             </a>

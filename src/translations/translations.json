@@ -102,6 +102,51 @@
           "period": "May 2021 - Sept 2022",
           "location" : "US, Remote",
           "description": "As Director of Web Operations, I was responsible for the technical direction and development coordination in the marketplace, I optimized the platform using Laravel, Vue.js and TailwindCSS, strengthening performance and supervising the administration of infrastructure and databases."
+        },
+        {
+          "title": "CTO",
+          "company": "Songoda LLC",
+          "period": "Sept 2022 - Jun 2023",
+          "location": "US, Remote",
+          "description": "As CTO, I directed the technical evolution of the platform, managing infrastructure improvements and ensuring high quality practices in development. My focus was on the user experience and ensuring the scalability of the system."
+        },
+        {
+          "title": "CTO",
+          "company": "Craftaro LLC",
+          "period": "March 2023 - March 2024",
+          "location": "US, Remote",
+          "description": "I led the development of a marketplace platform from scratch, using technologies such as React.js, Laravel and TailwindCSS, with a focus on performance and scalability. I implemented a payment system with Stripe and optimized database and server management in Ubuntu to achieve an efficient infrastructure."
+        },
+        {
+          "title": "Member",
+          "company": "ExDev",
+          "period": "Oct 2024 - Present",
+          "location": "Chile, UTEM",
+          "description": "As a member of ExDev, I have worked as a team on the development of the university's official application, deepening mobile development with Flutter. This experience has allowed me to improve in project generation, resource management and the use of virtualization environments with Proxmox, in addition to representing the club in student fairs."
+        }
+      ]
+    },
+
+    "skills": {
+      "title": "Skills",
+      "description": "Here are some of the tools and technologies I've worked with.",
+
+      "values": [
+        {
+          "title": "Web Development",
+          "values": ["Laravel", "ReactJS", "VueJS", "TailwindCSS", "ViteJS", "Nuxt", "Next.js", "HTML", "CSS", "SCSS", "SASS", "JavaScript", "TypeScript", "PHP"]
+        },
+        {
+          "title": "Mobile Development",
+          "values": ["Flutter", "Java", "Kotlin", "Swift", "Dart"]
+        },
+        {
+          "title": "Database & Storage",
+          "values": ["Redis", "PostgreSQL", "S3"]
+        },
+        {
+          "title": "DevOps & Infrastructure",
+          "values": ["Ubuntu", "Git", "GitHub", "Proxmox", "Digital Ocean"]
         }
       ]
     },
@@ -214,6 +259,51 @@
           "period": "May 2021 - Sept 2022",
           "location": "EE.UU., Remoto",
           "description": "Como Director de Operaciones Web, fui responsable de la dirección técnica y la coordinación de desarrollo en el marketplace. Optimicé la plataforma usando Laravel, Vue.js y TailwindCSS, fortaleciendo el rendimiento y supervisando la administración de infraestructura y bases de datos."
+        },
+        {
+          "title": "CTO",
+          "company": "Songoda LLC",
+          "period": "Sept 2022 - Jun 2023",
+          "location": "EE.UU., Remoto",
+          "description": "Como CTO, dirigí la evolución técnica de la plataforma, gestionando mejoras en la infraestructura y asegurando prácticas de alta calidad en el desarrollo. Me enfoqué en la experiencia del usuario y en garantizar la escalabilidad del sistema."
+        },
+        {
+          "title": "CTO",
+          "company": "Craftaro LLC",
+          "period": "Mar 2023 - Mar 2024",
+          "location": "EE.UU., Remoto",
+          "description": "Dirigí el desarrollo de una plataforma de marketplace desde cero, utilizando tecnologías como React.js, Laravel y TailwindCSS, con un enfoque en rendimiento y escalabilidad. Implementé un sistema de pagos con Stripe y optimicé la administración de bases de datos y servidores en Ubuntu para lograr una infraestructura eficiente."
+        },
+        {
+          "title": "Miembro",
+          "company": "Club ExDev",
+          "period": "Oct 2024 - Presente",
+          "location": "Chile, UTEM",
+          "description": "Como miembro de ExDev, he trabajado en equipo en el desarrollo de la aplicación oficial de la universidad, profundizando en el desarrollo móvil con Flutter. Esta experiencia me ha permitido mejorar en la generación de proyectos, la gestión de recursos y el uso de entornos de virtualización con Proxmox, además de representar al club en ferias estudiantiles."
+        }
+      ]
+    },
+
+    "skills": {
+      "title": "Habilidades",
+      "description": "Aquí están algunas de las herramientas y tecnologías con las que he trabajado.",
+
+      "values": [
+        {
+          "title": "Desarrollo Web",
+          "values": ["Laravel", "ReactJS", "VueJS", "TailwindCSS", "ViteJS", "Nuxt", "Next.js", "HTML", "CSS", "SCSS", "SASS", "JavaScript", "TypeScript", "PHP"]
+        },
+        {
+          "title": "Desarrollo Móvil",
+          "values": ["Flutter", "Java", "Kotlin", "Swift", "Dart"]
+        },
+        {
+          "title": "Base de Datos y Almacenamiento",
+          "values": ["Redis", "PostgreSQL", "S3"]
+        },
+        {
+          "title": "DevOps e Infraestructura",
+          "values": ["Ubuntu", "Git", "GitHub", "Proxmox", "Digital Ocean"]
         }
       ]
     },

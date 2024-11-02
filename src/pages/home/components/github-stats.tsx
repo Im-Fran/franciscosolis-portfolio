@@ -7,13 +7,7 @@ import {i18n} from "@/translations/translations.ts";
 const GithubStats = () => {
 
   // Replace with actual GitHub stats or fetch from GitHub API
-  const [githubStats, setGithubStats] = useState<{
-    repositories: number | null,
-    stars: number | null,
-    followers: number | null,
-    total_commits: number | null,
-    pull_requests: number | null,
-  }>({repositories: null, stars: null, followers: null, total_commits: null, pull_requests: null});
+  const [githubStats, setGithubStats] = useState<Stats>({repositories: null, stars: null, followers: null, total_commits: null, pull_requests: null});
 
   useEffect(() => {
     const loadGithub = async () => await axios.get('https://franciscosolis-portfolio-api.franciscosolis.workers.dev/github')
@@ -33,16 +27,7 @@ const GithubStats = () => {
     })))
   }, [])
 
-  const [translations, setTranslations] = useState<{
-    title: string | undefined | null;
-    description: string | undefined | null;
-
-    repositories: string | undefined | null;
-    stars: string | undefined | null;
-    followers: string | undefined | null;
-    total_commits: string | undefined | null;
-    pull_requests: string | undefined
-  }>(i18n.translations[i18n.locale].github_stats)
+  const [translations, setTranslations] = useState<Translations>(i18n.translations[i18n.locale].github_stats)
 
   useEffect(() => i18n.onChange(() => setTranslations(i18n.translations[i18n.locale].github_stats)), []);
 
@@ -56,16 +41,38 @@ const GithubStats = () => {
       {Object.entries(githubStats).map(([key, value]) => (
         <Card key={key}>
           <CardHeader>
-            <CardTitle className="text-lg capitalize">{translations[key] || key.split("_").join(" ")}</CardTitle>
+            <CardTitle className={"text-lg capitalize"}>{`${translations[key] || key.split("_").join(" ")}`}</CardTitle>
           </CardHeader>
-          <CardContent>
-            {value === null ? <ShimmerText width={40} height={30} mode={"light"} line={1}/> :
-              <p className="text-3xl font-bold">{value}</p>}
+          <CardContent className={"w-full"}>
+            <ShimmerText width={40} height={30} mode={"light"} line={1} loading={value == null}>
+              <p className={"text-3xl font-bold"}>{value}</p>
+            </ShimmerText>
           </CardContent>
         </Card>
       ))}
     </div>
   </section>;
+}
+
+interface Translations {
+  title: string | undefined | null;
+  description: string | undefined | null;
+
+  repositories: string | undefined | null;
+  stars: string | undefined | null;
+  followers: string | undefined | null;
+  total_commits: string | undefined | null;
+  pull_requests: string | undefined | null;
+
+  [key: string]: string | undefined | null
+}
+
+interface Stats {
+  repositories: number | null;
+  stars: number | null;
+  followers: number | null;
+  total_commits: number | null;
+  pull_requests: number | null;
 }
 
 export default GithubStats;

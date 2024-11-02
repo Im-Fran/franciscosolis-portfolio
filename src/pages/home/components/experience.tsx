@@ -13,7 +13,7 @@ const Experience = () => <section className={"flex flex-col items-start justify-
   <div className={"space-y-6"}>
     {i18n.translations[i18n.locale].experience.values.map((job: Job, index: Key | null | undefined) => (
       <Card key={index}>
-        <CardHeader>
+        <CardHeader className={"w-full"}>
           <CardTitle>{job.title}</CardTitle>
           <CardDescription className={"flex items-center justify-start gap-2.5"}>
             <span className={"flex items-center justify-start gap-0.5"}>

@@ -15,7 +15,7 @@ const Experience = () => <section className={"flex flex-col items-start justify-
       <Card key={index}>
         <CardHeader className={"w-full"}>
           <CardTitle>{job.title}</CardTitle>
-          <CardDescription className={"flex items-center justify-start gap-2.5"}>
+          <CardDescription className={"flex flex-col md:flex-row items-start md:items-center justify-start gap-0.5 md:gap-2.5"}>
             <span className={"flex items-center justify-start gap-0.5"}>
               <Hotel className={"text-indigo-600"} size={16}/>
               {job.company}

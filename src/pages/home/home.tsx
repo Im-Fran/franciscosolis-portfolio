@@ -12,19 +12,19 @@ const Home = () => {
 
   return <div className={"flex flex-col items-center justify-center h-full w-full py-20 gap-5"}>
     <div className={"flex items-center justify-center gap-2.5"}>
-      <img src={"/profile-picture.webp"} alt={"Francisco Solís"} className={"rounded-full w-32"}/>
+      <img src={"/profile-picture.webp"} alt={"Francisco Solís"} className={"rounded-full w-20 md:w-32"}/>
 
-      <div className={"flex flex-col items-start justify-center gap-2.5"}>
-        <h1 className={"text-4xl font-bold"}>Francisco Solís Maturana</h1>
-        <h4 className={"text-xl text-neutral-500 dark:text-neutral-400"}>{personalInfo.title}</h4>
+      <div className={"flex flex-col items-start justify-center md:gap-2.5"}>
+        <h1 className={"text-2xl md:text-4xl font-bold"}>Francisco Solís Maturana</h1>
+        <h4 className={"text-md md:text-xl text-neutral-500 dark:text-neutral-400"}>{personalInfo.title}</h4>
       </div>
     </div>
 
     <span
-      className={"text-md text-neutral-500 dark:text-neutral-400 my-5 max-w-md md:max-w-2xl text-center"}>{personalInfo.bio}</span>
+      className={"text-md text-neutral-500 dark:text-neutral-400 my-5 max-w-sm md:max-w-2xl text-center"}>{personalInfo.bio}</span>
 
 
-    <div className={"flex flex-col items-center justify-center gap-10 max-w-3xl"}>
+    <div className={"flex flex-col items-center justify-center gap-10 max-w-sm md:max-w-3xl"}>
       <GithubStats/>
       <Projects/>
       <Skills/>

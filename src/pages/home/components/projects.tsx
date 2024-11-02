@@ -14,13 +14,13 @@ const Projects = () => {
 
   useEffect(() => i18n.onChange(() => setProjects(i18n.translations[i18n.locale].projects)), [])
 
-  return <section className={"flex flex-col items-start justify-center gap-4 w-full"}>
+  return <section className={"flex flex-col items-start justify-center gap-4 md:w-full"}>
     <div className={"flex flex-col items-start justify-center"}>
       <h2 className={"text-2xl font-semibold"}>{projects.title}</h2>
       <h4 className={"text-md text-neutral-500 dark:text-neutral-400"}>{projects.description}</h4>
     </div>
 
-    <div className={"grid grid-cols-2 md:grid-cols-2 gap-4"}>
+    <div className={"grid grid-cols-1 md:grid-cols-2 gap-4"}>
       {projects.values?.map((project: Project, index: Key | null | undefined) => <Card
         key={index}>
         <CardHeader>

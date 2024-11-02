@@ -13,7 +13,7 @@ const Layout = ({ className, ...rest }: LayoutProps) => {
   return <div className={containerClasses} {...rest}>
     <div className={"flex"}>
       <div className={"flex h-full w-full flex-col gap-20"}>
-        <div className={"container mx-auto min-h-screen"}>
+        <div className={"container px-5 md:px-0 mx-auto min-h-screen"}>
           <Outlet />
         </div>
       </div>

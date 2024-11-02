@@ -123,6 +123,13 @@
           "period": "Oct 2024 - Present",
           "location": "Chile, UTEM",
           "description": "As a member of ExDev, I have worked as a team on the development of the university's official application, deepening mobile development with Flutter. This experience has allowed me to improve in project generation, resource management and the use of virtualization environments with Proxmox, in addition to representing the club in student fairs."
+        },
+        {
+          "title": "Mobile Application Developer",
+          "company": "Alpha-Nex",
+          "period": "Apr 2024 - Present",
+          "location": "Chile, Remote",
+          "description": "I am part of the mobile application development team at Alpha-Nex. I've worked on the app 'NexGreen', focusing on the development of new features and the optimization of the user experience."
         }
       ]
     },
@@ -284,6 +291,13 @@
           "period": "Oct 2024 - Presente",
           "location": "Chile, UTEM",
           "description": "Como miembro de ExDev, he trabajado en equipo en el desarrollo de la aplicación oficial de la universidad, profundizando en el desarrollo móvil con Flutter. Esta experiencia me ha permitido mejorar en la generación de proyectos, la gestión de recursos y el uso de entornos de virtualización con Proxmox, además de representar al club en ferias estudiantiles."
+        },
+        {
+          "title": "Desarrollador de Aplicaciones Móviles",
+          "company": "Alpha-Nex",
+          "period": "Abr 2024 - Presente",
+          "location": "Chile, Remoto",
+          "description": "Soy parte del equipo de desarrollo de aplicaciones móviles en Alpha-Nex. He trabajado en la aplicación 'NexGreen', enfocándome en el desarrollo de nuevas funcionalidades y la optimización de la experiencia de usuario."
         }
       ]
     },

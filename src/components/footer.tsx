@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import { i18n } from "@/translations/translations.ts";
-import {ChevronDown} from "lucide-react";
+import {ChevronDown, Mail} from "lucide-react";
+import {SiGithub} from "@icons-pack/react-simple-icons";
 
 const Footer = () => {
   const [translations, setTranslations] = useState<{
@@ -43,14 +44,10 @@ const Footer = () => {
     </div>
     <div className={`overflow-hidden transition-max-height duration-300 ${expanded ? 'max-h-40' : 'max-h-0'}`}>
       <div className={"flex items-center justify-center gap-4"}>
-        <div className={"flex justify-center items-center gap-2"}>
-          <a href="https://github.com/Im-Fran" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/francisco-solis-maturana" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="#" onClick={openEmail}>Email</a>
-        </div>
-        <button onClick={toggleLanguage} className={"flex items-center justify-center px-1 py-0.5 border rounded"}>
-          {locale === "en" ? "🇨🇱" : "🇺🇸"}
-        </button>
+        <a className={"flex items-center justify-center border rounded px-2 py-1"} href={"https://github.com/Im-Fran"} target={"_blank"} rel={"noopener noreferrer"}><SiGithub/></a>
+        <a className={"flex items-center justify-center border rounded px-2 py-1"} href={"https://www.linkedin.com/in/fsolism"} target={"_blank"} rel={"noopener noreferrer"}><img className={"w-6"} src={"https://content.linkedin.com/content/dam/me/brand/en-us/brand-home/logos/In-Blue-Logo.png.original.png"} alt={"LinkedIn"}/></a>
+        <a className={"flex items-center justify-center border rounded px-2 py-1"} href={"#"} onClick={openEmail}><Mail/></a>
+        <button onClick={toggleLanguage} className={"flex items-center justify-center px-2 py-1 border rounded"}>{locale === "en" ? "🇨🇱" : "🇺🇸"}</button>
       </div>
     </div>
   </div>;

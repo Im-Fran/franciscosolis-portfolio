@@ -12,7 +12,7 @@ const Home = () => {
 
   return <div className={"flex flex-col items-center justify-center h-full w-full py-20 gap-5"}>
     <div className={"flex items-center justify-center gap-2.5"}>
-      <img src={"https://gravatar.com/avatar/ab9917248326c3b801ac7effc30b17f8?size=256"} alt={"Francisco Solís"} className={"rounded-full w-32"}/>
+      <img src={"/profile-picture.webp"} alt={"Francisco Solís"} className={"rounded-full w-32"}/>
 
       <div className={"flex flex-col items-start justify-center gap-2.5"}>
         <h1 className={"text-4xl font-bold"}>Francisco Solís Maturana</h1>

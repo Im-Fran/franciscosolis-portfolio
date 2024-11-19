@@ -10,8 +10,9 @@ const GithubStats = () => {
   const [githubStats, setGithubStats] = useState<Stats>({repositories: null, stars: null, followers: null, total_commits: null, pull_requests: null});
 
   useEffect(() => {
-    const loadGithub = async () => await axios.get('https://franciscosolis-portfolio-api.franciscosolis.workers.dev/github')
-    const loadGithubStats = async () => await axios.get('https://franciscosolis-portfolio-api.franciscosolis.workers.dev/github/stats')
+    const apiURL = import.meta.env['VITE_API_URL']
+    const loadGithub = async () => await axios.get(`${apiURL}/github`)
+    const loadGithubStats = async () => await axios.get(`${apiURL}/github/stats`)
 
     loadGithub().then(({data}) => setGithubStats(prev => ({
       ...prev,

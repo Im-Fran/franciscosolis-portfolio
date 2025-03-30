@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@config '../../tailwind.config.js';
+
+@theme {
+    --color-black: #0a0a0a;
+    --color-white: #fafafa;
+
+    --color-accent: oklch(0.585 0.233 277.117);
+}

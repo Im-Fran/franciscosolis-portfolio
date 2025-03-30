@@ -1,0 +1,27 @@
+{
+  "title": "Habilidades",
+  "description": "Aquí están algunas de las herramientas y tecnologías con las que he trabajado.",
+
+  "values": [
+    {
+      "id": "web",
+      "title": "Desarrollo Web",
+      "values": ["Laravel", "ReactJS", "VueJS", "TailwindCSS", "ViteJS", "Nuxt", "Next.js", "HTML", "CSS", "SCSS", "SASS", "JavaScript", "TypeScript", "PHP"]
+    },
+    {
+      "id": "mobile",
+      "title": "Desarrollo Móvil",
+      "values": ["Flutter", "Java", "Kotlin", "Swift", "Dart"]
+    },
+    {
+      "id": "db_storage",
+      "title": "Base de Datos y Almacenamiento",
+      "values": ["Redis", "PostgreSQL", "S3"]
+    },
+    {
+      "id": "devops_infra",
+      "title": "DevOps e Infraestructura",
+      "values": ["Ubuntu", "Git", "GitHub", "Proxmox", "Digital Ocean"]
+    }
+  ]
+}

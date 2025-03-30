@@ -1,0 +1,27 @@
+{
+  "title": "Skills",
+  "description": "Here are some of the tools and technologies I've worked with.",
+
+  "values": [
+    {
+      "id": "web",
+      "title": "Web Development",
+      "values": ["Laravel", "ReactJS", "VueJS", "TailwindCSS", "ViteJS", "Nuxt", "Next.js", "HTML", "CSS", "SCSS", "SASS", "JavaScript", "TypeScript", "PHP"]
+    },
+    {
+      "id": "mobile",
+      "title": "Mobile Development",
+      "values": ["Flutter", "Java", "Kotlin", "Swift", "Dart"]
+    },
+    {
+      "id": "db_storage",
+      "title": "Database & Storage",
+      "values": ["Redis", "PostgreSQL", "S3"]
+    },
+    {
+      "id": "devops_infra",
+      "title": "DevOps & Infrastructure",
+      "values": ["Ubuntu", "Git", "GitHub", "Proxmox", "Digital Ocean"]
+    }
+  ]
+}

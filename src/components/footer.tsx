@@ -1,56 +1,61 @@
-import {useEffect, useState} from "react";
-import { i18n } from "@/translations/translations.ts";
-import {ChevronDown, Mail} from "lucide-react";
-import {SiGithub} from "@icons-pack/react-simple-icons";
+import {useTranslation} from "react-i18next";
+  import {useEffect} from "react";
 
-const Footer = () => {
-  const [translations, setTranslations] = useState<{
-    all_rights_reserved: string | null | undefined;
-    toggle_lang: string | null | undefined;
-  }>(i18n.translations[i18n.locale].footer)
-  const [expanded, setExpanded] = useState(false);
-  const [locale, setLocale] = useState<string>(localStorage.getItem('locale') || 'en')
+  const availableLangs = ['en', 'es']
 
-  const toggleLanguage = () => setLocale(locale === "en" ? "es" : "en");
+  const Footer = () => {
+    const {t, i18n} = useTranslation()
 
-  useEffect(() => {
-    if(localStorage.getItem('locale') != locale) {
-      localStorage.setItem('locale', locale)
-      i18n.locale = locale
+    const toggleLanguage = async () => {
+      const newLang = i18n.language === 'es' ? 'en' : 'es';
+      localStorage.setItem('locale', newLang);
+      await i18n.changeLanguage(newLang);
     }
-  }, [locale])
 
-  useEffect(() => i18n.onChange(() => setTranslations(i18n.translations[i18n.locale].footer)), []);
+    useEffect(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const lang = urlParams.get('lang');
 
-  useEffect(() => {
-    if (expanded) {
-      setTimeout(() => window.scrollTo({
-        top: document.body.scrollHeight + 500,
-        behavior: "smooth"
-      }), 50);
-    }
-  }, [expanded]);
+      if (lang && availableLangs.includes(lang)) {
+        i18n.changeLanguage(lang).then();
+        localStorage.setItem('locale', lang);
+      }
 
-  const openEmail = () => {
-    const emailBase64 = "ZnNvbGlzbUBmcmFuY2lzY29zb2xpcy5jbA=="
-    const email = atob(emailBase64)
-    window.open(`mailto:${email}`)
-  }
+      const storedLang = localStorage.getItem('locale');
+      if (storedLang && availableLangs.includes(storedLang)) {
+        i18n.changeLanguage(storedLang).then();
+      }
+    }, [i18n]);
 
-  return <div className={"w-full flex flex-col items-center justify-center text-center py-4 border-t gap-4"}>
-    <div onClick={() => setExpanded(!expanded)} className={"flex items-center justify-center cursor-pointer gap-2"}>
-      {translations.all_rights_reserved?.replace('{year}', `${new Date().getFullYear()}`)}
-      <ChevronDown className={`transform transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}/>
-    </div>
-    <div className={`overflow-hidden transition-max-height duration-300 ${expanded ? 'max-h-40' : 'max-h-0'}`}>
-      <div className={"flex items-center justify-center gap-4"}>
-        <a className={"flex items-center justify-center border rounded px-2 py-1"} href={"https://github.com/Im-Fran"} target={"_blank"} rel={"noopener noreferrer"}><SiGithub/></a>
-        <a className={"flex items-center justify-center border rounded px-2 py-1"} href={"https://www.linkedin.com/in/fsolism"} target={"_blank"} rel={"noopener noreferrer"}><img className={"w-6"} src={"https://content.linkedin.com/content/dam/me/brand/en-us/brand-home/logos/In-Blue-Logo.png.original.png"} alt={"LinkedIn"}/></a>
-        <a className={"flex items-center justify-center border rounded px-2 py-1"} href={"#"} onClick={openEmail}><Mail/></a>
-        <button onClick={toggleLanguage} className={"flex items-center justify-center px-2 py-1 border rounded"}>{locale === "en" ? "🇨🇱" : "🇺🇸"}</button>
+    return <>
+      <button
+        onClick={toggleLanguage}
+        className="md:hidden fixed right-0 bottom-0 -translate-y-1/2 z-50 flex items-center justify-center py-3 px-2
+                bg-gray-200 dark:bg-gray-800 shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors
+                rounded-l-lg border-r-0"
+        aria-label={t('change_language')}
+        style={{
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          boxShadow: "-2px 0 10px rgba(0,0,0,0.1)"
+        }}
+      >
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-sm text-gray-600 dark:text-gray-300">
+            {i18n.language === "en" ? "🇺🇸" : "🇨🇱"}
+          </span>
+        </div>
+      </button>
+
+      <div className={"w-full flex flex-col items-center justify-center text-center py-4 border-t gap-4"}>
+        <div className={"flex items-center justify-center gap-2"}>
+          {t('all_rights_reserved', {year: new Date().getFullYear()})}
+          <button onClick={toggleLanguage} className={"hidden md:flex items-center justify-center px-2 py-1"}>
+            {i18n.language === "en" ? "🇺🇸" : "🇨🇱"}
+          </button>
+        </div>
       </div>
-    </div>
-  </div>;
-};
+    </>;
+  };
 
-export default Footer;
+  export default Footer;

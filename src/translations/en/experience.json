@@ -1,0 +1,49 @@
+{
+  "title": "Experience",
+  "description": "Here are some of the companies and groups I've worked with.",
+
+  "values": [
+    {
+      "title": "Director of Marketplace Operations",
+      "company": "Songoda LLC",
+      "period": "Oct 2020 - Sept 2022",
+      "location": "US, Remote",
+      "description": "I led the online community and the development of the Songoda marketplace platform. I focused on implementing continuous technical improvements, using advanced technologies such as Laravel, Vue.js and TailwindCSS, and optimized server management in Ubuntu, as well as databases in PostgreSQL and Redis."
+    },
+    {
+      "title": "Director of Web Operations",
+      "company": "Songoda LLC",
+      "period": "May 2021 - Sept 2022",
+      "location" : "US, Remote",
+      "description": "As Director of Web Operations, I was responsible for the technical direction and development coordination in the marketplace, I optimized the platform using Laravel, Vue.js and TailwindCSS, strengthening performance and supervising the administration of infrastructure and databases."
+    },
+    {
+      "title": "CTO",
+      "company": "Songoda LLC",
+      "period": "Sept 2022 - Jun 2023",
+      "location": "US, Remote",
+      "description": "As CTO, I directed the technical evolution of the platform, managing infrastructure improvements and ensuring high quality practices in development. My focus was on the user experience and ensuring the scalability of the system."
+    },
+    {
+      "title": "CTO",
+      "company": "Craftaro LLC",
+      "period": "March 2023 - March 2024",
+      "location": "US, Remote",
+      "description": "I led the development of a marketplace platform from scratch, using technologies such as React.js, Laravel and TailwindCSS, with a focus on performance and scalability. I implemented a payment system with Stripe and optimized database and server management in Ubuntu to achieve an efficient infrastructure."
+    },
+    {
+      "title": "Member",
+      "company": "ExDev",
+      "period": "Oct 2024 - Present",
+      "location": "Chile, UTEM",
+      "description": "As a member of ExDev, I have worked as a team on the development of the university's official application, deepening mobile development with Flutter. This experience has allowed me to improve in project generation, resource management and the use of virtualization environments with Proxmox, in addition to representing the club in student fairs."
+    },
+    {
+      "title": "Mobile Application Developer",
+      "company": "Alpha-Nex",
+      "period": "Apr 2024 - Present",
+      "location": "Chile, Remote",
+      "description": "I am part of the mobile application development team at Alpha-Nex. I've worked on the app 'NexGreen', focusing on the development of new features and the optimization of the user experience."
+    }
+  ]
+}

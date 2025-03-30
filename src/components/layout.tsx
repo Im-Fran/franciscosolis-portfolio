@@ -1,30 +1,19 @@
 import {Outlet, ScrollRestoration} from "react-router-dom";
-import {clsx} from "clsx";
 import {BaseProperties} from "@/main.tsx";
 import Footer from "@/components/footer.tsx";
 import CookieConsent from "@/components/cookie-consent.tsx";
+import {ThemeProvider} from "@/components/theme-provider.tsx";
 
-const Layout = ({ className, ...rest }: LayoutProps) => {
-  const containerClasses = clsx([
-    "bg-neutral-100 text-neutral-800 transition-colors duration-200 dark:bg-neutral-800 dark:text-neutral-50",
-    className || "",
-  ]);
-
-  return <div className={containerClasses} {...rest}>
-    <div className={"flex"}>
-      <div className={"flex h-full w-full flex-col gap-20"}>
-        <div className={"container px-5 md:px-0 mx-auto min-h-screen"}>
-          <Outlet />
-        </div>
-      </div>
+const Layout = ({ className, ...rest }: LayoutProps) => <ThemeProvider>
+  <div className={className} {...rest}>
+    <div className={"min-h-screen flex flex-col"}>
+      <Outlet/>
     </div>
-
-    <ScrollRestoration />
-    <Footer/>
-
+    <ScrollRestoration/>
     <CookieConsent/>
-  </div>;
-};
+    <Footer/>
+  </div>
+</ThemeProvider>;
 
 export default Layout
 export type LayoutProps = BaseProperties

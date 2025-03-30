@@ -1,0 +1,10 @@
+{
+  "title": "GitHub Stats",
+  "description": "Here are some of my GitHub stats.",
+
+  "repositories": "Repositories",
+  "stars": "Stars",
+  "followers": "Followers",
+  "total_commits": "Total Commits",
+  "pull_requests": "Pull Requests"
+}

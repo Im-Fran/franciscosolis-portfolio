@@ -1,13 +1,19 @@
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {ShimmerText} from "shimmer-effects-react";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {i18n} from "@/translations/translations.ts";
+import {StatCard} from "@/components/state-card.tsx";
+import {useTranslation} from "react-i18next";
 
-const GithubStats = () => {
+export const GithubStats = () => {
+  const {t} = useTranslation()
 
   // Replace with actual GitHub stats or fetch from GitHub API
-  const [githubStats, setGithubStats] = useState<Stats>({repositories: null, stars: null, followers: null, total_commits: null, pull_requests: null});
+  const [githubStats, setGithubStats] = useState<Stats>({
+    repositories: null,
+    stars: null,
+    followers: null,
+    total_commits: null,
+    pull_requests: null
+  });
 
   useEffect(() => {
     const apiURL = import.meta.env['VITE_API_URL']
@@ -28,52 +34,24 @@ const GithubStats = () => {
     })))
   }, [])
 
-  const [translations, setTranslations] = useState<Translations>(i18n.translations[i18n.locale].github_stats)
+  return <section className="py-16">
+    <div className="container mx-auto px-4">
+      <div className={"flex flex-col items-center justify-center mb-8"}>
+        <h2 className={"text-2xl md:text-3xl font-bold text-center text-gray-800 dark:text-white"}>{t('github_stats:title')}</h2>
+        <span className={"text-md md:text-lg text-center text-gray-600 dark:text-gray-300"}>{t('github_stats:description')}</span>
+      </div>
 
-  useEffect(() => i18n.onChange(() => setTranslations(i18n.translations[i18n.locale].github_stats)), []);
-
-  return <section className={"flex flex-col items-start justify-center gap-4 w-full"}>
-    <div className={"flex flex-col items-start justify-center"}>
-      <h2 className={"text-2xl font-semibold"}>{translations.title}</h2>
-      <h4 className={"text-md text-neutral-500 dark:text-neutral-400"}>{translations.description}</h4>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {Object.entries(githubStats).map(([key, value]) => <StatCard key={key} title={t(`github_stats:${key}`)} value={value || '--'}/>)}
+      </div>
     </div>
-
-    <div className={"grid grid-cols-2 md:grid-cols-4 gap-4"}>
-      {Object.entries(githubStats).map(([key, value]) => (
-        <Card key={key}>
-          <CardHeader>
-            <CardTitle className={"text-lg capitalize"}>{`${translations[key] || key.split("_").join(" ")}`}</CardTitle>
-          </CardHeader>
-          <CardContent className={"w-full"}>
-            <ShimmerText width={40} height={30} mode={"light"} line={1} loading={value == null}>
-              <p className={"text-3xl font-bold"}>{value}</p>
-            </ShimmerText>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  </section>;
+  </section>
 }
 
-interface Translations {
-  title: string | undefined | null;
-  description: string | undefined | null;
-
-  repositories: string | undefined | null;
-  stars: string | undefined | null;
-  followers: string | undefined | null;
-  total_commits: string | undefined | null;
-  pull_requests: string | undefined | null;
-
-  [key: string]: string | undefined | null
-}
-
-interface Stats {
+export type Stats = {
   repositories: number | null;
   stars: number | null;
   followers: number | null;
   total_commits: number | null;
   pull_requests: number | null;
 }
-
-export default GithubStats;

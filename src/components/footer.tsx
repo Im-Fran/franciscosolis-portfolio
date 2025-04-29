@@ -27,7 +27,7 @@ import {useTranslation} from "react-i18next";
       }
     }, [i18n]);
 
-    return <>
+    return <footer role={"contentinfo"}>
       <button
         onClick={toggleLanguage}
         className="md:hidden fixed right-0 bottom-0 -translate-y-1/2 z-50 flex items-center justify-center py-3 px-2
@@ -55,7 +55,7 @@ import {useTranslation} from "react-i18next";
           </button>
         </div>
       </div>
-    </>;
+    </footer>;
   };
 
   export default Footer;

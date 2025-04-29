@@ -38,7 +38,7 @@ export const Hero = () => {
     {
       content: <>
         <Mail size={16}/>
-        Contact
+        {t('hero:contact')}
       </>,
       onClick: openEmail,
     }
@@ -55,7 +55,7 @@ export const Hero = () => {
           <div className="relative">
             <img
               src="/profile-picture.webp"
-              alt="Francisco Solís Maturana"
+              alt={t('hero:avatar_alt')}
               width={180}
               height={180}
               className="w-64 h-64 rounded-full border-4 border-white dark:border-black object-cover object-center shadow-lg"
@@ -69,6 +69,7 @@ export const Hero = () => {
             Francisco Solís Maturana
           </h1>
           <h2 className="text-xl md:text-2xl mt-2 text-gray-700 dark:text-gray-300">{t('personal_info:title')}</h2>
+          <h3 className="text-lg md:text-xl mt-2 text-gray-600 dark:text-gray-500">🇨🇱 Santiago, Chile</h3>
           <p className="mt-4 max-w-2xl text-gray-600 dark:text-gray-400">
             {t('personal_info:bio')}
           </p>

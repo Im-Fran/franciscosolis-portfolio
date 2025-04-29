@@ -6,9 +6,9 @@ import {ThemeProvider} from "@/components/theme-provider.tsx";
 
 const Layout = ({ className, ...rest }: LayoutProps) => <ThemeProvider>
   <div className={className} {...rest}>
-    <div className={"min-h-screen flex flex-col"}>
+    <main role={"main"} className={"min-h-screen flex flex-col"}>
       <Outlet/>
-    </div>
+    </main>
     <ScrollRestoration/>
     <CookieConsent/>
     <Footer/>

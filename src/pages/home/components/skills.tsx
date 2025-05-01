@@ -16,7 +16,7 @@ export const Skills = () => {
       <div className="w-full max-w-4xl mx-auto">
         <Tabs defaultValue={skills[0].id} className="w-full" onValueChange={(value) => setActiveTab(value)}>
           <div className="relative mb-12">
-            <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 h-32 md:h-16 p-0 bg-gray-300/50 dark:bg-gray-900/50 rounded-lg md:rounded-full">
+            <TabsList className="w-full grid grid-cols-3 md:grid-cols-5 h-32 md:h-16 p-0 bg-gray-300/50 dark:bg-gray-900/50 rounded-lg md:rounded-full">
               {skills.map((skill: Skill) =>
                 <TabsTrigger
                   key={`skill_selector_${skill.id}`}
@@ -29,7 +29,7 @@ export const Skills = () => {
 
               {/* Sliding background */}
               <div className="absolute inset-0 p-1 pointer-events-none">
-                <div className="md:hidden bg-gradient-to-r from-blue-600 to-indigo-800 h-1/2 w-1/2 rounded-lg transition-all duration-300 ease-in-out" style={{transform: `translate(${activeTab === skills[0].id || activeTab === skills[2].id ? "0%" : "100%"}, ${activeTab === skills[0].id || activeTab === skills[1].id ? "0%" : "100%"})`}}/>
+                <div className="md:hidden bg-gradient-to-r from-blue-600 to-indigo-800 h-1/2 w-1/3 rounded-lg transition-all duration-300 ease-in-out" style={{transform: `translate(${getSmallScreenXPosition(activeTab, skills)}%, ${getSmallScreenYPosition(activeTab, skills)}%)`}}/>
 
                 {/* Fondo para pantallas medianas y grandes */}
                 <div
@@ -67,6 +67,17 @@ export const Skills = () => {
       </div>
     </div>
   </section>
+}
+
+// Funciones auxiliares para el posicionamiento en pantallas pequeñas
+function getSmallScreenXPosition(activeTab: string, skills: Skill[]): number {
+  const index = skills.findIndex(s => s.id === activeTab);
+  return (index % 3) * 100;
+}
+
+function getSmallScreenYPosition(activeTab: string, skills: Skill[]): number {
+  const index = skills.findIndex(s => s.id === activeTab);
+  return Math.floor(index / 3) * 100;
 }
 
 export type Skill = {

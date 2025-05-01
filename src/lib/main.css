@@ -8,3 +8,20 @@
 
     --color-accent: oklch(0.585 0.233 277.117);
 }
+
+/* Text Size */
+:root {
+    --base-font-size: 16px;
+}
+
+html.text-small {
+    font-size: calc(var(--base-font-size) * 0.875);
+}
+
+html.text-normal {
+    font-size: var(--base-font-size);
+}
+
+html.text-large {
+    font-size: calc(var(--base-font-size) * 1.25);
+}

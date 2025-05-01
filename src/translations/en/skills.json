@@ -22,6 +22,11 @@
       "id": "devops_infra",
       "title": "DevOps & Infrastructure",
       "values": ["Ubuntu", "Git", "GitHub", "Proxmox", "Digital Ocean"]
+    },
+    {
+      "id": "soft_skills",
+      "title": "Soft Skills",
+      "values": ["Teamwork", "Communication", "Problem Solving", "Adaptability", "Critical Thinking"]
     }
   ]
 }

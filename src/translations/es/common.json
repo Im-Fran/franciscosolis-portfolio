@@ -3,5 +3,10 @@
   "toggle_lang": "Cambiar Idioma ({{lang}})",
   "view_github_profile": "Ver perfil de GitHub",
   "cookie_consent": "Usamos cookies para mejorar tu experiencia en nuestro sitio. Al usar nuestro sitio, consientes el uso de cookies.",
-  "accept": "Aceptar"
+  "accept": "Aceptar",
+  "verify": "Verificar",
+  "change_text_size": "Cambiar tamaño de texto",
+  "text_size_small": "Pequeño",
+  "text_size_normal": "Normal",
+  "text_size_large": "Grande"
 }

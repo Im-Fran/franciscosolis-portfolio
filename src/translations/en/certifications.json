@@ -1,0 +1,20 @@
+{
+  "title": "Certifications",
+  "description": "These are my certifications. They are a great way to showcase your skills and knowledge in a specific area. They can help you stand out in the job market and demonstrate your commitment to professional development.",
+  "values": [
+    {
+      "title": "GitHub Foundations",
+      "organization": "GitHub",
+      "date": "December 02, 2024",
+      "skills": ["Git", "GitHub", "Version Control", "GitHub Repositories", "GitHub Actions", "GitHub Teams/Organizations", "Collaboration Features", "Modern Development", "Project Management", "Privacy, Security, and Administration"],
+      "verificationUrl": "https://www.credly.com/badges/076ef3cd-dce9-4fa0-9888-b1b8e54d9448"
+    },
+    {
+      "title": "EF SET English Certificate 74/100 (C2 Proficient)",
+      "organization": "EF Standard English Test",
+      "date": "December 20, 2024",
+      "skills": ["English", "C2 Proficient", "Language Proficiency"],
+      "verificationUrl": "https://cert.efset.org/en/8kg6uG"
+    }
+  ]
+}

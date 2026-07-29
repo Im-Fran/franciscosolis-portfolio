@@ -1,4 +1,4 @@
-import { Key } from "react";
+import type { Key } from "react";
 import {useTranslation} from "react-i18next";
 import {ExperienceCard} from "@/pages/home/components/experience/experience-card.tsx";
 

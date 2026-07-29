@@ -1,6 +1,7 @@
 import {Button} from "@/components/ui/button/button.tsx";
-import {Key} from "react";
-import {ProjectCard, ProjectCardProps} from "@/pages/home/components/projects/project-card.tsx";
+import type {Key} from "react";
+import {ProjectCard} from "@/pages/home/components/projects/project-card.tsx";
+import type {ProjectCardProps} from "@/pages/home/components/projects/project-card.tsx";
 import {SiGithub} from "@icons-pack/react-simple-icons";
 import {useTranslation} from "react-i18next";
 

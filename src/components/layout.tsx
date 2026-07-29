@@ -1,5 +1,5 @@
 import {Outlet, ScrollRestoration} from "react-router-dom";
-import {BaseProperties} from "@/main.tsx";
+import type {BaseProperties} from "@/main.tsx";
 import Footer from "@/components/footer.tsx";
 import CookieConsent from "@/components/cookie-consent.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";

@@ -26,6 +26,7 @@ dist-ssr
 # TS Build Info
 *.tsbuildinfo
 
-# Environment Files
-.env*
-!.env.example
+# Cloudflare
+.wrangler
+.dev.vars*
+!.dev.vars.example

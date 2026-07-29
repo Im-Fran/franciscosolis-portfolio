@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button/button.tsx";
 import {Mail} from "lucide-react";
-import {SiGithub, SiInstagram} from "@icons-pack/react-simple-icons";
+import {SiGithub, SiInstagram, SiThreads, SiBluesky, SiX} from "@icons-pack/react-simple-icons";
 import {useTranslation} from "react-i18next";
 
 // ponytail: simple-icons removed SiLinkedin (LinkedIn brand request), inline svg replaces it
@@ -41,6 +41,27 @@ export const Hero = () => {
         Instagram
       </>,
       href: 'https://instagram.com/fran.dev_',
+    },
+    {
+      content: <>
+        <SiThreads size={14}/>
+        Threads
+      </>,
+      href: 'https://www.threads.net/@fran.dev_',
+    },
+    {
+      content: <>
+        <SiX size={16}/>
+        X
+      </>,
+      href: 'https://x.com/Im_Fran_',
+    },
+    {
+      content: <>
+        <SiBluesky size={14}/>
+        Bluesky
+      </>,
+      href: 'https://bsky.app/profile/imfran.bsky.social',
     },
     {
       content: <>

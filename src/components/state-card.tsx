@@ -1,5 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card"
-import CountUp from "react-countup";
+import ReactCountUp from "react-countup";
+
+// ponytail: Vite's CJS interop for react-countup sometimes yields the whole
+// module object instead of its default export; unwrap defensively either way.
+const CountUp = (ReactCountUp as unknown as { default?: typeof ReactCountUp }).default ?? ReactCountUp
 
 export type StatCardProps = {
   title: string

@@ -2,11 +2,11 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {StatCard} from "@/components/state-card.tsx";
 import {useTranslation} from "react-i18next";
+import type {HttpResponse} from "@/interfaces";
 
 export const GithubStats = () => {
   const {t} = useTranslation()
 
-  // Replace with actual GitHub stats or fetch from GitHub API
   const [githubStats, setGithubStats] = useState<Stats>({
     repositories: null,
     stars: null,
@@ -16,22 +16,26 @@ export const GithubStats = () => {
   });
 
   useEffect(() => {
-    const apiURL = import.meta.env['VITE_API_URL']
-    const loadGithub = async () => await axios.get(`${apiURL}/github`)
-    const loadGithubStats = async () => await axios.get(`${apiURL}/github/stats`)
+    axios.get<HttpResponse<{ repositories: number; followers: number }>>('/api/stats/github/profile').then(({data}) => {
+      if (!data.data) return
+      const {repositories, followers} = data.data
+      setGithubStats((prev) => ({...prev, repositories, followers}))
+    })
 
-    loadGithub().then(({data}) => setGithubStats(prev => ({
-      ...prev,
-      repositories: data.repos.total,
-      followers: data.followers,
-    })))
+    axios.get<HttpResponse<number>>('/api/stats/github/stars').then(({data}) => {
+      if (data.data == null) return
+      setGithubStats((prev) => ({...prev, stars: data.data as number}))
+    })
 
-    loadGithubStats().then(({data}) => setGithubStats(prev => ({
-      ...prev,
-      stars: data.starsEarned,
-      total_commits: data.totalCommits,
-      pull_requests: data.prs
-    })))
+    axios.get<HttpResponse<number>>('/api/stats/github/pull-requests').then(({data}) => {
+      if (data.data == null) return
+      setGithubStats((prev) => ({...prev, pull_requests: data.data as number}))
+    })
+
+    axios.get<HttpResponse<number>>('/api/stats/github/total-commits').then(({data}) => {
+      if (data.data == null) return
+      setGithubStats((prev) => ({...prev, total_commits: data.data as number}))
+    })
   }, [])
 
   return <section className="py-16">

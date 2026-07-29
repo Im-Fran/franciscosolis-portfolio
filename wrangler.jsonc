@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "franciscosolis-cl",
+  "name": "franciscosolis",
   "compatibility_date": "2026-07-29",
   "main": "src/worker/index.ts",
   "cache": {
@@ -15,5 +15,8 @@
   },
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "observability": {
+    "enabled": true
+  }
 }

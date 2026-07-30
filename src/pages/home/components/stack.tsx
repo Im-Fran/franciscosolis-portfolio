@@ -1,20 +1,34 @@
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {Browser, HardDrives, DeviceMobile, Stack as StackIcon} from "@phosphor-icons/react";
+import {Browser, HardDrives, DeviceMobile, Stack as StackIcon, Terminal, Cloud, ShieldCheck} from "@phosphor-icons/react";
 import {Card, CardTitle, CardBody} from "@/components/ui/card.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
+import {Modal} from "@/components/ui/modal.tsx";
 import {useScrollReveal} from "@/pages/home/hooks/useScrollReveal.ts";
+import {getFeaturedProjectsByToolbox, type ToolboxCategory} from "@/pages/home/components/projects/projects.data.ts";
 
-type StackCategory = { name: string; tools: string[] };
+type StackGroup = { name: string; tools: string[] };
+type StackCategory = { key: ToolboxCategory; tools?: string[]; groups?: StackGroup[] };
 
-const icons = [Browser, HardDrives, DeviceMobile, StackIcon];
+const icons: Record<ToolboxCategory, typeof Browser> = {
+  frontend: Browser,
+  backend: HardDrives,
+  mobile: DeviceMobile,
+  apis: StackIcon,
+  sysadmin: Terminal,
+  cloud: Cloud,
+  security: ShieldCheck,
+};
 
 export const Stack = () => {
   const {t} = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   useScrollReveal(sectionRef);
+  const [activeCategory, setActiveCategory] = useState<ToolboxCategory | null>(null);
 
   const categories = t("stack:categories", {returnObjects: true}) as StackCategory[];
+  const relatedProjects = activeCategory ? getFeaturedProjectsByToolbox(activeCategory) : [];
+  const activeGroups = categories.find((category) => category.key === activeCategory)?.groups;
 
   return (
     <section id="stack" ref={sectionRef} className="container mx-auto px-4 py-24">
@@ -25,24 +39,73 @@ export const Stack = () => {
         {t("stack:title")}
       </h2>
 
-      <div className="reveal-stagger grid gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))"}}>
-        {categories.map((category, index) => {
-          const Icon = icons[index % icons.length];
+      <div className="reveal-stagger grid items-stretch gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))"}}>
+        {categories.map((category) => {
+          const Icon = icons[category.key];
           return (
-            <Card key={category.name} elevation="sm" className="reveal-item fs-hoverable transition-transform">
-              <CardBody>
-                <Icon size={28} className="text-accent-300 mb-4"/>
-                <CardTitle>{category.name}</CardTitle>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {category.tools.map((tool) => (
-                    <Badge key={tool} variant="outline">{tool}</Badge>
-                  ))}
-                </div>
-              </CardBody>
+            <Card key={category.key} elevation="sm" className="reveal-item fs-hoverable h-full transition-transform">
+              <button
+                type="button"
+                data-fs-hover
+                onClick={() => setActiveCategory(category.key)}
+                className="block h-full w-full text-left"
+              >
+                <CardBody className="flex h-full flex-col">
+                  <Icon size={28} className="text-accent-300 mb-4"/>
+                  <CardTitle>{t(`stack:categoryLabels.${category.key}`)}</CardTitle>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {(category.groups ? category.groups.map((group) => group.name) : category.tools ?? []).map((tool) => (
+                      <Badge key={tool} variant="outline">{tool}</Badge>
+                    ))}
+                  </div>
+                </CardBody>
+              </button>
             </Card>
           );
         })}
       </div>
+
+      <Modal
+        open={activeCategory !== null}
+        onClose={() => setActiveCategory(null)}
+        title={activeCategory ? t(`stack:categoryLabels.${activeCategory}`) : undefined}
+      >
+        {activeGroups && (
+          <div className="mb-6 space-y-4">
+            {activeGroups.map((group) => (
+              <div key={group.name}>
+                <p className="text-sm text-text">{group.name}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {group.tools.map((tool) => (
+                    <Badge key={tool} variant="outline">{tool}</Badge>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <p className="text-xs uppercase tracking-[0.08em] text-neutral-500">{t("stack:modal_projects_label")}</p>
+        {relatedProjects.length === 0 ? (
+          <p className="mt-3 text-sm text-neutral-400">{t("stack:modal_empty")}</p>
+        ) : (
+          <div className="mt-3 space-y-3">
+            {relatedProjects.map((project) => (
+              <a
+                key={project.id}
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                data-fs-hover
+                className="block rounded-[var(--radius-sm)] border border-neutral-800 p-4 transition-colors hover:border-accent-700"
+              >
+                <p className="text-text">{project.title}</p>
+                <p className="mt-1 text-sm text-neutral-400">{project.description}</p>
+              </a>
+            ))}
+          </div>
+        )}
+      </Modal>
     </section>
   );
 };

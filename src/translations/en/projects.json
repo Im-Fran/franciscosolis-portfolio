@@ -3,6 +3,8 @@
   "title": "Featured projects",
   "view_project": "View project",
   "view_all": "View all projects",
+  "skills_label": "Skills",
+  "toolbox_label": "Toolbox",
   "categories": {
     "landing": "Landing Page",
     "mobile": "Mobile App",

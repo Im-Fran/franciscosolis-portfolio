@@ -1,10 +1,28 @@
 {
   "kicker": "Herramientas",
   "title": "Con qué construyo",
+  "categoryLabels": {
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "mobile": "Móvil",
+    "apis": "APIs & Microservicios",
+    "sysadmin": "Sysadmin",
+    "cloud": "Cloud Computing",
+    "security": "Ciberseguridad"
+  },
   "categories": [
-    {"name": "Frontend", "tools": ["React", "Next.js", "TypeScript", "Tailwind CSS"]},
-    {"name": "Backend", "tools": ["Node.js", "Java", "Kotlin", "Spring Boot"]},
-    {"name": "Móvil", "tools": ["Kotlin", "Android", "React Native"]},
-    {"name": "APIs & Infra", "tools": ["REST APIs", "Microservicios", "Docker", "Git"]}
-  ]
+    {"key": "frontend", "tools": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite.js", "JavaScript", "CSS", "HTML5", "Cloudflare Pages"]},
+    {"key": "backend", "tools": ["Node.js", "Java", "Kotlin", "Spring Boot", "Laravel", "Cloudflare Workers", "Bun.js", "Express.js"]},
+    {"key": "mobile", "tools": ["Kotlin", "Android", "React Native", "Flutter", "Flutter Libraries", "Fastlane", "Xcode", "Android Studio", "Flutterfire", "Firebase"]},
+    {"key": "apis", "tools": ["REST APIs", "Microservicios", "Docker", "Git"]},
+    {"key": "sysadmin", "tools": ["Virtualización", "Proxmox", "Linux", "Red Hat Enterprise Linux"]},
+    {"key": "cloud", "groups": [
+      {"name": "Google Cloud Platform", "tools": ["Security Command Center", "Compute Engine", "Google Kubernetes Engine", "Cloud SQL", "Cloud Storage"]},
+      {"name": "Oracle Cloud Infrastructure", "tools": ["Cloud Guard", "VCN", "Compute Instances"]},
+      {"name": "Cloudflare Serverless", "tools": ["R2", "D1", "Workers", "Pages", "KV Namespaces"]}
+    ]},
+    {"key": "security", "tools": ["Análisis de datos", "Escaneo de vulnerabilidades", "Análisis de vulnerabilidades", "Planes de mitigación", "Actualización de sistemas"]}
+  ],
+  "modal_projects_label": "Proyectos relacionados",
+  "modal_empty": "Aún no hay proyectos públicos con este stack."
 }

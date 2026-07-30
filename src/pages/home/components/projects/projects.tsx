@@ -20,7 +20,7 @@ export const Projects = () => {
         {t("projects:title")}
       </h2>
 
-      <div className="reveal-stagger grid gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(420px, 1fr))"}}>
+      <div className="reveal-stagger grid items-stretch gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(420px, 1fr))"}}>
         {featuredProjects.map((project) => <ProjectCard key={project.id} {...project} />)}
       </div>
 

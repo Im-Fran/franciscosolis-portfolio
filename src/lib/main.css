@@ -74,3 +74,8 @@ body.fs-cursor-active,
 body.fs-cursor-active * {
   cursor: none;
 }
+
+@keyframes fs-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}

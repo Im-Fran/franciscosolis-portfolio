@@ -1,84 +1,12 @@
 {
-  "title": "Projects",
-  "description": "Here are some of the projects I've worked on.",
-
-  "values": [
-    {
-      "title": "Portfolio",
-      "description": "This website is a portfolio of my work. It was built using ViteJS with React and Tailwind CSS. The backend is written in TypeScript using Cloudflare Workers.",
-      "technologies": ["React", "ViteJS", "TailwindCSS", "TypeScript", "Cloudflare Pages"],
-      "links": [
-        {
-          "label": "View Source",
-          "href": "https://github.com/Im-Fran/franciscosolis-portfolio",
-          "variant": "outline",
-          "icon": "github"
-        },
-        {
-          "label": "View Live",
-          "href": "https://franciscosolis.cl",
-          "variant": "defaultOutline",
-          "icon": "external-link"
-        }
-      ]
-    },
-    {
-      "title": "OKTOBEER",
-      "description": "A website to show the menu, contact and location of a pub in Calama, Chile.",
-      "technologies": ["React", "NextJS", "TailwindCSS", "TypeScript", "Vercel", "v0"],
-      "links": [
-        {
-          "label": "View Source",
-          "href": "https://github.com/Im-Fran/oktobeer",
-          "variant": "outline",
-          "icon": "github"
-        },
-        {
-          "label": "View Live",
-          "href": "https://oktobeer.franciscosolis.cl",
-          "variant": "defaultOutline",
-          "icon": "external-link"
-        }
-      ]
-    },
-    {
-      "title": "RubyBox",
-      "description": "A Laravel Backend and ViteJS Frontend project to manage the inventory and a business dashboard.",
-      "technologies": ["Laravel", "ViteJS", "TailwindCSS", "PHP", "PostgreSQL"],
-      "links": [
-        {
-          "label": "View Source",
-          "href": "https://github.com/Im-Fran/rubybox.cl",
-          "variant": "outline",
-          "icon": "github"
-        }
-      ]
-    },
-    {
-      "title": "Mi UTEM",
-      "description": "A mobile app for the Universidad Tecnológica Metropolitana (UTEM) students.",
-      "technologies": ["Flutter", "Dart", "Firebase", "Android", "iOS", "Swift", "Kotlin", "Fastlane"],
-      "links": [
-        {
-          "label": "View Source",
-          "href": "https://github.com/exdevutem/mi-utem",
-          "variant": "outline",
-          "icon": "github"
-        }
-      ]
-    },
-    {
-      "title": "SonatypeCentralUpload",
-      "description": "A Gradle plugin to upload artifacts to Sonatype Central.",
-      "technologies": ["Kotlin", "Gradle", "Maven", "Sonatype"],
-      "links": [
-        {
-          "label": "View Source",
-          "href": "https://github.com/Im-Fran/SonatypeCentralUpload",
-          "variant": "outline",
-          "icon": "github"
-        }
-      ]
-    }
-  ]
+  "kicker": "Work",
+  "title": "Featured projects",
+  "view_project": "View project",
+  "view_all": "View all projects",
+  "categories": {
+    "landing": "Landing Page",
+    "mobile": "Mobile App",
+    "webapp": "Web App",
+    "api": "API & Backend"
+  }
 }

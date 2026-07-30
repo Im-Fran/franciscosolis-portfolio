@@ -1,40 +1,52 @@
-import {Button} from "@/components/ui/button/button.tsx";
-import type {Key} from "react";
-import {ProjectCard} from "@/pages/home/components/projects/project-card.tsx";
-import type {ProjectCardProps} from "@/pages/home/components/projects/project-card.tsx";
-import {SiGithub} from "@icons-pack/react-simple-icons";
+import {useRef} from "react";
 import {useTranslation} from "react-i18next";
+import {ArrowUpRight, Code} from "@phosphor-icons/react";
+import {ProjectCard} from "@/pages/home/components/projects/project-card.tsx";
+import {featuredProjects, secondaryProjects} from "@/pages/home/components/projects/projects.data.ts";
+import {Card, CardBody, CardTitle} from "@/components/ui/card.tsx";
+import {useScrollReveal} from "@/pages/home/hooks/useScrollReveal.ts";
 
 export const Projects = () => {
-  const {t} = useTranslation()
+  const {t} = useTranslation();
+  const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef);
 
-  return <section className="py-16 px-2.5">
-    <div className="container mx-auto px-4">
-      <h2 className="text-2xl font-bold mb-2 text-center text-gray-800 dark:text-white">{t('projects:title')}</h2>
-      <p className="text-gray-600 dark:text-gray-400 text-center mb-8">{t('projects:description')}</p>
+  return (
+    <section id="proyectos" ref={sectionRef} className="container mx-auto px-4 py-24">
+      <p className="reveal text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-3">
+        {t("projects:kicker")}
+      </p>
+      <h2 className="reveal text-[clamp(30px,4vw,46px)] text-text mb-10">
+        {t("projects:title")}
+      </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {(t('projects:values', {returnObjects: true}) as ProjectCardProps[])?.map((project: ProjectCardProps, index: Key | null | undefined) => (
-          <ProjectCard
-            key={`project_${index}`}
-            title={project.title || ''}
-            description={project.description || ''}
-            technologies={project.technologies || []}
-            links={project.links || []}
-          />
+      <div className="reveal-stagger grid gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(420px, 1fr))"}}>
+        {featuredProjects.map((project) => <ProjectCard key={project.id} {...project} />)}
+      </div>
+
+      <div className="reveal-stagger mt-8 grid gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))"}}>
+        {secondaryProjects.map((project) => (
+          <a key={project.id} href={project.href} target="_blank" rel="noreferrer" data-fs-hover>
+            <Card elevation="sm" className="reveal-item fs-hoverable h-full">
+              <CardBody>
+                <Code size={22} className="text-accent-300 mb-3"/>
+                <CardTitle className="text-base">{project.title}</CardTitle>
+                <p className="mt-2 text-sm text-neutral-400">{project.description}</p>
+              </CardBody>
+            </Card>
+          </a>
         ))}
-      </div>
 
-      <div className="mt-8 text-center">
-        <Button
-          onClick={() => window.open('https://github.com/Im-Fran', '_blank')}
-          variant="outline"
-          className="gap-2 border-gray-300 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
-        >
-          <SiGithub size={16}/>
-          {t('view_github_profile')}
-        </Button>
+        <a href="https://github.com/Im-Fran" target="_blank" rel="noreferrer" data-fs-hover>
+          <Card elevation="sm" className="reveal-item fs-hoverable h-full border border-accent-700">
+            <CardBody className="flex h-full flex-col items-center justify-center text-center">
+              <span className="text-sm text-accent-300 inline-flex items-center gap-1">
+                {t("projects:view_all")} <ArrowUpRight size={14}/>
+              </span>
+            </CardBody>
+          </Card>
+        </a>
       </div>
-    </div>
-  </section>
-}
+    </section>
+  );
+};

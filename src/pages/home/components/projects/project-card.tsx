@@ -1,38 +1,30 @@
-import {Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter} from "@/components/ui/card";
-import {Button} from "@/components/ui/button/button.tsx";
-import {SiGithub} from "@icons-pack/react-simple-icons";
-import {ExternalLink} from "lucide-react";
+import {ArrowUpRight} from "@phosphor-icons/react";
+import {useTranslation} from "react-i18next";
+import {Card, CardTitle} from "@/components/ui/card.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
+import type {FeaturedProject} from "@/pages/home/components/projects/projects.data.ts";
 
-export type ProjectCardProps = {
-  title: string;
-  description: string;
-  technologies: string[];
-  links: ProjectCardLink[];
-}
+export const ProjectCard = ({category, title, description, technologies, href, media}: FeaturedProject) => {
+  const {t} = useTranslation();
 
-export type ProjectCardLink = {
-  label: string | null | undefined;
-  href: string | null | undefined;
-  variant: string | null | undefined;
-  icon?: string | null | undefined;
-}
-
-export const ProjectCard = ({ title, description, technologies = [], links }: ProjectCardProps) => <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all shadow-sm">
-  <CardHeader>
-    <CardTitle className="text-xl">{title}</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <CardDescription className="text-gray-400">{description}</CardDescription>
-    <div className="flex flex-wrap gap-2 mt-4">
-      {technologies.map((tag, index) => <Badge key={index} variant="secondary" className="bg-gray-300/50 dark:bg-blue-950/50">{tag}</Badge>)}
-    </div>
-  </CardContent>
-  <CardFooter className="flex justify-end gap-2">
-    {links.map((link, idx) => <Button key={idx} onClick={() => window.open(link.href || '#', '_blank')} size="sm" className="gap-1" variant={link.variant === 'outline' ? 'outline' : (link.variant === 'defaultOutline' ? 'defaultOutline' : 'default')}>
-      {link.icon === 'github' && <SiGithub size={14}/>}
-      {link.icon === 'external-link' && <ExternalLink size={14}/>}
-      <span>{link.label}</span>
-    </Button>)}
-  </CardFooter>
-</Card>
+  return (
+    <Card elevation="md" className="reveal-item fs-hoverable overflow-hidden p-0">
+      <a href={href} target="_blank" rel="noreferrer" data-fs-hover className="block">
+        <div className="h-[260px] w-full bg-neutral-900 flex items-center justify-center text-neutral-700 text-sm">
+          {media ? <img src={media} alt={title} className="h-full w-full object-cover"/> : "GIF"}
+        </div>
+        <div className="p-6">
+          <Badge variant="accent" className="mb-3">{t(`projects:categories.${category}`)}</Badge>
+          <CardTitle>{title}</CardTitle>
+          <p className="mt-2 text-sm text-neutral-300 leading-[1.55]">{description}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {technologies.map((tech) => <Badge key={tech} variant="outline">{tech}</Badge>)}
+          </div>
+          <span className="mt-4 inline-flex items-center gap-1 text-sm text-accent-300">
+            {t("projects:view_project")} <ArrowUpRight size={14}/>
+          </span>
+        </div>
+      </a>
+    </Card>
+  );
+};

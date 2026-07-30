@@ -24,7 +24,7 @@ export const Contact = () => {
         style={{background: "radial-gradient(circle, color-mix(in oklab, var(--color-accent) 18%, transparent), transparent 70%)"}}
       />
 
-      <div className="container relative z-10 mx-auto px-4 py-24">
+      <div className="container relative z-10 mx-auto px-4 pt-24 pb-40">
         <p className="reveal text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-3">
           {t("contact:kicker")}
         </p>

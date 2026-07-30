@@ -3,6 +3,8 @@
   "name": "franciscosolis",
   "compatibility_date": "2026-07-29",
   "main": "src/worker/index.ts",
+  "preview_urls": true,
+  "workers_dev": true,
   "cache": {
     "enabled": true
   },
@@ -28,10 +30,11 @@
   ],
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 0.5,
+    "head_sampling_rate": 0.25,
     "logs": {
-      "enabled": false,
-      "invocation_logs": false
+      "enabled": true,
+      "invocation_logs": true,
+      "head_sampling_rate": 0.25
     }
   }
 }

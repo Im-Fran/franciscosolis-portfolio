@@ -34,6 +34,7 @@
     "src"
   ],
   "exclude": [
-    "src/worker"
+    "src/worker",
+    "src/legacy"
   ]
 }

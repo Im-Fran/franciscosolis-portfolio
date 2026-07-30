@@ -1,3 +1,3 @@
-const Footer = () => <footer role={"contentinfo"}/>;
+const Footer = () => null;
 
 export default Footer;

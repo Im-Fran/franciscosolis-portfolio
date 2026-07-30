@@ -8,5 +8,6 @@
   "change_text_size": "Cambiar tamaño de texto",
   "text_size_small": "Pequeño",
   "text_size_normal": "Normal",
-  "text_size_large": "Grande"
+  "text_size_large": "Grande",
+  "copyright": "© {{year}} Francisco Solís"
 }

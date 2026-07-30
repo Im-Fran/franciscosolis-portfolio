@@ -17,6 +17,11 @@
     "nodejs_compat"
   ],
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "head_sampling_rate": 0.5,
+    "logs": {
+      "enabled": false,
+      "invocation_logs": false
+    }
   }
 }

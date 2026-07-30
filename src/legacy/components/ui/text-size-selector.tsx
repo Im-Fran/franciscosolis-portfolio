@@ -1,4 +1,4 @@
-import { useTextSize } from "@/contexts/TextSizeContext.tsx";
+import { useTextSize } from "@/legacy/contexts/TextSizeContext.tsx";
 import { Button } from "@/components/ui/button/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

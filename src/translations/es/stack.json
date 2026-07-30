@@ -1,0 +1,10 @@
+{
+  "kicker": "Herramientas",
+  "title": "Con qué construyo",
+  "categories": [
+    {"name": "Frontend", "tools": ["React", "Next.js", "TypeScript", "Tailwind CSS"]},
+    {"name": "Backend", "tools": ["Node.js", "Java", "Kotlin", "Spring Boot"]},
+    {"name": "Móvil", "tools": ["Kotlin", "Android", "React Native"]},
+    {"name": "APIs & Infra", "tools": ["REST APIs", "Microservicios", "Docker", "Git"]}
+  ]
+}

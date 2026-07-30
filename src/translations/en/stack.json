@@ -1,0 +1,10 @@
+{
+  "kicker": "Toolbox",
+  "title": "What I build with",
+  "categories": [
+    {"name": "Frontend", "tools": ["React", "Next.js", "TypeScript", "Tailwind CSS"]},
+    {"name": "Backend", "tools": ["Node.js", "Java", "Kotlin", "Spring Boot"]},
+    {"name": "Mobile", "tools": ["Kotlin", "Android", "React Native"]},
+    {"name": "APIs & Infra", "tools": ["REST APIs", "Microservices", "Docker", "Git"]}
+  ]
+}

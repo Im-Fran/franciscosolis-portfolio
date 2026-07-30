@@ -20,7 +20,7 @@ i18next
   .init({
     lng: 'en',
     fallbackLng: 'en',
-    ns: ['common', 'personal_info', 'projects', 'skills', 'experience', 'github_stats', 'hero', 'certifications'],
+    ns: ['common', 'personal_info', 'projects', 'skills', 'experience', 'github_stats', 'hero', 'certifications', 'nav', 'stack', 'contact'],
     backend: {
       backends: [I18NextLocalStorageBackend],
       backendOptions: [

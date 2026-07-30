@@ -34,3 +34,5 @@ dist-ssr
 # Claude Code
 .claude/worktrees
 .superpowers
+# Local-only planning docs
+docs/superpowers

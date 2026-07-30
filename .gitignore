@@ -30,3 +30,7 @@ dist-ssr
 .wrangler
 .dev.vars*
 !.dev.vars.example
+
+# Claude
+.claude
+docs/superpowers

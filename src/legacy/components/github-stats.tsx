@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {StatCard} from "@/components/state-card.tsx";
+import {StatCard} from "@/legacy/components/state-card.tsx";
 import {useTranslation} from "react-i18next";
 import type {HttpResponse} from "@/interfaces";
 

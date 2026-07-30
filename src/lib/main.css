@@ -69,3 +69,8 @@ h1, h2, h3, h4, h5, h6 {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+
+body.fs-cursor-active,
+body.fs-cursor-active * {
+  cursor: none;
+}

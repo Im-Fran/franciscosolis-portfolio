@@ -50,7 +50,7 @@ export const Hero = () => {
         style={{background: "radial-gradient(circle, color-mix(in oklab, var(--color-accent) 22%, transparent), transparent 70%)"}}
       />
       <div
-        className="pointer-events-none absolute bottom-0 left-8 h-2/3 w-px"
+        className="pointer-events-none absolute bottom-0 left-4 h-2/3 w-px"
         style={{background: "linear-gradient(to bottom, transparent, var(--color-neutral-700), transparent)"}}
       />
 

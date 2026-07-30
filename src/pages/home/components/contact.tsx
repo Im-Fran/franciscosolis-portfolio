@@ -1,6 +1,6 @@
 import {useRef} from "react";
 import {useTranslation} from "react-i18next";
-import {GithubLogo, LinkedinLogo, XLogo, InstagramLogo, MapPin} from "@phosphor-icons/react";
+import {GithubLogo, LinkedinLogo, XLogo, InstagramLogo, ThreadsLogo, MapPin} from "@phosphor-icons/react";
 import {Button} from "@/components/ui/button/button.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
 import {useScrollReveal} from "@/pages/home/hooks/useScrollReveal.ts";
@@ -10,6 +10,7 @@ const socials = [
   {label: "LinkedIn", href: "https://linkedin.com/in/fsolism", Icon: LinkedinLogo},
   {label: "X", href: "https://x.com/Im_Fran_", Icon: XLogo},
   {label: "Instagram", href: "https://instagram.com/fran.dev_", Icon: InstagramLogo},
+  {label: "Threads", href: "https://threads.net/@fran.dev_", Icon: ThreadsLogo},
 ];
 
 export const Contact = () => {

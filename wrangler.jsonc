@@ -6,6 +6,16 @@
   "cache": {
     "enabled": true
   },
+  "routes": [
+    {
+      "pattern": "franciscosolis.cl",
+      "zone_name": "franciscosolis.cl",
+      "custom_domain": true
+    }
+  ],
+  "placement": {
+    "mode": "smart"
+  },
   "assets": {
     "directory": "dist",
     "not_found_handling": "single-page-application",

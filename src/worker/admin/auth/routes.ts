@@ -1,20 +1,47 @@
 import bcrypt from 'bcryptjs'
 import type { Route } from '../../router'
+import type { Env } from '../../env'
 import type { HttpResponse } from '../../../interfaces/http-response'
 import { createSession, getSessionUser, deleteSession, buildSessionCookie, buildExpiredCookie } from './session'
-
-const LOCKOUT_THRESHOLD = 5
-const LOCKOUT_MINUTES = 15
 
 const jsonError = (status: number, error: string) =>
   Response.json({ status, error } satisfies HttpResponse<never>, { status })
 
 const DUMMY_HASH = bcrypt.hashSync('dummy-password-for-constant-time-compare', 12)
 
+const IP_LOCKOUT_THRESHOLD = 5
+const IP_LOCKOUT_MINUTES = 15
+const ACCOUNT_LOCKOUT_THRESHOLD = 20
+const ACCOUNT_LOCKOUT_MINUTES = 60
+const GLOBAL_IP_KEY = '*'
+
 const getClientIp = (request: Request): string =>
-  request.headers.get('CF-Connecting-IP')
-  ?? request.headers.get('X-Forwarded-For')?.split(',')[0]?.trim()
-  ?? 'unknown'
+  request.headers.get('CF-Connecting-IP') ?? 'unknown'
+
+const isLocked = (row: { locked_until: string | null } | null | undefined): boolean =>
+  !!row?.locked_until && new Date(row.locked_until).getTime() > Date.now()
+
+const recordFailedAttempt = async (
+  env: Env,
+  ip: string,
+  username: string,
+  threshold: number,
+  minutes: number,
+): Promise<void> => {
+  const row = await env.DB.prepare(
+    `INSERT INTO admin_login_attempts (ip, username, failed_attempts, locked_until)
+     VALUES (?, ?, 1, NULL)
+     ON CONFLICT(ip, username) DO UPDATE SET failed_attempts = failed_attempts + 1
+     RETURNING failed_attempts`,
+  ).bind(ip, username).first<{ failed_attempts: number }>()
+
+  if (row && row.failed_attempts >= threshold) {
+    const lockedUntil = new Date(Date.now() + minutes * 60 * 1000).toISOString()
+    await env.DB.prepare(
+      'UPDATE admin_login_attempts SET failed_attempts = 0, locked_until = ? WHERE ip = ? AND username = ?',
+    ).bind(lockedUntil, ip, username).run()
+  }
+}
 
 const loginRoute: Route = {
   method: 'POST',
@@ -25,11 +52,14 @@ const loginRoute: Route = {
 
     const ip = getClientIp(request)
 
-    const attempt = await env.DB.prepare(
-      'SELECT failed_attempts, locked_until FROM admin_login_attempts WHERE ip = ? AND username = ?',
-    ).bind(ip, body.username).first<{ failed_attempts: number; locked_until: string | null }>()
+    const [ipAttempt, accountAttempt] = await Promise.all([
+      env.DB.prepare('SELECT locked_until FROM admin_login_attempts WHERE ip = ? AND username = ?')
+        .bind(ip, body.username).first<{ locked_until: string | null }>(),
+      env.DB.prepare('SELECT locked_until FROM admin_login_attempts WHERE ip = ? AND username = ?')
+        .bind(GLOBAL_IP_KEY, body.username).first<{ locked_until: string | null }>(),
+    ])
 
-    if (attempt?.locked_until && new Date(attempt.locked_until).getTime() > Date.now()) {
+    if (isLocked(ipAttempt) || isLocked(accountAttempt)) {
       return jsonError(429, 'Too many attempts')
     }
 
@@ -39,25 +69,18 @@ const loginRoute: Route = {
 
     const valid = await bcrypt.compare(body.password, user?.password_hash ?? DUMMY_HASH)
 
-    if (!user || !valid) {
-      const row = await env.DB.prepare(
-        `INSERT INTO admin_login_attempts (ip, username, failed_attempts, locked_until)
-         VALUES (?, ?, 1, NULL)
-         ON CONFLICT(ip, username) DO UPDATE SET failed_attempts = failed_attempts + 1
-         RETURNING failed_attempts`,
-      ).bind(ip, body.username).first<{ failed_attempts: number }>()
-
-      if (row && row.failed_attempts >= LOCKOUT_THRESHOLD) {
-        const lockedUntil = new Date(Date.now() + LOCKOUT_MINUTES * 60 * 1000).toISOString()
-        await env.DB.prepare(
-          'UPDATE admin_login_attempts SET failed_attempts = 0, locked_until = ? WHERE ip = ? AND username = ?',
-        ).bind(lockedUntil, ip, body.username).run()
-      }
-
+    if (!user) {
       return jsonError(401, 'Invalid credentials')
     }
 
-    await env.DB.prepare('DELETE FROM admin_login_attempts WHERE ip = ? AND username = ?').bind(ip, body.username).run()
+    if (!valid) {
+      await recordFailedAttempt(env, ip, body.username, IP_LOCKOUT_THRESHOLD, IP_LOCKOUT_MINUTES)
+      await recordFailedAttempt(env, GLOBAL_IP_KEY, body.username, ACCOUNT_LOCKOUT_THRESHOLD, ACCOUNT_LOCKOUT_MINUTES)
+      return jsonError(401, 'Invalid credentials')
+    }
+
+    await env.DB.prepare('DELETE FROM admin_login_attempts WHERE username = ? AND (ip = ? OR ip = ?)')
+      .bind(body.username, ip, GLOBAL_IP_KEY).run()
 
     const { token } = await createSession(env, user.id)
 

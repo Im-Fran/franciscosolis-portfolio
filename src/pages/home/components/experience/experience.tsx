@@ -22,9 +22,9 @@ export const Experience = () => {
 
     const mm = gsap.matchMedia();
     mm.add(
-      {isMobile: "(max-width: 767px)"},
+      {isMobile: "(max-width: 767px)", isDesktop: "(min-width: 768px)"},
       (context) => {
-        const {isMobile} = context.conditions as {isMobile: boolean};
+        const {isMobile} = context.conditions as {isMobile: boolean; isDesktop: boolean};
         gsap.set(lineRef.current, {scaleY: 0, transformOrigin: "top"});
         gsap.to(lineRef.current, {
           scaleY: 1,

@@ -11,6 +11,10 @@ const DUMMY_HASH = bcrypt.hashSync('dummy-password-for-constant-time-compare', 1
 
 const IP_LOCKOUT_THRESHOLD = 5
 const IP_LOCKOUT_MINUTES = 15
+// ponytail: accepted tradeoff — anyone who knows the admin username can keep it locked
+// indefinitely (20 fails/hour from any IP resets the clock). Fine for a single-admin site
+// behind Cloudflare's edge; if it ever bites, unlock with:
+// wrangler d1 execute franciscosolis --command "DELETE FROM admin_login_attempts WHERE username = '<user>'"
 const ACCOUNT_LOCKOUT_THRESHOLD = 20
 const ACCOUNT_LOCKOUT_MINUTES = 60
 const GLOBAL_IP_KEY = '*'

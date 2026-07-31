@@ -23,6 +23,25 @@ export const useAppCarousel = () => {
     };
   }, [emblaApi, onSelect]);
 
+  useEffect(() => {
+    if (!emblaApi) return;
+    const rootNode = emblaApi.rootNode();
+    let locked = false;
+
+    const onWheel = (event: WheelEvent) => {
+      const delta = event.deltaX;
+      if (Math.abs(delta) <= Math.abs(event.deltaY) || delta === 0) return;
+      event.preventDefault();
+      if (locked) return;
+      locked = true;
+      if (delta > 0) emblaApi.scrollNext(); else emblaApi.scrollPrev();
+      window.setTimeout(() => { locked = false; }, 300);
+    };
+
+    rootNode.addEventListener("wheel", onWheel, {passive: false});
+    return () => rootNode.removeEventListener("wheel", onWheel);
+  }, [emblaApi]);
+
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 

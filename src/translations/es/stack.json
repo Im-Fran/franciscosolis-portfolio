@@ -1,6 +1,7 @@
 {
   "kicker": "Herramientas",
   "title": "Con qué construyo",
+  "subtitle": "Presiona una tarjeta para ver más detalles",
   "categoryLabels": {
     "frontend": "Frontend",
     "backend": "Backend",

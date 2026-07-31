@@ -1,6 +1,7 @@
 {
   "kicker": "Toolbox",
   "title": "What I build with",
+  "subtitle": "Press a card to see more details",
   "categoryLabels": {
     "frontend": "Frontend",
     "backend": "Backend",

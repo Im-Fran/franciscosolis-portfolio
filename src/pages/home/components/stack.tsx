@@ -4,6 +4,7 @@ import {Browser, HardDrives, DeviceMobile, Stack as StackIcon, Terminal, Cloud, 
 import {Card, CardTitle, CardBody} from "@/components/ui/card.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
 import {Modal} from "@/components/ui/modal.tsx";
+import {Carousel} from "@/components/ui/carousel.tsx";
 import {useScrollReveal} from "@/pages/home/hooks/useScrollReveal.ts";
 import {getFeaturedProjectsByToolbox, type ToolboxCategory} from "@/pages/home/components/projects/projects.data.ts";
 
@@ -35,34 +36,39 @@ export const Stack = () => {
       <p className="reveal text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-3">
         {t("stack:kicker")}
       </p>
-      <h2 className="reveal text-[clamp(30px,4vw,46px)] text-text mb-10">
+      <h2 className="reveal text-[clamp(30px,4vw,46px)] text-text mb-3">
         {t("stack:title")}
       </h2>
+      <p className="reveal text-sm text-neutral-400 mb-10">
+        {t("stack:subtitle")}
+      </p>
 
-      <div className="reveal-stagger grid items-stretch gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))"}}>
-        {categories.map((category) => {
-          const Icon = icons[category.key];
-          return (
-            <Card key={category.key} elevation="sm" className="reveal-item fs-hoverable h-full transition-transform">
-              <button
-                type="button"
-                data-fs-hover
-                onClick={() => setActiveCategory(category.key)}
-                className="block h-full w-full text-left"
-              >
-                <CardBody className="flex h-full flex-col">
-                  <Icon size={28} className="text-accent-300 mb-4"/>
-                  <CardTitle>{t(`stack:categoryLabels.${category.key}`)}</CardTitle>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {(category.groups ? category.groups.map((group) => group.name) : category.tools ?? []).map((tool) => (
-                      <Badge key={tool} variant="outline">{tool}</Badge>
-                    ))}
-                  </div>
-                </CardBody>
-              </button>
-            </Card>
-          );
-        })}
+      <div className="reveal-stagger">
+        <Carousel slideClassName="w-[260px] sm:w-[300px]">
+          {categories.map((category) => {
+            const Icon = icons[category.key];
+            return (
+              <Card key={category.key} elevation="sm" className="reveal-item fs-hoverable h-full transition-transform">
+                <button
+                  type="button"
+                  data-fs-hover
+                  onClick={() => setActiveCategory(category.key)}
+                  className="block h-full w-full text-left"
+                >
+                  <CardBody className="flex h-full flex-col">
+                    <Icon size={28} className="text-accent-300 mb-4"/>
+                    <CardTitle>{t(`stack:categoryLabels.${category.key}`)}</CardTitle>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {(category.groups ? category.groups.map((group) => group.name) : category.tools ?? []).map((tool) => (
+                        <Badge key={tool} variant="outline">{tool}</Badge>
+                      ))}
+                    </div>
+                  </CardBody>
+                </button>
+              </Card>
+            );
+          })}
+        </Carousel>
       </div>
 
       <Modal

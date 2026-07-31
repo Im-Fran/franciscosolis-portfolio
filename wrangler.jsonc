@@ -28,6 +28,19 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "franciscosolis",
+      "database_id": "60e6aee6-cac0-4b61-beb1-48e675a8ad1f"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "franciscosolis"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 0.25,

@@ -1,6 +1,6 @@
 import {useRef} from "react";
 import {useTranslation} from "react-i18next";
-import {GithubLogo, LinkedinLogo, XLogo, InstagramLogo, ThreadsLogo, MapPin} from "@phosphor-icons/react";
+import {GithubLogo, LinkedinLogo, XLogo, InstagramLogo, ThreadsLogo} from "@phosphor-icons/react";
 import {Button} from "@/components/ui/button/button.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
 import {useScrollReveal} from "@/pages/home/hooks/useScrollReveal.ts";
@@ -25,7 +25,7 @@ export const Contact = () => {
         style={{background: "radial-gradient(circle, color-mix(in oklab, var(--color-accent) 18%, transparent), transparent 70%)"}}
       />
 
-      <div className="container relative z-10 mx-auto px-4 pt-24 pb-40 flex flex-col items-center text-center sm:items-start sm:text-left">
+      <div className="container relative z-10 mx-auto px-4 pt-24 pb-24 flex flex-col items-center text-center sm:items-start sm:text-left">
         <p className="reveal text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-3">
           {t("contact:kicker")}
         </p>
@@ -54,13 +54,6 @@ export const Contact = () => {
             {t("contact:download_cv")}
             <Badge variant="neutral" size="sm">{t("contact:coming_soon")}</Badge>
           </Button>
-        </div>
-
-        <div className="reveal mt-16 flex w-full flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-neutral-800 pt-6 text-sm text-neutral-500">
-          <span className="inline-flex items-center gap-1">
-            <MapPin size={14}/> {t("contact:location")}
-          </span>
-          <span>{t("common:copyright", {year: new Date().getFullYear()})}</span>
         </div>
       </div>
     </section>

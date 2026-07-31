@@ -8,7 +8,8 @@
     ],
     "types": [
       "@cloudflare/workers-types",
-      "vite/client"
+      "vite/client",
+      "node"
     ],
     "skipLibCheck": true,
     "module": "esnext",

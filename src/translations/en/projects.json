@@ -1,8 +1,10 @@
 {
   "kicker": "Work",
   "title": "Featured projects",
+  "subtitle": "Press a card to see more details",
   "view_project": "View project",
-  "view_all": "View all projects",
+  "open_in_github": "Open on GitHub",
+  "view_all": "View all projects on GitHub",
   "skills_label": "Skills",
   "toolbox_label": "Toolbox",
   "categories": {

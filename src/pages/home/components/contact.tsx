@@ -25,7 +25,7 @@ export const Contact = () => {
         style={{background: "radial-gradient(circle, color-mix(in oklab, var(--color-accent) 18%, transparent), transparent 70%)"}}
       />
 
-      <div className="container relative z-10 mx-auto px-4 pt-24 pb-40">
+      <div className="container relative z-10 mx-auto px-4 pt-24 pb-40 flex flex-col items-center text-center sm:items-start sm:text-left">
         <p className="reveal text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-3">
           {t("contact:kicker")}
         </p>
@@ -41,7 +41,7 @@ export const Contact = () => {
           fsolism@franciscosolis.cl
         </a>
 
-        <div className="reveal flex flex-wrap items-center gap-3">
+        <div className="reveal flex flex-wrap items-center justify-center gap-3 sm:justify-start">
           {socials.map(({label, href, Icon}) => (
             <Button key={label} asChild variant="ghost" data-fs-hover>
               <a href={href} target="_blank" rel="noreferrer">
@@ -56,7 +56,7 @@ export const Contact = () => {
           </Button>
         </div>
 
-        <div className="reveal mt-16 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-neutral-800 pt-6 text-sm text-neutral-500">
+        <div className="reveal mt-16 flex w-full flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-neutral-800 pt-6 text-sm text-neutral-500">
           <span className="inline-flex items-center gap-1">
             <MapPin size={14}/> {t("contact:location")}
           </span>

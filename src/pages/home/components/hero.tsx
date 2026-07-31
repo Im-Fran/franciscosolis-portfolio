@@ -43,7 +43,7 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section id="top" ref={sectionRef} className="relative min-h-screen w-full overflow-hidden flex flex-col justify-end">
+    <section id="home" ref={sectionRef} className="relative min-h-screen w-full overflow-hidden flex flex-col justify-end">
       <div
         ref={circleRef}
         className="pointer-events-none absolute -top-24 -right-24 h-[480px] w-[480px] rounded-full blur-3xl"
@@ -55,6 +55,11 @@ export const Hero = () => {
       />
 
       <div className="container mx-auto px-4 pb-24 pt-32 relative z-10">
+        <img
+          src="/profile-picture.webp"
+          alt={t("hero:name")}
+          className="pointer-events-none absolute right-4 -top-16 h-24 w-24 rounded-full border border-neutral-700 object-cover shadow-lg sm:h-32 sm:w-32 md:h-40 md:w-40 lg:h-48 lg:w-48 xl:h-56 xl:w-56"
+        />
         <p data-fs-hero-line className="text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-4">
           {t("hero:kicker")}
         </p>

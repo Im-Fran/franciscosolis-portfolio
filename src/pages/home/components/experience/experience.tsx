@@ -20,21 +20,26 @@ export const Experience = () => {
   useLayoutEffect(() => {
     if (!timelineRef.current || !lineRef.current) return;
 
-    const ctx = gsap.context(() => {
-      gsap.set(lineRef.current, {scaleY: 0, transformOrigin: "top"});
-      gsap.to(lineRef.current, {
-        scaleY: 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: "top 60%",
-          end: "+=500",
-          scrub: true,
-        },
-      });
-    }, sectionRef);
+    const mm = gsap.matchMedia();
+    mm.add(
+      {isMobile: "(max-width: 767px)"},
+      (context) => {
+        const {isMobile} = context.conditions as {isMobile: boolean};
+        gsap.set(lineRef.current, {scaleY: 0, transformOrigin: "top"});
+        gsap.to(lineRef.current, {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: isMobile ? "top 40%" : "top 60%",
+            end: "+=500",
+            scrub: true,
+          },
+        });
+      },
+    );
 
-    return () => ctx.revert();
+    return () => mm.revert();
   }, []);
 
   return (

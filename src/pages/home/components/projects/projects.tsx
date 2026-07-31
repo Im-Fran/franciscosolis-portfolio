@@ -20,11 +20,11 @@ export const Projects = () => {
         {t("projects:title")}
       </h2>
 
-      <div className="reveal-stagger grid items-stretch gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(420px, 1fr))"}}>
+      <div className="reveal-stagger grid items-stretch gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))"}}>
         {featuredProjects.map((project) => <ProjectCard key={project.id} {...project} />)}
       </div>
 
-      <div className="reveal-stagger mt-8 grid gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))"}}>
+      <div className="reveal-stagger mt-8 grid gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))"}}>
         {secondaryProjects.map((project) => (
           <a key={project.id} href={project.href} target="_blank" rel="noreferrer" data-fs-hover>
             <Card elevation="sm" className="reveal-item fs-hoverable h-full">

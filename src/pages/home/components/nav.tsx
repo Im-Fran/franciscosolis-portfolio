@@ -1,22 +1,18 @@
 import {useTranslation} from "react-i18next";
 import {Button} from "@/components/ui/button/button.tsx";
+import {useLanguageToggle} from "@/hooks/useLanguageToggle.ts";
 
 const links: Array<{ href: string; labelKey: string }> = [
   {href: "#home", labelKey: "nav:home"},
   {href: "#stack", labelKey: "nav:stack"},
-  {href: "#proyectos", labelKey: "nav:projects"},
-  {href: "#experiencia", labelKey: "nav:experience"},
-  {href: "#contacto", labelKey: "nav:contact"},
+  {href: "#projects", labelKey: "nav:projects"},
+  {href: "#experience", labelKey: "nav:experience"},
+  {href: "#contact", labelKey: "nav:contact"},
 ];
 
 export const Nav = () => {
-  const {t, i18n} = useTranslation();
-
-  const toggleLanguage = async () => {
-    const newLang = i18n.language === "es" ? "en" : "es";
-    localStorage.setItem("locale", newLang);
-    await i18n.changeLanguage(newLang);
-  };
+  const {t} = useTranslation();
+  const {language, toggleLanguage} = useLanguageToggle();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-800 bg-bg/78 backdrop-blur-[14px]">
@@ -36,7 +32,7 @@ export const Nav = () => {
             </a>
           ))}
           <Button variant="ghost" size="sm" onClick={toggleLanguage} data-fs-hover>
-            {i18n.language === "es" ? "EN" : "ES"}
+            {language === "es" ? "EN" : "ES"}
           </Button>
         </div>
       </nav>

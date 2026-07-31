@@ -19,7 +19,7 @@ export const Contact = () => {
   useScrollReveal(sectionRef);
 
   return (
-    <section id="contacto" ref={sectionRef} className="relative overflow-hidden">
+    <section id="contact" ref={sectionRef} className="relative overflow-hidden">
       <div
         className="pointer-events-none absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full blur-3xl"
         style={{background: "radial-gradient(circle, color-mix(in oklab, var(--color-accent) 18%, transparent), transparent 70%)"}}

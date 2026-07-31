@@ -12,7 +12,7 @@ export const Projects = () => {
   useScrollReveal(sectionRef);
 
   return (
-    <section id="proyectos" ref={sectionRef} className="container mx-auto px-4 py-24">
+    <section id="projects" ref={sectionRef} className="container mx-auto px-4 py-24">
       <p className="reveal text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-3">
         {t("projects:kicker")}
       </p>

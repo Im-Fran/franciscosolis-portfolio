@@ -38,7 +38,7 @@ export const Experience = () => {
   }, []);
 
   return (
-    <section id="experiencia" ref={sectionRef} className="container mx-auto px-4 py-24">
+    <section id="experience" ref={sectionRef} className="container mx-auto px-4 py-24">
       <p className="reveal text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-3">
         {t("experience:kicker")}
       </p>

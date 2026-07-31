@@ -2,7 +2,7 @@ import {useLayoutEffect, useRef} from "react";
 import {useTranslation} from "react-i18next";
 import gsap from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
-import {MouseSimple, GithubLogo} from "@phosphor-icons/react";
+import {GithubLogoIcon, MouseIcon} from "@phosphor-icons/react";
 import {Button} from "@/components/ui/button/button.tsx";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -46,7 +46,7 @@ export const Hero = () => {
     <section id="home" ref={sectionRef} className="relative min-h-screen w-full overflow-hidden flex flex-col justify-end">
       <div
         ref={circleRef}
-        className="pointer-events-none absolute -top-24 -right-24 h-[480px] w-[480px] rounded-full blur-3xl"
+        className="pointer-events-none absolute -top-24 -right-24 size-120 rounded-full blur-3xl"
         style={{background: "radial-gradient(circle, color-mix(in oklab, var(--color-accent) 22%, transparent), transparent 70%)"}}
       />
       <div
@@ -74,11 +74,11 @@ export const Hero = () => {
         </p>
         <div data-fs-hero-line className="mt-8 flex flex-wrap gap-4">
           <Button asChild variant="primary" data-fs-hover>
-            <a href="mailto:fsolism@franciscosolis.cl">{t("hero:cta_work")}</a>
+            <a href="#contact">{t("hero:cta_work")}</a>
           </Button>
           <Button asChild variant="secondary" data-fs-hover>
             <a href="https://github.com/Im-Fran" target="_blank" rel="noreferrer">
-              <GithubLogo size={18}/>
+              <GithubLogoIcon size={18}/>
               {t("hero:cta_github")}
             </a>
           </Button>
@@ -86,7 +86,7 @@ export const Hero = () => {
       </div>
 
       <div className="absolute bottom-8 left-4 flex items-center gap-2 text-neutral-500 animate-[fs-float_3s_ease-in-out_infinite]">
-        <MouseSimple size={18}/>
+        <MouseIcon size={18} />
         <span className="text-xs uppercase tracking-[0.08em]">{t("hero:scroll")}</span>
       </div>
     </section>

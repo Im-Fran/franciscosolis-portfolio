@@ -4,9 +4,9 @@ import Footer from "@/components/footer.tsx";
 import {CustomCursor} from "@/pages/home/components/custom-cursor.tsx";
 
 const Layout = ({ className, ...rest }: LayoutProps) => (
-  <div className={className} {...rest}>
+  <div className={`min-h-screen flex flex-col ${className ?? ""}`} {...rest}>
     <CustomCursor/>
-    <main role={"main"} className={"min-h-screen flex flex-col"}>
+    <main role={"main"} className={"flex-1 flex flex-col"}>
       <Outlet/>
     </main>
     <ScrollRestoration/>

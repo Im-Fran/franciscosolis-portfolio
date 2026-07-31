@@ -2,8 +2,19 @@ import type { Env } from './env'
 import { handleRequest } from './router'
 import statRoutes from './stats/routes'
 import adminAuthRoutes from './admin/auth/routes'
+import mediaRoutes from './media/routes'
+import adminToolboxRoutes from './admin/toolbox/routes'
+import adminProjectsRoutes from './admin/projects/routes'
+import publicRoutes from './public/routes'
 
-const allRoutes = [...statRoutes, ...adminAuthRoutes]
+const allRoutes = [
+  ...statRoutes,
+  ...adminAuthRoutes,
+  ...mediaRoutes,
+  ...adminToolboxRoutes,
+  ...adminProjectsRoutes,
+  ...publicRoutes,
+]
 
 export default {
   async fetch(request, env) {
@@ -17,3 +28,4 @@ export default {
     return env.ASSETS.fetch(request)
   },
 } satisfies ExportedHandler<Env>
+

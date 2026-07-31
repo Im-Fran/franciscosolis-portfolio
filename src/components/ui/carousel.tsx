@@ -1,0 +1,55 @@
+import type {ReactNode} from "react";
+import {CaretLeft, CaretRight} from "@phosphor-icons/react";
+import {cn} from "@/lib/utils";
+import {useAppCarousel} from "@/hooks/useAppCarousel.ts";
+
+type CarouselProps = {
+  children: ReactNode;
+  slideClassName?: string;
+};
+
+export const Carousel = ({children, slideClassName}: CarouselProps) => {
+  const {emblaRef, scrollPrev, scrollNext, canScrollPrev, canScrollNext} = useAppCarousel();
+  const hasOverflow = canScrollPrev || canScrollNext;
+
+  return (
+    <div className="relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex gap-6">
+          {Array.isArray(children)
+            ? children.map((child, index) => (
+                <div key={index} className={cn("shrink-0", slideClassName)}>
+                  {child}
+                </div>
+              ))
+            : <div className={cn("shrink-0", slideClassName)}>{children}</div>}
+        </div>
+      </div>
+
+      {hasOverflow && (
+        <>
+          <button
+            type="button"
+            data-fs-hover
+            onClick={scrollPrev}
+            disabled={!canScrollPrev}
+            aria-label="Previous"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full bg-surface p-2 shadow-[var(--shadow-md)] text-text disabled:opacity-0 disabled:pointer-events-none transition-opacity"
+          >
+            <CaretLeft size={18}/>
+          </button>
+          <button
+            type="button"
+            data-fs-hover
+            onClick={scrollNext}
+            disabled={!canScrollNext}
+            aria-label="Next"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full bg-surface p-2 shadow-[var(--shadow-md)] text-text disabled:opacity-0 disabled:pointer-events-none transition-opacity"
+          >
+            <CaretRight size={18}/>
+          </button>
+        </>
+      )}
+    </div>
+  );
+};

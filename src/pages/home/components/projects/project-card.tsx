@@ -12,17 +12,19 @@ export const ProjectCard = ({category, title, description, longDescription, tech
 
   return (
     <>
-      <Card elevation="md" className="reveal-item fs-hoverable h-full overflow-hidden p-0">
-        <button type="button" data-fs-hover onClick={() => setOpen(true)} className="block w-full text-left">
-          <div className="h-[260px] w-full bg-neutral-900 flex items-center justify-center text-neutral-700 text-sm">
+      <Card elevation="md" className="reveal-item fs-hoverable w-full flex-1 flex flex-col overflow-hidden p-0">
+        <button type="button" data-fs-hover onClick={() => setOpen(true)} className="flex flex-1 flex-col w-full h-full text-left">
+          <div className="h-[260px] w-full shrink-0 bg-neutral-900 flex items-center justify-center text-neutral-700 text-sm">
             {media ? <img src={media} alt={title} className="h-full w-full object-cover"/> : "GIF"}
           </div>
-          <div className="p-6">
-            <Badge variant="accent" className="mb-3">{t(`projects:categories.${category}`)}</Badge>
-            <CardTitle>{title}</CardTitle>
-            <p className="mt-2 text-sm text-neutral-300 leading-[1.55]">{description}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {technologies.map((tech) => <Badge key={tech} variant="outline">{tech}</Badge>)}
+          <div className="flex flex-1 flex-col justify-between p-6">
+            <div>
+              <Badge variant="accent" className="mb-3">{t(`projects:categories.${category}`)}</Badge>
+              <CardTitle>{title}</CardTitle>
+              <p className="mt-2 text-sm text-neutral-300 leading-[1.55]">{description}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {technologies.map((tech) => <Badge key={tech} variant="outline">{tech}</Badge>)}
+              </div>
             </div>
             <span className="mt-4 inline-flex items-center gap-1 text-sm text-accent-300">
               {t("projects:view_project")} <ArrowUpRight size={14}/>

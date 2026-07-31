@@ -32,12 +32,14 @@ export const Projects = () => {
 
       <div className="reveal-stagger mt-8 grid gap-6" style={{gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))"}}>
         {secondaryProjects.map((project) => (
-          <a key={project.id} href={project.href} target="_blank" rel="noreferrer" data-fs-hover>
-            <Card elevation="sm" className="reveal-item fs-hoverable h-full">
-              <CardBody>
-                <Code size={22} className="text-accent-300 mb-3"/>
-                <CardTitle className="text-base">{project.title}</CardTitle>
-                <p className="mt-2 text-sm text-neutral-400">{project.description}</p>
+          <a key={project.id} href={project.href} target="_blank" rel="noreferrer" data-fs-hover className="flex flex-col h-full">
+            <Card elevation="sm" className="reveal-item fs-hoverable w-full h-full flex flex-col">
+              <CardBody className="flex flex-1 flex-col justify-between">
+                <div>
+                  <Code size={22} className="text-accent-300 mb-3"/>
+                  <CardTitle className="text-base">{project.title}</CardTitle>
+                  <p className="mt-2 text-sm text-neutral-400">{project.description}</p>
+                </div>
                 <span className="mt-3 inline-flex items-center gap-1 text-xs text-accent-300">
                   {t("projects:open_in_github")} <ArrowUpRight size={12}/>
                 </span>
@@ -46,8 +48,8 @@ export const Projects = () => {
           </a>
         ))}
 
-        <a href="https://github.com/Im-Fran" target="_blank" rel="noreferrer" data-fs-hover>
-          <Card elevation="sm" className="reveal-item fs-hoverable h-full border border-accent-700">
+        <a href="https://github.com/Im-Fran" target="_blank" rel="noreferrer" data-fs-hover className="flex flex-col h-full">
+          <Card elevation="sm" className="reveal-item fs-hoverable w-full h-full border border-accent-700">
             <CardBody className="flex h-full flex-col items-center justify-center text-center">
               <span className="text-sm text-accent-300 inline-flex items-center gap-1">
                 {t("projects:view_all")} <ArrowUpRight size={14}/>

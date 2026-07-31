@@ -48,20 +48,22 @@ export const Stack = () => {
           {categories.map((category) => {
             const Icon = icons[category.key];
             return (
-              <Card key={category.key} elevation="sm" className="reveal-item fs-hoverable h-full transition-transform">
+              <Card key={category.key} elevation="sm" className="reveal-item fs-hoverable w-full flex-1 flex flex-col">
                 <button
                   type="button"
                   data-fs-hover
                   onClick={() => setActiveCategory(category.key)}
-                  className="block h-full w-full text-left"
+                  className="flex flex-1 flex-col w-full h-full text-left"
                 >
-                  <CardBody className="flex h-full flex-col">
-                    <Icon size={28} className="text-accent-300 mb-4"/>
-                    <CardTitle>{t(`stack:categoryLabels.${category.key}`)}</CardTitle>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {(category.groups ? category.groups.map((group) => group.name) : category.tools ?? []).map((tool) => (
-                        <Badge key={tool} variant="outline">{tool}</Badge>
-                      ))}
+                  <CardBody className="flex flex-1 flex-col justify-between h-full">
+                    <div>
+                      <Icon size={28} className="text-accent-300 mb-4"/>
+                      <CardTitle>{t(`stack:categoryLabels.${category.key}`)}</CardTitle>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {(category.groups ? category.groups.map((group) => group.name) : category.tools ?? []).map((tool) => (
+                          <Badge key={tool} variant="outline">{tool}</Badge>
+                        ))}
+                      </div>
                     </div>
                   </CardBody>
                 </button>

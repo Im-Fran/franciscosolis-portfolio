@@ -26,7 +26,7 @@ export const useScrollReveal = (scope: RefObject<HTMLElement | null>) => {
         const items = group.querySelectorAll<HTMLElement>(".reveal-item");
         if (items.length === 0) return;
         gsap.from(items, {
-          y: 40,
+          y: 24,
           opacity: 0,
           duration: 0.7,
           stagger: 0.1,

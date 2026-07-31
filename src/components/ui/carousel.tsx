@@ -14,15 +14,15 @@ export const Carousel = ({children, slideClassName}: CarouselProps) => {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6">
+      <div className="overflow-hidden py-6 -my-2 px-3 -mx-3" ref={emblaRef}>
+        <div className="flex items-stretch gap-6">
           {Array.isArray(children)
             ? children.map((child, index) => (
-                <div key={index} className={cn("shrink-0", slideClassName)}>
+                <div key={index} className={cn("shrink-0 flex flex-col self-stretch", slideClassName)}>
                   {child}
                 </div>
               ))
-            : <div className={cn("shrink-0", slideClassName)}>{children}</div>}
+            : <div className={cn("shrink-0 flex flex-col self-stretch", slideClassName)}>{children}</div>}
         </div>
       </div>
 

@@ -3,8 +3,6 @@ import Layout from "@/components/layout.tsx";
 import {Home} from "@/pages/home/home.tsx";
 import {Legal} from "@/pages/legal/legal.tsx";
 import {NotFound} from "@/pages/not-found/not-found.tsx";
-import {AdminLogin} from "@/pages/admin/login/login.tsx";
-import {AdminHome} from "@/pages/admin/home/admin-home.tsx";
 
 const routes = [
   {
@@ -20,15 +18,6 @@ const routes = [
       {
         path: "legal",
         element: <Legal/>,
-      },
-      /* Admin */
-      {
-        path: "admin",
-        element: <AdminHome/>,
-      },
-      {
-        path: "admin/login",
-        element: <AdminLogin/>,
       },
       /* 404 */
       {

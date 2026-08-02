@@ -1,4 +1,4 @@
-export type ToolboxCategory = "frontend" | "backend" | "mobile" | "apis" | "sysadmin" | "cloud" | "security";
+export type ToolboxCategory = "frontend" | "backend" | "mobile" | "apis" | "sysadmin" | "cloud" | "security" | "ai";
 
 export type FeaturedProject = {
   id: string;

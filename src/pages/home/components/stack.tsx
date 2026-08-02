@@ -1,6 +1,6 @@
 import {useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {Browser, HardDrives, DeviceMobile, Stack as StackIcon, Terminal, Cloud, ShieldCheck} from "@phosphor-icons/react";
+import {BrowserIcon, HardDrivesIcon, DeviceMobileIcon, StackIcon, TerminalIcon, CloudIcon, ShieldCheckIcon, RobotIcon} from "@phosphor-icons/react";
 import {Card, CardTitle, CardBody} from "@/components/ui/card.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
 import {Modal} from "@/components/ui/modal.tsx";
@@ -11,14 +11,15 @@ import {getFeaturedProjectsByToolbox, type ToolboxCategory} from "@/pages/home/c
 type StackGroup = { name: string; tools: string[] };
 type StackCategory = { key: ToolboxCategory; tools?: string[]; groups?: StackGroup[] };
 
-const icons: Record<ToolboxCategory, typeof Browser> = {
-  frontend: Browser,
-  backend: HardDrives,
-  mobile: DeviceMobile,
+const icons: Record<ToolboxCategory, typeof BrowserIcon> = {
+  frontend: BrowserIcon,
+  backend: HardDrivesIcon,
+  mobile: DeviceMobileIcon,
   apis: StackIcon,
-  sysadmin: Terminal,
-  cloud: Cloud,
-  security: ShieldCheck,
+  sysadmin: TerminalIcon,
+  cloud: CloudIcon,
+  security: ShieldCheckIcon,
+  ai: RobotIcon,
 };
 
 export const Stack = () => {

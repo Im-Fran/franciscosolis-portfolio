@@ -19,6 +19,9 @@ const Footer = () => {
         </span>
         <span className="flex flex-col items-center gap-1 sm:flex-row sm:gap-4">
           <span>{t("common:footer_credit")}</span>
+          <Link to="/brand" className="text-neutral-500 hover:text-text transition-colors" data-fs-hover>
+            {t("common:brand_link")}
+          </Link>
           <Link to="/legal" className="text-neutral-500 hover:text-text transition-colors" data-fs-hover>
             {t("common:legal_link")}
           </Link>

@@ -1,0 +1,74 @@
+{
+  "kicker": "BRAND",
+  "title": "Brand Mark",
+  "back": "Back",
+  "intro": "A peak on a blue tile, locked to a two-tone wordmark set as one name. Every mark on this page is rendered live by the same components the site itself ships — not a screenshot — so what you see here is exactly what visitors get.",
+  "lockup": {
+    "title": "Primary lockup",
+    "body": "The mark and the wordmark travel together. FranciscoSolis is one name: no space, no hyphen, and no line break between the words.",
+    "on_dark": "On dark surfaces",
+    "on_light": "On light surfaces",
+    "note": "On dark surfaces \"Francisco\" lightens to #4d82ff and \"Solis\" goes white. Everywhere else it stays #2f6bff over ink navy."
+  },
+  "stacked": {
+    "title": "Stacked variant",
+    "body": "For square placements and social profiles, where the horizontal lockup would have to set too small to stay legible."
+  },
+  "mark": {
+    "title": "The mark alone",
+    "body": "Used for avatars, favicons, and app icons. It never sets below 16 px — under that the peak's shoulders close up and the tile's radius starts eating the artwork.",
+    "sizes_label": "16, 24, 32 and 64 px",
+    "mono_title": "Monochrome",
+    "mono_body": "For single-color and print contexts. Reach for this instead of recoloring the tile."
+  },
+  "color": {
+    "title": "Color",
+    "body": "The palette is fixed. Click any value to copy it.",
+    "copy": "Copy {{hex}}",
+    "copied": "Copied",
+    "roles": {
+      "accent": "Accent blue — tile and \"Francisco\"",
+      "on_dark": "Accent on dark — \"Francisco\" over dark surfaces",
+      "ink": "Ink navy — \"Solis\" and the mono mark",
+      "surface_dark": "Dark surface",
+      "surface_light": "Light surface"
+    }
+  },
+  "type": {
+    "title": "Typography",
+    "body": "The wordmark is Sora SemiBold (600) at −2% letter-spacing. Sora is reserved for the wordmark — the product UI runs on Inter and does not need to match.",
+    "specimen_caption": "Sora SemiBold 600, −2% letter-spacing"
+  },
+  "clear_space": {
+    "title": "Clear space",
+    "body": "Keep clear space equal to half the mark's height on every side of any lockup. Where a container's own padding already meets that — as the site header's does — don't add it a second time.",
+    "label": "half the mark's height"
+  },
+  "donts": {
+    "title": "Don'ts",
+    "items": [
+      "Don't stretch or squash the mark",
+      "Don't recolor the tile",
+      "Don't rotate the mark",
+      "Don't place it on low-contrast backgrounds",
+      "Don't separate the words or change the casing"
+    ]
+  },
+  "code": {
+    "title": "Using it in code",
+    "body": "In this site, compose the lockup from the React components rather than linking the SVG files. The reference SVGs set the wordmark as SVG text in Sora, which resolves against locally installed fonts only — anywhere Sora isn't installed the wordmark silently falls back to a system sans and loses its shape. The components draw the mark inline and set the wordmark as real text in the webfont, so it stays crisp, selectable, and readable to screen readers."
+  },
+  "assets": {
+    "title": "Assets",
+    "body": "Vector sources, plus raster exports at 4×. Use these for handoff — design tools, documents, and third parties.",
+    "download_svg": "SVG",
+    "download_png": "PNG",
+    "uses": {
+      "horizontal": "Website header and docs, on light surfaces",
+      "horizontal_dark": "Dark surfaces",
+      "stacked": "Square placements and social profiles",
+      "mark": "Avatar, favicon, app icon",
+      "mark_mono": "Single-color and print"
+    }
+  }
+}

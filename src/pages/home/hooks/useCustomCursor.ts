@@ -2,6 +2,8 @@ import {useLayoutEffect, type RefObject} from "react";
 import gsap from "gsap";
 
 const HOVER_SELECTOR = "a, button, [data-fs-hover]";
+/** Elements that get promoted to the top layer, where plain z-index no longer applies. */
+const TOP_LAYER_SELECTOR = "dialog[open], [popover]";
 
 /** Resting droplet diameter, in px. */
 const IDLE_SIZE = 30;
@@ -241,17 +243,53 @@ export const useCustomCursor = (
       if (target) release();
     };
 
+    /*
+     * The top layer is ordered by promotion, not by z-index, so the drop has to re-enter it every
+     * time something else joins — otherwise a modal <dialog> opened later paints over it.
+     */
+    const promote = () => {
+      [dot, lens].forEach((layer) => {
+        if (typeof layer.showPopover !== "function") return;
+        try {
+          if (layer.matches(":popover-open")) layer.hidePopover();
+          layer.showPopover();
+        } catch {
+          /* Browsers without the popover API fall back to plain z-index stacking. */
+        }
+      });
+    };
+
+    const joinsTopLayer = (node: Node) =>
+      node instanceof HTMLElement && (node.matches(TOP_LAYER_SELECTOR) || node.querySelector(TOP_LAYER_SELECTOR) !== null);
+
+    const topLayerWatcher = new MutationObserver((records) => {
+      const joined = records.some((record) =>
+        record.type === "attributes"
+          ? record.target instanceof HTMLElement && record.target.matches(TOP_LAYER_SELECTOR)
+          : Array.from(record.addedNodes).some(joinsTopLayer),
+      );
+      if (joined) promote();
+    });
+
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseover", onOver);
     document.addEventListener("mouseleave", onLeave);
     document.body.classList.add("fs-cursor-active");
     gsap.ticker.add(frame);
+    promote();
+    topLayerWatcher.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["open", "popover"],
+    });
 
     return () => {
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseleave", onLeave);
       document.body.classList.remove("fs-cursor-active");
+      topLayerWatcher.disconnect();
       gsap.ticker.remove(frame);
       gsap.killTweensOf([lensState, dot, lens]);
       upright.replaceChildren();

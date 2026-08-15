@@ -80,6 +80,21 @@ body.fs-cursor-active * {
   cursor: none;
 }
 
+/*
+ * The cursor layers ride in the top layer (via popover) so a native <dialog> modal cannot cover
+ * them. These undo the parts of the UA popover box the cursor styles do not already replace, and
+ * must stay above .fs-lens so its own border still wins.
+ */
+.fs-cursor-layer {
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  overflow: visible;
+  color: inherit;
+}
+
 /* Animated cursor: a liquid glass water drop that swells into a magnifier over interactive elements. */
 .fs-lens {
   /* Driven per frame from the drop's own velocity: tail sharpness, glass strength, rim shine. */

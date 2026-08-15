@@ -3,14 +3,27 @@ import gsap from "gsap";
 
 const HOVER_SELECTOR = "a, button, [data-fs-hover]";
 
-/** Idle ring diameter, in px. */
-const IDLE_SIZE = 34;
-/** Lens diameter while magnifying, in px. */
+/** Resting droplet diameter, in px. */
+const IDLE_SIZE = 30;
+/** Droplet diameter while magnifying, in px. */
 const LENS_SIZE = 104;
-/** How much the content under the lens is scaled up. */
+/** How much the content under the droplet is scaled up. */
 const MAGNIFICATION = 1.75;
 /** Targets bigger than this (in px²) get the glass, but no magnified copy. */
 const MAX_CLONE_AREA = 1_400_000;
+
+/*
+ * Droplet physics. The drop stretches along its direction of travel and springs back into a bead
+ * once it settles, which is what reads as liquid rather than as a moving circle.
+ */
+const STRETCH_IDLE = 0.34;
+const STRETCH_MAGNIFYING = 0.16;
+/** Speed (px/s) at which the drop reaches its full stretch. */
+const SPEED_FOR_MAX_STRETCH = 2600;
+const SPRING_STIFFNESS = 210;
+const SPRING_DAMPING = 15;
+/** Below this speed (px/s) the drop keeps its last orientation instead of chasing noise. */
+const MIN_SPEED_FOR_ANGLE = 40;
 
 /* Inherited properties the clone cannot resolve on its own (they come from ancestors). */
 const INHERITED_PROPS = [
@@ -25,6 +38,12 @@ const INHERITED_PROPS = [
   "text-transform",
   "white-space",
 ] as const;
+
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+/** Moves an angle towards another one the short way around, so 350° → 10° does not spin backwards. */
+const approachAngle = (current: number, goal: number, ratio: number) =>
+  current + (((goal - current + 540) % 360) - 180) * ratio;
 
 const buildClone = (source: HTMLElement) => {
   const clone = source.cloneNode(true) as HTMLElement;
@@ -50,15 +69,18 @@ const buildClone = (source: HTMLElement) => {
 export const useCustomCursor = (
   dotRef: RefObject<HTMLDivElement | null>,
   lensRef: RefObject<HTMLDivElement | null>,
-  contentRef: RefObject<HTMLDivElement | null>,
+  uprightRef: RefObject<HTMLDivElement | null>,
+  glareRef: RefObject<HTMLDivElement | null>,
 ) => {
   useLayoutEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return;
-    if (!dotRef.current || !lensRef.current || !contentRef.current) return;
+    if (!dotRef.current || !lensRef.current) return;
+    if (!uprightRef.current || !glareRef.current) return;
 
     const dot = dotRef.current;
     const lens = lensRef.current;
-    const content = contentRef.current;
+    const upright = uprightRef.current;
+    const glare = glareRef.current;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     gsap.set([dot, lens], {xPercent: -50, yPercent: -50, x: -200, y: -200});
@@ -68,21 +90,73 @@ export const useCustomCursor = (
     const moveDotY = gsap.quickTo(dot, "y", {duration: 0.1, ease: "power3"});
     const moveLensX = gsap.quickTo(lens, "x", {duration: 0.35, ease: "power3"});
     const moveLensY = gsap.quickTo(lens, "y", {duration: 0.35, ease: "power3"});
+    const setRotation = gsap.quickSetter(lens, "rotation", "deg") as (value: number) => void;
+    const setScaleX = gsap.quickSetter(lens, "scaleX") as (value: number) => void;
+    const setScaleY = gsap.quickSetter(lens, "scaleY") as (value: number) => void;
 
-    /* Animated through gsap so the lens can grow and focus with a single elastic tween. */
-    const lensState = {size: IDLE_SIZE, magnification: 1};
+    /* Animated through gsap so the drop can swell into the lens with a single elastic tween. */
+    const lensState = {size: IDLE_SIZE, magnification: 1, glass: 0};
 
     let target: HTMLElement | null = null;
     let clone: HTMLElement | null = null;
     let lastSize = "";
-    let syncing = false;
+    let lastSpin = "";
+
+    /* Spring state of the droplet, driven by how fast the drop itself is travelling. */
+    let previousX = -200;
+    let previousY = -200;
+    let stretch = 0;
+    let stretchVelocity = 0;
+    let angle = 0;
 
     /*
-     * Keeps the magnified copy locked to whatever the lens is currently sitting on: the lens lags
-     * behind the pointer, so the geometry is derived from the lens' own animated position, not from
-     * the raw cursor coordinates.
+     * Deforms the drop, then keeps the magnified copy locked to whatever the lens is sitting on:
+     * the lens lags behind the pointer, so the geometry is derived from the lens' own animated
+     * position rather than from the raw cursor coordinates.
      */
-    const sync = () => {
+    const frame = (_time: number, delta: number) => {
+      /* Clamped so a backgrounded tab does not resume with one enormous step. */
+      const step = Math.min(delta, 34) / 1000;
+      const lensX = gsap.getProperty(lens, "x") as number;
+      const lensY = gsap.getProperty(lens, "y") as number;
+      const travelX = lensX - previousX;
+      const travelY = lensY - previousY;
+      previousX = lensX;
+      previousY = lensY;
+
+      if (!reduceMotion && step > 0) {
+        const speed = Math.hypot(travelX, travelY) / step;
+
+        if (speed > MIN_SPEED_FOR_ANGLE) {
+          const heading = (Math.atan2(travelY, travelX) * 180) / Math.PI;
+          angle = approachAngle(angle, heading, Math.min(1, step * 18));
+        }
+
+        const limit = target ? STRETCH_MAGNIFYING : STRETCH_IDLE;
+        const goal = Math.min(speed / SPEED_FOR_MAX_STRETCH, 1) * limit;
+        stretchVelocity += ((goal - stretch) * SPRING_STIFFNESS - stretchVelocity * SPRING_DAMPING) * step;
+        stretch = clamp(stretch + stretchVelocity * step, -0.25, 0.6);
+
+        /* Stretching along the heading while squeezing across it keeps the volume believable. */
+        setRotation(angle);
+        setScaleX(1 + stretch);
+        setScaleY(1 / (1 + stretch));
+
+        const spin = `rotate(${-angle}deg)`;
+        if (spin !== lastSpin) {
+          /* The clone and the specular stay world-upright while the drop itself leans into the move. */
+          upright.style.transform = spin;
+          glare.style.transform = spin;
+          lastSpin = spin;
+        }
+      }
+
+      const pull = clamp(stretch / STRETCH_IDLE, 0, 1);
+      /* The trailing edge sharpens into a tail as the drop picks up speed. */
+      lens.style.setProperty("--fs-drop-tail", `${50 - pull * (target ? 12 : 30)}%`);
+      lens.style.setProperty("--fs-glass", `${Math.max(0, lensState.glass)}`);
+      lens.style.setProperty("--fs-shine", `${clamp(0.3 + lensState.glass * 0.45 + pull * 0.25, 0, 1)}`);
+
       const size = `${lensState.size}px`;
       if (size !== lastSize) {
         lens.style.width = size;
@@ -98,8 +172,6 @@ export const useCustomCursor = (
       }
 
       const rect = target.getBoundingClientRect();
-      const lensX = gsap.getProperty(lens, "x") as number;
-      const lensY = gsap.getProperty(lens, "y") as number;
       /* Point of the target that has to stay pinned to the centre of the lens. */
       const focusX = lensX - rect.left;
       const focusY = lensY - rect.top;
@@ -113,37 +185,24 @@ export const useCustomCursor = (
       clone.style.transform = `scale(${lensState.magnification})`;
     };
 
-    const startSync = () => {
-      if (syncing) return;
-      gsap.ticker.add(sync);
-      syncing = true;
-    };
-
-    const stopSync = () => {
-      if (!syncing) return;
-      gsap.ticker.remove(sync);
-      syncing = false;
-    };
-
     const magnify = (element: HTMLElement) => {
       target = element;
       const rect = element.getBoundingClientRect();
 
-      content.replaceChildren();
+      upright.replaceChildren();
       clone = rect.width * rect.height <= MAX_CLONE_AREA ? buildClone(element) : null;
-      if (clone) content.appendChild(clone);
+      if (clone) upright.appendChild(clone);
 
       lens.classList.add("is-magnifying");
       gsap.killTweensOf(lensState);
       gsap.to(lensState, {
         size: LENS_SIZE,
         magnification: MAGNIFICATION,
+        glass: 1,
         duration: reduceMotion ? 0.2 : 0.55,
         ease: reduceMotion ? "power2.out" : "elastic.out(1, 0.72)",
       });
       gsap.to(dot, {opacity: 0, scale: 0.4, duration: 0.25, ease: "power2.out"});
-      startSync();
-      sync();
     };
 
     const release = () => {
@@ -153,12 +212,12 @@ export const useCustomCursor = (
       gsap.to(lensState, {
         size: IDLE_SIZE,
         magnification: 1,
+        glass: 0,
         duration: reduceMotion ? 0.15 : 0.35,
         ease: "power3.out",
         onComplete: () => {
-          content.replaceChildren();
+          upright.replaceChildren();
           clone = null;
-          stopSync();
         },
       });
       gsap.to(dot, {opacity: 1, scale: 1, duration: 0.25, ease: "power2.out"});
@@ -186,15 +245,16 @@ export const useCustomCursor = (
     document.addEventListener("mouseover", onOver);
     document.addEventListener("mouseleave", onLeave);
     document.body.classList.add("fs-cursor-active");
+    gsap.ticker.add(frame);
 
     return () => {
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseleave", onLeave);
       document.body.classList.remove("fs-cursor-active");
+      gsap.ticker.remove(frame);
       gsap.killTweensOf([lensState, dot, lens]);
-      stopSync();
-      content.replaceChildren();
+      upright.replaceChildren();
     };
-  }, [dotRef, lensRef, contentRef]);
+  }, [dotRef, lensRef, uprightRef, glareRef]);
 };

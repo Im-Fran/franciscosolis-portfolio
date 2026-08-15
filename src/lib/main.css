@@ -80,36 +80,52 @@ body.fs-cursor-active * {
   cursor: none;
 }
 
-/* Animated cursor: a thin ring at rest, a liquid glass magnifier over interactive elements. */
+/* Animated cursor: a liquid glass water drop that swells into a magnifier over interactive elements. */
 .fs-lens {
-  border-radius: 50%;
-  border: 1px solid var(--color-accent-300);
-  transition: border-color .4s ease, background .4s ease, box-shadow .4s ease, backdrop-filter .4s ease;
-}
-
-.fs-lens.is-magnifying {
-  border-color: rgba(233, 233, 237, .5);
+  /* Driven per frame from the drop's own velocity: tail sharpness, glass strength, rim shine. */
+  --fs-drop-tail: 50%;
+  --fs-glass: 0;
+  --fs-shine: 0;
+  /* The trailing edge (left, in the drop's own rotated frame) pulls into a tail as it travels. */
+  border-radius: var(--fs-drop-tail) 50% 50% var(--fs-drop-tail) / 50% 50% 50% 50%;
+  border: 1px solid rgba(210, 206, 253, calc(.45 + var(--fs-glass) * .2));
   background: radial-gradient(circle at 50% 50%,
-    transparent 55%,
-    rgba(255, 255, 255, .04) 80%,
-    rgba(145, 132, 217, .10) 100%);
-  -webkit-backdrop-filter: blur(6px) saturate(165%) brightness(.86);
-  backdrop-filter: blur(6px) saturate(165%) brightness(.86);
+    transparent 45%,
+    rgba(255, 255, 255, calc(.03 + var(--fs-glass) * .02)) 80%,
+    rgba(145, 132, 217, calc(.10 + var(--fs-glass) * .04)) 100%);
+  -webkit-backdrop-filter:
+    blur(calc(1px + var(--fs-glass) * 5px))
+    saturate(calc(140% + var(--fs-glass) * 25%))
+    brightness(calc(1.12 - var(--fs-glass) * .26));
+  backdrop-filter:
+    blur(calc(1px + var(--fs-glass) * 5px))
+    saturate(calc(140% + var(--fs-glass) * 25%))
+    brightness(calc(1.12 - var(--fs-glass) * .26));
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, .45),
-    inset 0 0 0 1px rgba(22, 24, 38, .5),
-    inset 0 0 10px rgba(145, 132, 217, .16),
-    0 12px 30px rgba(0, 0, 0, .5);
-  animation: fs-lens-liquid 6s ease-in-out infinite;
+    inset 0 0 0 1px rgba(22, 24, 38, calc(var(--fs-glass) * .5)),
+    inset 0 0 10px rgba(145, 132, 217, calc(.08 + var(--fs-glass) * .08)),
+    0 6px 16px rgba(0, 0, 0, calc(.22 + var(--fs-glass) * .28));
+  will-change: transform;
 }
 
-/* Holds the magnified copy of the hovered element, clipped to the (morphing) lens shape. */
+/* Holds the magnified copy of the hovered element, clipped to the drop's current shape. */
 .fs-lens-content {
   position: absolute;
   inset: 0;
   overflow: hidden;
   border-radius: inherit;
   isolation: isolate;
+}
+
+/*
+ * Counter-rotated against the drop, so the magnified content and the specular stay world-upright
+ * while the drop itself leans into the movement. What is left over is a directional stretch.
+ */
+.fs-lens-upright,
+.fs-lens-glare {
+  position: absolute;
+  inset: 0;
 }
 
 .fs-lens-clone,
@@ -121,16 +137,14 @@ body.fs-cursor-active * {
 }
 
 .fs-lens-refraction,
-.fs-lens-sheen,
-.fs-lens-glare {
+.fs-lens-sheen {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  opacity: 0;
-  transition: opacity .35s ease;
+  opacity: var(--fs-shine);
 }
 
-/* Light bending at the rim, where a real lens distorts the most. */
+/* Light bending at the rim, where a drop of water distorts the most. */
 .fs-lens-refraction {
   background:
     radial-gradient(circle at 50% 50%, transparent 58%, rgba(255, 255, 255, .06) 74%, rgba(210, 206, 253, .22) 88%, rgba(255, 255, 255, .42) 96%, transparent 100%),
@@ -138,7 +152,7 @@ body.fs-cursor-active * {
   mix-blend-mode: screen;
 }
 
-/* Highlight travelling around the rim, which gives the glass its liquid feel. */
+/* Highlight travelling around the rim, which keeps the glass alive while the drop rests. */
 .fs-lens-sheen {
   border-radius: 50%;
   background: conic-gradient(from 0deg,
@@ -153,31 +167,18 @@ body.fs-cursor-active * {
   animation: fs-lens-spin 7s linear infinite;
 }
 
-/* Specular arcs: small and close to the rim, the way light catches a real lens. */
+/* Specular arcs: small and close to the rim, the way light catches water. */
 .fs-lens-glare {
   background:
-    radial-gradient(22% 16% at 28% 17%, rgba(255, 255, 255, .55), transparent 100%),
-    radial-gradient(14% 10% at 72% 84%, rgba(210, 206, 253, .3), transparent 100%);
-}
-
-.fs-lens.is-magnifying .fs-lens-refraction,
-.fs-lens.is-magnifying .fs-lens-sheen,
-.fs-lens.is-magnifying .fs-lens-glare {
-  opacity: 1;
+    radial-gradient(22% 16% at 28% 17%, rgba(255, 255, 255, calc(.35 + var(--fs-glass) * .2)), transparent 100%),
+    radial-gradient(14% 10% at 72% 84%, rgba(210, 206, 253, calc(.18 + var(--fs-glass) * .12)), transparent 100%);
 }
 
 @keyframes fs-lens-spin {
   to { transform: rotate(360deg); }
 }
 
-@keyframes fs-lens-liquid {
-  0%, 100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
-  33% { border-radius: 54% 46% 49% 51% / 47% 53% 47% 53%; }
-  66% { border-radius: 47% 53% 52% 48% / 52% 48% 53% 47%; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .fs-lens.is-magnifying,
   .fs-lens-sheen {
     animation: none;
   }

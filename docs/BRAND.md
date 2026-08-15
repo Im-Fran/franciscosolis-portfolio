@@ -2,6 +2,29 @@
 
 B2B software for businesses of every size: appointments, quotes, signatures, and change requests. The brand is trusted, precise, and intelligent — enterprise-ready without feeling cold.
 
+## Why it looks like this
+
+The mark and choices each carry a meaning tied to what the company does:
+
+**The peak.** An upward triangle with a notch cut from its base — three readings at once: the initial
+A-like apex of a summit (growth, ambition of the businesses you serve), a checkmark-adjacent
+silhouette (approval — quotes signed, appointments confirmed), and a subtle FS ligature reduced to
+pure geometry. Solid fill = certainty; nothing decorative.
+
+**The blue tile.** A rounded square is the most "software" of shapes — an app icon by construction.
+Blue `#2f6bff` is the trust color of B2B, but pushed brighter than corporate navy so it reads
+intelligent and current, not bureaucratic.
+
+**The two-tone wordmark.** "Francisco" in accent blue, "Solis" in ink navy — one name, two words made
+legible without a space or hyphen. The color split does the job punctuation would, which mirrors the
+product philosophy: structure without friction.
+
+**Sora SemiBold.** A geometric sans with slightly humanist curves — precise letterforms
+(enterprise-ready) that avoid the coldness of stricter grotesques (not overly corporate).
+
+**The palette logic.** Ink navy `#0f2440` for authority, one bright accent for action, near-white
+surfaces — the restraint itself signals "we handle serious business documents."
+
 ## Primary lockup
 
 Peak mark on a blue tile + two-tone wordmark, set as one name: **FranciscoSolis** (no space, no hyphen).

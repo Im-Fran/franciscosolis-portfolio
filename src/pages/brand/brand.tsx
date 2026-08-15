@@ -93,6 +93,7 @@ export const Brand = () => {
   const {t} = useTranslation();
   const {language, toggleLanguage} = useLanguageToggle();
 
+  const rationale = t("brand:rationale.items", {returnObjects: true}) as unknown as Array<{ term: string; body: string }>;
   const donts = t("brand:donts.items", {returnObjects: true}) as unknown as string[];
 
   return (
@@ -114,6 +115,17 @@ export const Brand = () => {
         <p className="mb-3 text-[13px] uppercase tracking-[0.08em] text-accent-300">{t("brand:kicker")}</p>
         <h1 className="mb-6 text-[clamp(32px,5.5vw,56px)] text-text">{t("brand:title")}</h1>
         <p className="max-w-2xl text-[16px] leading-[1.65] text-neutral-300">{t("brand:intro")}</p>
+
+        <Section title={t("brand:rationale.title")} body={t("brand:rationale.lead")}>
+          <dl className="mt-6 space-y-3">
+            {rationale.map(({term, body}) => (
+              <div key={term} className="rounded-[var(--radius-md)] border border-neutral-800 bg-surface p-5">
+                <dt className="mb-2 text-[15px] text-text">{term}</dt>
+                <dd className="text-[15px] leading-[1.65] text-neutral-300">{body}</dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
 
         <Section title={t("brand:lockup.title")} body={t("brand:lockup.body")}>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">

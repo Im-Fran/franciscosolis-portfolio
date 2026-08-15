@@ -3,6 +3,32 @@
   "title": "Brand Mark",
   "back": "Volver",
   "intro": "Un pico sobre una teja azul, unido a un wordmark de dos tonos escrito como un solo nombre. Cada marca de esta página se renderiza en vivo con los mismos componentes que usa el sitio — no son capturas — así que lo que ves acá es exactamente lo que ve un visitante.",
+  "rationale": {
+    "title": "Por qué se ve así",
+    "lead": "La marca y cada decisión cargan un significado ligado a lo que hace la empresa.",
+    "items": [
+      {
+        "term": "El pico",
+        "body": "Un triángulo ascendente con una muesca recortada en su base — tres lecturas a la vez: la cima de una cumbre con forma de A inicial (crecimiento, la ambición de los negocios a los que sirves), una silueta cercana a un checkmark (aprobación — cotizaciones firmadas, citas confirmadas), y una ligadura FS sutil reducida a geometría pura. Relleno sólido = certeza; nada decorativo."
+      },
+      {
+        "term": "La teja azul",
+        "body": "Un cuadrado redondeado es la más \"software\" de las formas — un icono de app por construcción. El azul #2f6bff es el color de confianza del B2B, pero llevado más brillante que el azul marino corporativo para que se lea inteligente y actual, no burocrático."
+      },
+      {
+        "term": "El wordmark de dos tonos",
+        "body": "\"Francisco\" en azul de acento, \"Solis\" en azul tinta — un solo nombre, dos palabras legibles sin espacio ni guion. La división por color hace el trabajo que haría la puntuación, lo que refleja la filosofía del producto: estructura sin fricción."
+      },
+      {
+        "term": "Sora SemiBold",
+        "body": "Una sans geométrica con curvas levemente humanistas — letras precisas (listas para el mundo enterprise) que evitan la frialdad de las grotescas más estrictas (sin caer en lo excesivamente corporativo)."
+      },
+      {
+        "term": "La lógica de la paleta",
+        "body": "Azul tinta #0f2440 para la autoridad, un solo acento brillante para la acción, superficies casi blancas — la contención misma dice \"manejamos documentos de negocio serios\"."
+      }
+    ]
+  },
   "lockup": {
     "title": "Lockup principal",
     "body": "La marca y el wordmark viajan juntos. FranciscoSolis es un solo nombre: sin espacio, sin guion y sin salto de línea entre las palabras.",

@@ -1,0 +1,100 @@
+{
+  "kicker": "MARCA",
+  "title": "Brand Mark",
+  "back": "Volver",
+  "intro": "Un pico sobre una teja azul, unido a un wordmark de dos tonos escrito como un solo nombre. Cada marca de esta página se renderiza en vivo con los mismos componentes que usa el sitio — no son capturas — así que lo que ves acá es exactamente lo que ve un visitante.",
+  "rationale": {
+    "title": "Por qué se ve así",
+    "lead": "La marca y cada decisión cargan un significado ligado a lo que hace la empresa.",
+    "items": [
+      {
+        "term": "El pico",
+        "body": "Un triángulo ascendente con una muesca recortada en su base — tres lecturas a la vez: la cima de una cumbre con forma de A inicial (crecimiento, la ambición de los negocios a los que sirves), una silueta cercana a un checkmark (aprobación — cotizaciones firmadas, citas confirmadas), y una ligadura FS sutil reducida a geometría pura. Relleno sólido = certeza; nada decorativo."
+      },
+      {
+        "term": "La teja azul",
+        "body": "Un cuadrado redondeado es la más \"software\" de las formas — un icono de app por construcción. El azul #2f6bff es el color de confianza del B2B, pero llevado más brillante que el azul marino corporativo para que se lea inteligente y actual, no burocrático."
+      },
+      {
+        "term": "El wordmark de dos tonos",
+        "body": "\"Francisco\" en azul de acento, \"Solis\" en azul tinta — un solo nombre, dos palabras legibles sin espacio ni guion. La división por color hace el trabajo que haría la puntuación, lo que refleja la filosofía del producto: estructura sin fricción."
+      },
+      {
+        "term": "Sora SemiBold",
+        "body": "Una sans geométrica con curvas levemente humanistas — letras precisas (listas para el mundo enterprise) que evitan la frialdad de las grotescas más estrictas (sin caer en lo excesivamente corporativo)."
+      },
+      {
+        "term": "La lógica de la paleta",
+        "body": "Azul tinta #0f2440 para la autoridad, un solo acento brillante para la acción, superficies casi blancas — la contención misma dice \"manejamos documentos de negocio serios\"."
+      }
+    ]
+  },
+  "lockup": {
+    "title": "Lockup principal",
+    "body": "La marca y el wordmark viajan juntos. FranciscoSolis es un solo nombre: sin espacio, sin guion y sin salto de línea entre las palabras.",
+    "on_dark": "Sobre superficies oscuras",
+    "on_light": "Sobre superficies claras",
+    "note": "Sobre superficies oscuras \"Francisco\" se aclara a #4d82ff y \"Solis\" pasa a blanco. En el resto se mantiene #2f6bff sobre azul tinta."
+  },
+  "stacked": {
+    "title": "Variante apilada",
+    "body": "Para espacios cuadrados y perfiles sociales, donde el lockup horizontal tendría que achicarse demasiado para seguir siendo legible."
+  },
+  "mark": {
+    "title": "La marca sola",
+    "body": "Se usa para avatares, favicons e iconos de app. Nunca baja de 16 px — bajo ese tamaño los hombros del pico se cierran y el radio de la teja empieza a comerse el trazo.",
+    "sizes_label": "16, 24, 32 y 64 px",
+    "mono_title": "Monocromo",
+    "mono_body": "Para contextos de un solo color e impresión. Usa esta versión en vez de recolorear la teja."
+  },
+  "color": {
+    "title": "Color",
+    "body": "La paleta es fija. Haz clic en cualquier valor para copiarlo.",
+    "copy": "Copiar {{hex}}",
+    "copied": "Copiado",
+    "roles": {
+      "accent": "Azul de acento — teja y \"Francisco\"",
+      "on_dark": "Acento sobre oscuro — \"Francisco\" en superficies oscuras",
+      "ink": "Azul tinta — \"Solis\" y la marca mono",
+      "surface_dark": "Superficie oscura",
+      "surface_light": "Superficie clara"
+    }
+  },
+  "type": {
+    "title": "Tipografía",
+    "body": "El wordmark es Sora SemiBold (600) con −2% de letter-spacing. Sora está reservada para el wordmark — la UI del producto usa Inter y no necesita coincidir.",
+    "specimen_caption": "Sora SemiBold 600, −2% de letter-spacing"
+  },
+  "clear_space": {
+    "title": "Espacio libre",
+    "body": "Mantén un espacio libre igual a la mitad de la altura de la marca en todos los lados de cualquier lockup. Cuando el padding del contenedor ya lo cumple — como pasa en el header del sitio — no lo agregues de nuevo.",
+    "label": "la mitad de la altura de la marca"
+  },
+  "donts": {
+    "title": "Qué no hacer",
+    "items": [
+      "No estires ni aplastes la marca",
+      "No recolorees la teja",
+      "No rotes la marca",
+      "No la pongas sobre fondos de bajo contraste",
+      "No separes las palabras ni cambies las mayúsculas"
+    ]
+  },
+  "code": {
+    "title": "Cómo usarla en código",
+    "body": "En este sitio, arma el lockup con los componentes de React en vez de enlazar los archivos SVG. Los SVG de referencia escriben el wordmark como texto SVG en Sora, que se resuelve solo contra fuentes instaladas localmente — donde Sora no esté instalada el wordmark cae en silencio a una sans del sistema y pierde su forma. Los componentes dibujan la marca inline y escriben el wordmark como texto real con la webfont, así queda nítido, seleccionable y legible para lectores de pantalla."
+  },
+  "assets": {
+    "title": "Recursos",
+    "body": "Fuentes vectoriales, más exportaciones ráster a 4×. Úsalas para handoff — herramientas de diseño, documentos y terceros.",
+    "download_svg": "SVG",
+    "download_png": "PNG",
+    "uses": {
+      "horizontal": "Header del sitio y documentación, sobre superficies claras",
+      "horizontal_dark": "Superficies oscuras",
+      "stacked": "Espacios cuadrados y perfiles sociales",
+      "mark": "Avatar, favicon, icono de app",
+      "mark_mono": "Un solo color e impresión"
+    }
+  }
+}

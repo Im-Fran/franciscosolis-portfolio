@@ -1,5 +1,6 @@
 import {useTranslation} from "react-i18next";
 import {Button} from "@/components/ui/button/button.tsx";
+import {BrandLockup} from "@/components/brand";
 import {useLanguageToggle} from "@/hooks/useLanguageToggle.ts";
 
 const links: Array<{ href: string; labelKey: string }> = [
@@ -17,8 +18,9 @@ export const Nav = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-800 bg-bg/78 backdrop-blur-[14px]">
       <nav className="container mx-auto flex items-center justify-between px-4 py-4">
-        <a href="#home" className="text-base font-medium text-text" data-fs-hover>
-          FranciscoSolis
+        {/* The header's own px-4/py-4 already exceeds the brand's clear space at this mark size. */}
+        <a href="#home" className="inline-flex items-center" data-fs-hover>
+          <BrandLockup size={26} tone="dark"/>
         </a>
         <div className="flex items-center gap-6">
           {links.map((link) => (

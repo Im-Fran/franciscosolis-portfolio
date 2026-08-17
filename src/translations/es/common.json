@@ -12,5 +12,6 @@
   "copyright": "© {{year}} Francisco Solís",
   "footer_credit": "Hecho con ☕ por Francisco Solis Maturana",
   "legal_link": "Términos y Privacidad",
-  "brand_link": "Marca"
+  "brand_link": "Marca",
+  "loading": "Cargando…"
 }

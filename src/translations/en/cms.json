@@ -1,0 +1,82 @@
+{
+  "app_name": "CMS",
+  "nav": {
+    "site": "Back to the site",
+    "sign_out": "Sign out"
+  },
+  "sign_in": {
+    "title": "Sign in to the CMS",
+    "subtitle": "The content behind franciscosolis.cl. Sign in with the account that was granted access — no passwords involved.",
+    "email_label": "Email address",
+    "email_placeholder": "you@example.com",
+    "email_hint": "We email you a single-use link that signs you in.",
+    "magic_link_cta": "Send magic link",
+    "divider": "or",
+    "google_cta": "Continue with Google",
+    "provider_unavailable": "This provider is not configured on this deployment.",
+    "no_password": "There is no password to forget — every sign-in is a fresh, single-use grant.",
+    "staff_only": "The CMS is only open to accounts with an editor role.",
+    "back_home": "Back to the site",
+    "sent_title": "Check your inbox",
+    "sent_subtitle": "If {{email}} may sign in to the CMS, the link is on its way.",
+    "sent_alert_title": "Link sent",
+    "sent_expiry": "It expires in about {{minutes}} minutes and works once.",
+    "sent_note": "Open the link in this browser so the sign-in can finish where it started. You can close this tab afterwards.",
+    "use_another": "Use another address"
+  },
+  "callback": {
+    "title": "Signing you in",
+    "subtitle": "Exchanging the authorization code for your CMS session.",
+    "working": "This takes a moment…",
+    "error_title": "Sign-in could not be completed",
+    "error_subtitle": "The link may have already been used, or it expired before it was opened.",
+    "retry": "Try signing in again"
+  },
+  "no_access": {
+    "title": "No access to the CMS",
+    "subtitle": "This account is signed in, but it holds no role in the CMS.",
+    "subtitle_email": "{{email}} is signed in, but it holds no role in the CMS.",
+    "alert_title": "Ask for an editor role",
+    "alert_body": "Access is granted per application from the auth console. Once a role is granted, sign in again so a fresh token carries it.",
+    "sign_out": "Sign out",
+    "back_home": "Back to the site"
+  },
+  "dashboard": {
+    "title": "Content",
+    "subtitle": "You are signed in to the CMS. This is the account the API sees on every write, and what it is currently allowed to do.",
+    "session_title": "Signed in as",
+    "session_description": "The session every request from this tab travels with.",
+    "application_label": "Application",
+    "session_id_label": "Session",
+    "last_login_label": "Last sign-in",
+    "email_verified_label": "Email verified",
+    "access_title": "Access",
+    "access_description": "The roles and permissions this account holds in the CMS.",
+    "roles_label": "Roles",
+    "roles_empty": "No roles granted.",
+    "permissions_label": "Permissions",
+    "permissions_empty": "No permissions granted.",
+    "access_note": "Roles and permissions are minted into the access token, so a change can take up to the token's lifetime to show here. The API is always the authority.",
+    "collections_title": "Collections",
+    "collections_description": "What this CMS manages. The service is the one that decides the list.",
+    "collections_empty": "This CMS manages no collections yet.",
+    "editing_soon": "Editing screens are not part of this interface yet — this release covers signing in and the access checks around it."
+  },
+  "common": {
+    "loading": "Loading…",
+    "restoring": "Restoring your session…",
+    "failed": "Something went wrong",
+    "retry": "Retry",
+    "empty": "Nothing to show.",
+    "yes": "Yes",
+    "no": "No",
+    "forbidden_title": "Not available to your account",
+    "forbidden_body": "This section needs a permission your account does not hold."
+  },
+  "errors": {
+    "network": "The service could not be reached. Check your connection and try again.",
+    "missing-code": "This address is missing the authorization code the provider should have sent.",
+    "missing-transaction": "This browser has no record of the sign-in that started this link. Start again from the CMS sign-in page.",
+    "state-mismatch": "The sign-in could not be verified. Start again from the CMS sign-in page."
+  }
+}

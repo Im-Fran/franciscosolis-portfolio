@@ -1,11 +1,12 @@
-import {AUTH_CLIENT_ID, authUrl} from "@/lib/auth/config.ts";
-import {clearTokens, isExpired, readTokens, TOKENS_KEY, toStoredTokens, writeTokens} from "@/lib/auth/storage.ts";
+import {WEB_AUTH_CONFIG} from "@/lib/auth/config.ts";
+import type {AuthClientConfig} from "@/lib/auth/config.ts";
+import {createAuthStorage, isExpired, toStoredTokens} from "@/lib/auth/storage.ts";
 import type {StoredTokens} from "@/lib/auth/storage.ts";
 import type {TokenResponse} from "@/lib/auth/types.ts";
 
 /**
- * Owns the token lifecycle outside React, so refreshing survives re-renders, StrictMode's double
- * effects and several components asking for a token at once.
+ * Owns the token lifecycle of one application outside React, so refreshing survives re-renders,
+ * StrictMode's double effects and several components asking for a token at once.
  *
  * Refresh tokens rotate and are single-use: replaying one is treated as theft and revokes the whole
  * chain. Everything here therefore funnels through a single in-flight promise, and tokens are read
@@ -25,90 +26,108 @@ export type RefreshOutcome =
   | {status: "unavailable"}
   | {status: "revoked"};
 
-const listeners = new Set<Listener>();
-let refreshing: Promise<RefreshOutcome> | null = null;
+export type SessionStore = ReturnType<typeof createSessionStore>;
 
-const notify = (tokens: StoredTokens | null) => {
-  for (const listener of listeners) listener(tokens);
-};
+export const createSessionStore = (config: AuthClientConfig) => {
+  const storage = createAuthStorage(config.storageNamespace);
+  const listeners = new Set<Listener>();
+  let refreshing: Promise<RefreshOutcome> | null = null;
 
-/** Another tab signed in, signed out or rotated its tokens: adopt whatever it left behind. */
-const onStorage = (event: StorageEvent) => {
-  if (event.key !== null && event.key !== TOKENS_KEY) return;
-  notify(readTokens());
-};
+  const notify = (tokens: StoredTokens | null) => {
+    for (const listener of listeners) listener(tokens);
+  };
 
-export const subscribe = (listener: Listener) => {
-  if (listeners.size === 0) window.addEventListener("storage", onStorage);
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-    if (listeners.size === 0) window.removeEventListener("storage", onStorage);
+  /** Another tab signed in, signed out or rotated its tokens: adopt whatever it left behind. */
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== null && event.key !== storage.tokensKey) return;
+    notify(storage.readTokens());
+  };
+
+  const subscribe = (listener: Listener) => {
+    if (listeners.size === 0) window.addEventListener("storage", onStorage);
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+      if (listeners.size === 0) window.removeEventListener("storage", onStorage);
+    };
+  };
+
+  const startSession = (response: TokenResponse) => {
+    const tokens = toStoredTokens(response);
+    storage.writeTokens(tokens);
+    notify(tokens);
+    return tokens;
+  };
+
+  const endSession = () => {
+    storage.clearTokens();
+    notify(null);
+  };
+
+  const performRefresh = async (): Promise<RefreshOutcome> => {
+    const current = storage.readTokens();
+    if (!current?.refresh_token) return {status: "revoked"};
+
+    let response: Response;
+    try {
+      response = await fetch(`${config.baseUrl}/oauth/token`, {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: new URLSearchParams({
+          grant_type: "refresh_token",
+          client_id: config.clientId,
+          refresh_token: current.refresh_token,
+        }),
+      });
+    } catch {
+      /* Offline or the service is unreachable — keep the tokens and let the caller retry later. */
+      return {status: "unavailable"};
+    }
+
+    if (!response.ok) {
+      /* The chain is gone (rotated away, revoked or expired); there is nothing left to recover. */
+      endSession();
+      return {status: "revoked"};
+    }
+
+    return {status: "refreshed", tokens: startSession((await response.json()) as TokenResponse)};
+  };
+
+  /** Exchanges the stored refresh token for a fresh pair. Concurrent callers share one request. */
+  const refreshSession = () => {
+    refreshing ??= performRefresh().finally(() => {
+      refreshing = null;
+    });
+    return refreshing;
+  };
+
+  /**
+   * A token to send with the next request: the stored one while it is still good, a freshly rotated
+   * one when it is not. Falls back to the spent token when the service is unreachable, so the
+   * caller gets a network failure to act on rather than a silent sign-out.
+   */
+  const getAccessToken = async () => {
+    const tokens = storage.readTokens();
+    if (!tokens) return null;
+    if (!isExpired(tokens)) return tokens.access_token;
+
+    const outcome = await refreshSession();
+    if (outcome.status === "refreshed") return outcome.tokens.access_token;
+    return outcome.status === "unavailable" ? tokens.access_token : null;
+  };
+
+  return {
+    storage,
+    subscribe,
+    getTokens: () => storage.readTokens(),
+    startSession,
+    endSession,
+    refreshSession,
+    getAccessToken,
   };
 };
 
-export const getTokens = () => readTokens();
+/** The site's own session. Other applications build theirs through `createAuthClient`. */
+export const webSession = createSessionStore(WEB_AUTH_CONFIG);
 
-export const startSession = (response: TokenResponse) => {
-  const tokens = toStoredTokens(response);
-  writeTokens(tokens);
-  notify(tokens);
-  return tokens;
-};
-
-export const endSession = () => {
-  clearTokens();
-  notify(null);
-};
-
-/** Exchanges the stored refresh token for a fresh pair. Concurrent callers share one request. */
-export const refreshSession = () => {
-  refreshing ??= performRefresh().finally(() => {
-    refreshing = null;
-  });
-  return refreshing;
-};
-
-const performRefresh = async (): Promise<RefreshOutcome> => {
-  const current = readTokens();
-  if (!current?.refresh_token) return {status: "revoked"};
-
-  let response: Response;
-  try {
-    response = await fetch(authUrl("/oauth/token"), {
-      method: "POST",
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: new URLSearchParams({
-        grant_type: "refresh_token",
-        client_id: AUTH_CLIENT_ID,
-        refresh_token: current.refresh_token,
-      }),
-    });
-  } catch {
-    /* Offline or the service is unreachable — keep the tokens and let the caller retry later. */
-    return {status: "unavailable"};
-  }
-
-  if (!response.ok) {
-    /* The chain is gone (rotated away, revoked or expired); there is nothing left to recover. */
-    endSession();
-    return {status: "revoked"};
-  }
-
-  return {status: "refreshed", tokens: startSession((await response.json()) as TokenResponse)};
-};
-
-/**
- * A token to send with the next request: the stored one while it is still good, a freshly rotated
- * one when it is not. Falls back to the spent token when the service is unreachable, so the caller
- * gets a network failure to act on rather than a silent sign-out.
- */
-export const getAccessToken = async () => {
-  const tokens = readTokens();
-  if (!tokens) return null;
-  if (!isExpired(tokens)) return tokens.access_token;
-
-  const outcome = await refreshSession();
-  if (outcome.status === "refreshed") return outcome.tokens.access_token;
-  return outcome.status === "unavailable" ? tokens.access_token : null;
-};
+export const {subscribe, getTokens, startSession, endSession, refreshSession, getAccessToken} = webSession;

@@ -1,4 +1,5 @@
-import {request} from "@/lib/auth/client.ts";
+import {request as webRequest} from "@/lib/auth/client.ts";
+import type {RequestFn} from "@/lib/auth/client.ts";
 import type {
   AdminUserDetail,
   AdminUserSummary,
@@ -18,8 +19,10 @@ import type {
   Session,
 } from "@/lib/auth/types.ts";
 
+export type AuthApi = ReturnType<typeof createAuthApi>;
+
 /** Every endpoint of the auth API this interface talks to, grouped the way the API documents them. */
-export const authApi = {
+export const createAuthApi = (request: RequestFn) => ({
   /** Public: which providers this deployment actually has configured. */
   status: (signal?: AbortSignal) => request<ServiceStatus>("/", {auth: false, signal}),
 
@@ -77,4 +80,7 @@ export const authApi = {
         method: "DELETE",
       }),
   },
-};
+});
+
+/** Bound to the site's own client; other applications get theirs from `createAuthClient`. */
+export const authApi = createAuthApi(webRequest);

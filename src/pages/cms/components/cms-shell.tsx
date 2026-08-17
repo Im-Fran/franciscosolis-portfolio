@@ -1,28 +1,22 @@
-import type {ReactNode} from "react";
 import {useState} from "react";
+import type {ReactNode} from "react";
 import {useTranslation} from "react-i18next";
-import {Link, NavLink} from "react-router-dom";
-import {GlobeSimple, SignOut} from "@phosphor-icons/react";
+import {Link} from "react-router-dom";
+import {ArrowSquareOut, GlobeSimple, SignOut} from "@phosphor-icons/react";
 import {BrandLockup} from "@/components/brand";
 import {Avatar} from "@/components/ui/avatar.tsx";
+import {Badge} from "@/components/ui/badge/badge.tsx";
 import {Button} from "@/components/ui/button/button.tsx";
 import {Spinner} from "@/components/ui/spinner.tsx";
 import {useLanguageToggle} from "@/hooks/useLanguageToggle.ts";
 import {useAuth} from "@/lib/auth/auth-context.ts";
-import {ACCOUNT_ROUTE, ADMIN_ROUTE} from "@/lib/auth/config.ts";
-import {cn} from "@/lib/utils.ts";
+import {CMS_ROUTE} from "@/lib/cms/config.ts";
 
-const navLinkClass = ({isActive}: {isActive: boolean}) =>
-  cn(
-    "rounded-[var(--radius-md)] px-3 py-2 text-sm transition-colors",
-    isActive ? "bg-accent-900/50 text-accent-200" : "text-neutral-400 hover:bg-neutral-800/50 hover:text-text",
-  );
-
-/** Header, navigation and page frame shared by the account and admin screens. */
-export const AuthShell = ({title, children}: {title: string; children: ReactNode}) => {
+/** Header and page frame shared by every signed-in CMS screen. */
+export const CmsShell = ({title, children}: {title: string; children: ReactNode}) => {
   const {t} = useTranslation();
   const {language, toggleLanguage} = useLanguageToggle();
-  const {me, signOut, canAdminister} = useAuth();
+  const {me, signOut} = useAuth();
   const [signingOut, setSigningOut] = useState(false);
 
   const user = me?.user;
@@ -31,22 +25,19 @@ export const AuthShell = ({title, children}: {title: string; children: ReactNode
     <div className="flex flex-1 flex-col">
       <header className="border-b border-neutral-800">
         <div className="container mx-auto flex flex-wrap items-center gap-4 px-4 py-4">
-          <Link to="/" aria-label="FranciscoSolis" data-fs-hover>
+          <Link to={CMS_ROUTE} className="flex items-center gap-2.5" aria-label={title} data-fs-hover>
             <BrandLockup size={28} tone="dark"/>
+            <Badge variant="accent" size="sm">{t("cms:app_name")}</Badge>
           </Link>
 
-          <nav className="flex items-center gap-1" aria-label={title}>
-            <NavLink to={ACCOUNT_ROUTE} className={navLinkClass} data-fs-hover>
-              {t("auth:nav.account")}
-            </NavLink>
-            {canAdminister && (
-              <NavLink to={ADMIN_ROUTE} className={navLinkClass} data-fs-hover>
-                {t("auth:nav.admin")}
-              </NavLink>
-            )}
-          </nav>
-
           <div className="ml-auto flex items-center gap-2">
+            <Button variant="ghost" size="sm" asChild data-fs-hover>
+              <Link to="/">
+                <ArrowSquareOut size={16}/>
+                <span className="hidden sm:inline">{t("cms:nav.site")}</span>
+              </Link>
+            </Button>
+
             <Button variant="ghost" size="sm" onClick={toggleLanguage} data-fs-hover>
               <GlobeSimple size={16}/> {language === "es" ? "EN" : "ES"}
             </Button>
@@ -69,7 +60,7 @@ export const AuthShell = ({title, children}: {title: string; children: ReactNode
               data-fs-hover
             >
               {signingOut ? <Spinner size={14}/> : <SignOut size={16}/>}
-              <span className="hidden sm:inline">{t("auth:nav.sign_out")}</span>
+              <span className="hidden sm:inline">{t("cms:nav.sign_out")}</span>
             </Button>
           </div>
         </div>

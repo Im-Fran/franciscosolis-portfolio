@@ -26,6 +26,17 @@ This SPA is a **public OAuth 2.0 client**: it holds no secret and authenticates 
 The service answers `POST /magic-link` with `202` whether or not the address exists, so the sign-in
 screen cannot be used to discover which addresses have an account. Sign-up is invitation-only.
 
+## One stack, several applications
+
+Every application on this origin is its own OAuth client. `createAuthClient(config)` builds one
+application's whole stack — its session, its view of the API and its sign-in flow — and
+`<AuthProvider client={…}>` puts it in front of a set of routes, so `useAuth()` resolves to whichever
+application the subtree belongs to. The site's own client is the default; the CMS nests its own over
+`/apps/cms` (see [CMS.md](./CMS.md)).
+
+A client's `storageNamespace` is what keeps the sessions apart: tokens minted for different
+applications carry different roles, and signing out of one must not touch the other.
+
 ## Token handling
 
 `src/lib/auth/session.ts` owns the token lifecycle outside React, which matters for three reasons:
@@ -53,6 +64,8 @@ another issuer or register under its own client id without a code change:
 | `VITE_AUTH_BASE_URL`   | `https://api.franciscosolis.cl/auth` |
 | `VITE_AUTH_CLIENT_ID`  | `franciscosolis-web`                 |
 
+Each application registers separately; the CMS's own entry is documented in [CMS.md](./CMS.md).
+
 The application has to exist on the auth service with this site's callback among its redirect URIs —
 `https://franciscosolis.cl/auth/callback` in production, `http://localhost:5173/auth/callback` for
 local work. Register it from **Admin → Applications** (leave *Confidential* off; a browser client
@@ -67,17 +80,22 @@ explicit no-access state when the API answers `403`.
 
 ## Layout of the code
 
+Everything below is per-application: each module exports a factory, plus the instance the site's own
+`/auth` screens use.
+
 ```
 src/lib/auth/
-  config.ts         env-backed endpoints, routes and the return_to guard
+  config.ts         an application's client id, routes and storage namespace; the return_to guard
   types.ts          the API's shapes; admin lists only guarantee a few keys, so extras are optional
   pkce.ts           verifier, challenge and state
-  storage.ts        token and pending-transaction persistence
+  storage.ts        token and pending-transaction persistence, namespaced per application
   session.ts        token lifecycle, rotation and cross-tab sync (no React)
   client.ts         fetch wrapper: envelope unwrapping, 401-refresh-retry, typed errors
   api.ts            one function per endpoint
   flow.ts           the sign-in flows end to end
+  auth-client.ts    composes the above into one application's client
   auth-provider.tsx restores the session and keeps context in step with the token store
   useResource.ts    load-one-resource hook with abort, retry and 403 reporting
-src/pages/auth/     the screens, split out of the main bundle and fetched on demand
+src/components/auth/ the sign-in and callback panels, shared by every application on this site
+src/pages/auth/      the screens, split out of the main bundle and fetched on demand
 ```

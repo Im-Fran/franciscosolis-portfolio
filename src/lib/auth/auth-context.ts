@@ -1,9 +1,12 @@
 import {createContext, useContext} from "react";
+import type {AuthClient} from "@/lib/auth/auth-client.ts";
 import type {MeResponse} from "@/lib/auth/types.ts";
 
 export type AuthStatus = "loading" | "authenticated" | "anonymous";
 
 export type AuthContextValue = {
+  /** The application this subtree signs in as — the site's own client, or the CMS's. */
+  client: AuthClient;
   status: AuthStatus;
   /** Profile plus the roles and permissions held for this application; null until signed in. */
   me: MeResponse | null;

@@ -7,7 +7,7 @@ import {Input} from "@/components/ui/input.tsx";
 import {authApi} from "@/lib/auth/api.ts";
 import {formatDate} from "@/lib/auth/format.ts";
 import {useResource} from "@/lib/auth/useResource.ts";
-import {Avatar} from "@/pages/auth/components/auth-shell.tsx";
+import {Avatar} from "@/components/ui/avatar.tsx";
 import {Panel, PanelState} from "@/pages/auth/components/panel.tsx";
 import {UserDetail} from "@/pages/auth/admin/user-detail.tsx";
 

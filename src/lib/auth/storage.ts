@@ -1,7 +1,8 @@
 import type {TokenResponse} from "@/lib/auth/types.ts";
 
 /**
- * Persistence for the sign-in flow.
+ * Persistence for the sign-in flow, namespaced per application so the site and the CMS can hold a
+ * session each without treading on one another.
  *
  * Both records live in `localStorage` rather than `sessionStorage` on purpose: a magic link is
  * opened from an email client, which lands in a *new* tab that would not inherit a per-tab store,
@@ -10,9 +11,6 @@ import type {TokenResponse} from "@/lib/auth/types.ts";
  * That also means the refresh token is readable by any script running on this origin — the usual
  * trade-off for a browser-only public client with no back-end of its own to hold it.
  */
-
-export const TOKENS_KEY = "fs.auth.tokens";
-const TRANSACTION_KEY = "fs.auth.transaction";
 
 /** A pending authorization request, kept between starting a sign-in and the callback. */
 export type AuthTransaction = {
@@ -64,11 +62,36 @@ const remove = (key: string) => {
   }
 };
 
-export const readTokens = () => read<StoredTokens>(TOKENS_KEY);
+export type AuthStorage = ReturnType<typeof createAuthStorage>;
 
-export const writeTokens = (tokens: StoredTokens) => write(TOKENS_KEY, tokens);
+/** The token and pending-transaction records of one application. */
+export const createAuthStorage = (namespace: string) => {
+  const tokensKey = `${namespace}.tokens`;
+  const transactionKey = `${namespace}.transaction`;
 
-export const clearTokens = () => remove(TOKENS_KEY);
+  return {
+    /** Exposed so the session store can tell its own `storage` events from another client's. */
+    tokensKey,
+
+    readTokens: () => read<StoredTokens>(tokensKey),
+    writeTokens: (tokens: StoredTokens) => write(tokensKey, tokens),
+    clearTokens: () => remove(tokensKey),
+
+    writeTransaction: (transaction: AuthTransaction) => write(transactionKey, transaction),
+
+    readTransaction: () => {
+      const transaction = read<AuthTransaction>(transactionKey);
+      if (!transaction) return null;
+      if (Date.now() - transaction.created_at > TRANSACTION_TTL_MS) {
+        remove(transactionKey);
+        return null;
+      }
+      return transaction;
+    },
+
+    clearTransaction: () => remove(transactionKey),
+  };
+};
 
 export const toStoredTokens = (response: TokenResponse): StoredTokens => ({
   access_token: response.access_token,
@@ -79,17 +102,3 @@ export const toStoredTokens = (response: TokenResponse): StoredTokens => ({
 });
 
 export const isExpired = (tokens: StoredTokens) => Date.now() >= tokens.expires_at - EXPIRY_SKEW_MS;
-
-export const writeTransaction = (transaction: AuthTransaction) => write(TRANSACTION_KEY, transaction);
-
-export const readTransaction = () => {
-  const transaction = read<AuthTransaction>(TRANSACTION_KEY);
-  if (!transaction) return null;
-  if (Date.now() - transaction.created_at > TRANSACTION_TTL_MS) {
-    remove(TRANSACTION_KEY);
-    return null;
-  }
-  return transaction;
-};
-
-export const clearTransaction = () => remove(TRANSACTION_KEY);

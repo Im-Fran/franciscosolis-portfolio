@@ -10,7 +10,7 @@ import {authApi} from "@/lib/auth/api.ts";
 import {useAuth} from "@/lib/auth/auth-context.ts";
 import {describeError} from "@/lib/auth/useResource.ts";
 import {Panel} from "@/pages/auth/components/panel.tsx";
-import {Avatar} from "@/pages/auth/components/auth-shell.tsx";
+import {Avatar} from "@/components/ui/avatar.tsx";
 import type {ProfileUpdate, User} from "@/lib/auth/types.ts";
 
 const EDITABLE = ["name", "given_name", "family_name", "picture", "locale"] as const;

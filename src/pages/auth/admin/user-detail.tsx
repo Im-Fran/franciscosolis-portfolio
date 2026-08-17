@@ -10,7 +10,7 @@ import {Spinner} from "@/components/ui/spinner.tsx";
 import {authApi} from "@/lib/auth/api.ts";
 import {describeUserAgent, formatDateTime} from "@/lib/auth/format.ts";
 import {describeError, useResource} from "@/lib/auth/useResource.ts";
-import {Avatar} from "@/pages/auth/components/auth-shell.tsx";
+import {Avatar} from "@/components/ui/avatar.tsx";
 import {PanelState} from "@/pages/auth/components/panel.tsx";
 import type {Role} from "@/lib/auth/types.ts";
 

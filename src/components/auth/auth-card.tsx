@@ -9,13 +9,15 @@ import {cn} from "@/lib/utils.ts";
 export type AuthCardProps = {
   title: string;
   subtitle?: ReactNode;
+  /** Small label above the panel, naming the application being signed in to. */
+  eyebrow?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
   className?: string;
 };
 
-/** The single centred panel the sign-in and callback screens are built on. */
-export const AuthCard = ({title, subtitle, children, footer, className}: AuthCardProps) => {
+/** The single centred panel every sign-in and callback screen is built on. */
+export const AuthCard = ({title, subtitle, eyebrow, children, footer, className}: AuthCardProps) => {
   const {language, toggleLanguage} = useLanguageToggle();
 
   return (
@@ -33,9 +35,14 @@ export const AuthCard = ({title, subtitle, children, footer, className}: AuthCar
       </div>
 
       <div className={cn("relative z-10 w-full max-w-md", className)}>
-        <Link to="/" className="mx-auto mb-10 flex w-fit" aria-label="FranciscoSolis" data-fs-hover>
-          <BrandLockup size={34} tone="dark"/>
-        </Link>
+        <div className="mx-auto mb-10 flex w-fit flex-col items-center gap-2">
+          <Link to="/" className="flex" aria-label="FranciscoSolis" data-fs-hover>
+            <BrandLockup size={34} tone="dark"/>
+          </Link>
+          {eyebrow && (
+            <span className="text-[11px] tracking-[0.28em] text-neutral-500 uppercase">{eyebrow}</span>
+          )}
+        </div>
 
         <div className="rounded-[var(--radius-lg)] bg-surface p-7 shadow-[var(--shadow-md)]">
           <h1 className="text-[26px] leading-tight text-text">{title}</h1>

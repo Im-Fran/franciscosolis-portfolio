@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import type { HTMLAttributes, ReactNode } from "react";
 import {RouterProvider} from "react-router-dom";
 import router from "@/router.tsx";
+import {AuthProvider} from "@/lib/auth/auth-provider.tsx";
 import '@/lib/main.css'
 import "@radix-ui/themes/styles.css";
 import i18next from "i18next";
@@ -20,7 +21,7 @@ i18next
   .init({
     lng: 'en',
     fallbackLng: 'en',
-    ns: ['common', 'personal_info', 'projects', 'experience', 'hero', 'nav', 'stack', 'contact', 'legal', 'brand', 'not_found'],
+    ns: ['common', 'personal_info', 'projects', 'experience', 'hero', 'nav', 'stack', 'contact', 'legal', 'brand', 'not_found', 'auth'],
     backend: {
       backends: [I18NextLocalStorageBackend],
       backendOptions: [
@@ -31,4 +32,10 @@ i18next
 
 i18next.loadLanguages(['en', 'es'])
 
-createRoot(document.getElementById('root')!).render(<StrictMode><RouterProvider router={router}/></StrictMode>)
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
+  </StrictMode>,
+)

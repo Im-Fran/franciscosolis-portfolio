@@ -4,6 +4,7 @@ import {Home} from "@/pages/home/home.tsx";
 import {Brand} from "@/pages/brand/brand.tsx";
 import {Legal} from "@/pages/legal/legal.tsx";
 import {NotFound} from "@/pages/not-found/not-found.tsx";
+import {authRoutes} from "@/pages/auth/auth-routes.tsx";
 
 const routes = [
   {
@@ -25,6 +26,8 @@ const routes = [
         path: "legal",
         element: <Legal/>,
       },
+      /* Auth — sign-in, the OAuth callback and the signed-in areas */
+      authRoutes,
       /* 404 */
       {
         path: "*",

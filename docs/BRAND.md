@@ -1,33 +1,16 @@
-# FranciscoSolis — Brand Mark
+# FranciscoSolis — Visual Identity
 
-B2B software for businesses of every size: appointments, quotes, signatures, and change requests. The brand is trusted, precise, and intelligent — enterprise-ready without feeling cold.
+B2B software for businesses of every size: appointments, quotes, signatures, change requests.
+Trusted, precise, intelligent — enterprise-ready without feeling cold.
 
-## Why it looks like this
+The live version of this document is the site's own `/brand` page, which renders every mark from the
+same components the app ships. This file is the written source; keep the two in step.
 
-The mark and choices each carry a meaning tied to what the company does:
+## The mark
 
-**The peak.** An upward triangle with a notch cut from its base — three readings at once: the initial
-A-like apex of a summit (growth, ambition of the businesses you serve), a checkmark-adjacent
-silhouette (approval — quotes signed, appointments confirmed), and a subtle FS ligature reduced to
-pure geometry. Solid fill = certainty; nothing decorative.
-
-**The blue tile.** A rounded square is the most "software" of shapes — an app icon by construction.
-Blue `#2f6bff` is the trust color of B2B, but pushed brighter than corporate navy so it reads
-intelligent and current, not bureaucratic.
-
-**The two-tone wordmark.** "Francisco" in accent blue, "Solis" in ink navy — one name, two words made
-legible without a space or hyphen. The color split does the job punctuation would, which mirrors the
-product philosophy: structure without friction.
-
-**Sora SemiBold.** A geometric sans with slightly humanist curves — precise letterforms
-(enterprise-ready) that avoid the coldness of stricter grotesques (not overly corporate).
-
-**The palette logic.** Ink navy `#0f2440` for authority, one bright accent for action, near-white
-surfaces — the restraint itself signals "we handle serious business documents."
-
-## Primary lockup
-
-Peak mark on a blue tile + two-tone wordmark, set as one name: **FranciscoSolis** (no space, no hyphen).
+An upward peak cut from a rounded tile: a summit (growth), a checkmark echo (approval — quotes
+signed, appointments confirmed), and an F/S ligature reduced to pure geometry. The tile carries the
+brand gradient; the peak is always white.
 
 ![Horizontal lockup](../public/brand/png/fs-lockup-horizontal.png)
 
@@ -35,61 +18,106 @@ On dark surfaces:
 
 ![Horizontal lockup, dark](../public/brand/png/fs-lockup-horizontal-dark.png)
 
-## Stacked variant
+Vertical, for square placements and splash screens:
 
-For square placements and social profiles.
+![Vertical lockup](../public/brand/png/fs-lockup-vertical.png)
 
-![Stacked lockup](../public/brand/png/fs-lockup-stacked.png)
+## Lockups & assets
 
-## Mark
-
-The mark alone is used for avatars, favicons, and app icons. Minimum size 16 px. A monochrome ink version exists for single-color contexts.
-
-![Mark](../public/brand/png/fs-mark.png)
-
-## Color
-
-| Role | Hex |
+| Asset | Use |
 |---|---|
-| Accent blue (tile, "Francisco") | `#2f6bff` |
-| Ink navy ("Solis", mono mark) | `#0f2440` |
-| Dark surface | `#0b1626` |
-| Light surface | `#f7f9fc` |
+| `fs-lockup-horizontal` | Website header, docs, email signatures (light) |
+| `fs-lockup-horizontal-dark` | Same, on dark surfaces |
+| `fs-lockup-vertical` | Square placements, splash screens (light) |
+| `fs-lockup-vertical-dark` | Same, on dark surfaces |
+| `fs-mark` | App icon, avatar, favicon |
+| `fs-mark-mono-ink` / `-white` | Single-color contexts (print, engraving, watermarks) |
+| `fs-avatar-circle` | Platforms that force circular crops |
+| `favicon-16/32/64/192/512` | Favicon + PWA icon set |
 
-On dark surfaces, "Francisco" lightens to `#4d82ff` and "Solis" is white.
+Formats: SVG (source of truth) in `public/brand/svg/`, PNG 4× (universal) in `public/brand/png/`,
+WEBP (web-optimized) in `public/brand/webp/`. Lockup SVGs require the Sora font installed;
+PNGs/WEBPs have it baked in.
+
+## Color tokens
+
+| Token | Hex | RGB | Use |
+|---|---|---|---|
+| `brand/gradient` | 45°: #5A68C4 → #8A4270 | — | Tile fill, hero surfaces only |
+| `brand/periwinkle-500` | `#5A68C4` | 90 104 196 | Gradient start |
+| `brand/plum-500` | `#8A4270` | 138 66 112 | Gradient end |
+| `brand/iris-500` | `#75549C` | 117 84 156 | Accent: "Francisco", buttons, links |
+| `brand/iris-300` | `#B298D6` | 178 152 214 | Accent on dark surfaces |
+| `brand/iris-050` | `#F4F1F9` | 244 241 249 | Tinted light surfaces |
+| `neutral/ink` | `#1E1E1E` | 30 30 30 | "Solis", body text, dark surfaces |
+| `neutral/paper` | `#FAFAFA` | 250 250 250 | Light backgrounds |
+
+The gradient always runs periwinkle (bottom-left) → plum (top-right), 45°. Never reverse or
+re-angle it.
+
+In the app these live in `src/lib/main.css` as `--color-brand-*` and `--gradient-brand`. The product
+UI's accent ramp (`--color-accent-*`) is the same iris family: `accent-100` is iris-050, `accent-400`
+is iris-300, `accent-600` is iris-500.
+
+## Contrast guide (WCAG)
+
+| Pairing | Ratio | Level |
+|---|---|---|
+| ink on paper | 16.0:1 | AAA |
+| iris-500 on paper | 5.7:1 | AA |
+| white on iris-500 | 6.0:1 | AA |
+| white on plum-500 | 6.8:1 | AA |
+| white on periwinkle-500 | 5.0:1 | AA |
+| white on gradient (worst stop) | 5.0:1 | AA |
+| iris-300 on ink | 6.6:1 | AA |
+| iris-500 on ink | 2.8:1 | ✕ FAIL — use iris-300 on dark |
+
+## Spacing guide
+
+Screen values at 96 dpi. (1 px = 0.2646 mm = 264.6 µm)
+
+| Rule | px | mm | µm |
+|---|---|---|---|
+| Clear space, all sides (½ mark height @ 64 px) | 32 | 8.47 | 8,467 |
+| Tile → wordmark gap (0.28 × mark height @ 64 px) | 18 | 4.76 | 4,763 |
+| Minimum mark size | 16 | 4.23 | 4,233 |
+| Minimum horizontal lockup height | 24 | 6.35 | 6,350 |
+| Minimum vertical lockup width | 120 | 31.75 | 31,750 |
+
+Clear space and the tile gap scale proportionally with the mark.
 
 ## Typography
 
-Wordmark: **Sora SemiBold (600)**, letter-spacing −2%. Sora is used for the wordmark only; it does not need to be the product UI font.
+Wordmark: **Sora SemiBold (600)**, letter-spacing −2%. One name, two words, no space, no hyphen:
+**FranciscoSolis**. "Francisco" takes the accent (iris-500 / iris-300); "Solis" takes ink / paper.
+Sora is the wordmark face only — the product UI runs on Inter.
 
-## Clear space
+## Do
 
-Keep clear space equal to **half the mark's height** on all sides of any lockup.
+- Keep the peak white on the tile — always
+- Accent one word only: Francisco
+- Use mono marks in single-color contexts
+- Hold clear space: ½ mark height, all sides
+- Use supplied files — never retype or redraw
 
-## Don'ts
+## Don't
 
-- Don't stretch or squash the mark
-- Don't recolor the tile
-- Don't rotate the mark
-- Don't place on low-contrast backgrounds
-- Don't separate the words or change the casing
+- Stretch, squash, or rotate the mark
+- Recolor the tile or substitute flat fills for the gradient
+- Reverse or re-angle the gradient
+- Apply the gradient to the wordmark text
+- Place the mark on low-contrast backgrounds
+- Add a space, hyphen, or change casing in the name
 
-## Assets
+## Generated icons
 
-Vector sources live in `public/brand/`, raster exports in `public/brand/png/` (4×).
+`public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png`, `public/icon-192.png`,
+`public/icon-512.png` and `public/icon-maskable-512.png` are produced from the mark geometry by
+`scripts/generate-brand-icons.mjs` — it samples the peak and the gradient directly rather than
+depending on a rasterizer. Re-run `pnpm brand:icons` after any change to the mark.
 
-| File | Use |
-|---|---|
-| `fs-lockup-horizontal.svg` / `png/…png` | Website header, docs (light) |
-| `fs-lockup-horizontal-dark.svg` / `png/…png` | Dark surfaces |
-| `fs-lockup-stacked.svg` / `png/…png` | Square placements, social |
-| `fs-mark.svg` / `png/…png` | Avatar, favicon, app icon |
-| `fs-mark-mono.svg` / `png/…png` | Single-color / print |
-
-Generated icons — `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png`,
-`public/icon-192.png`, `public/icon-512.png`, `public/icon-maskable-512.png` — are rasterized from
-the mark geometry by `scripts/generate-brand-icons.mjs`. Re-run `pnpm brand:icons` after any change
-to the mark.
+The `favicon-*.png` files under `public/brand/png/` are the handoff set from the brand package and
+are not touched by that script.
 
 ## Using the brand in this site
 
@@ -99,18 +127,20 @@ installed the lockup silently falls back to a system sans and the wordmark loses
 metrics. The SVG lockups are for handoff (design tools, docs, third parties), not for the app shell.
 
 In the app, use the React components in `src/components/brand/` instead. They compose the tile mark
-as inline SVG with the wordmark as real text in the webfont-loaded Sora, so the lockup is selectable,
-scales crisply, and stays a single accessible name for screen readers:
+as inline SVG — gradient included — with the wordmark as real text in the webfont-loaded Sora, so
+the lockup is selectable, scales crisply, and stays a single accessible name for screen readers:
 
 ```tsx
 import {BrandLockup, BrandMark} from "@/components/brand";
 
 <BrandLockup tone="dark" />              {/* header lockup on the dark surface */}
-<BrandLockup variant="stacked" />        {/* square placements */}
+<BrandLockup variant="vertical" />       {/* square placements */}
 <BrandMark size={24} />                  {/* mark alone */}
-<BrandMark mono size={24} />             {/* single-color ink mark */}
+<BrandMark mono="ink" size={24} />       {/* single-color mark: "ink" or "white" */}
+<BrandMark circle size={48} />           {/* avatar for forced circular crops */}
 ```
 
-Both clamp the mark up to its 16 px minimum. Clear space is opt-in via `clearSpace`, because most
-placements already sit inside a container whose padding meets or exceeds half the mark's height —
-the header is one such case, and adding the padding there would double the gap.
+Both clamp up to the minimum sizes in the spacing guide: 16 px for the mark, 24 px of height for the
+horizontal lockup, 120 px of width for the vertical one. Clear space is opt-in via `clearSpace`,
+because most placements already sit inside a container whose padding meets or exceeds half the
+mark's height — the header is one such case, and adding the padding there would double the gap.

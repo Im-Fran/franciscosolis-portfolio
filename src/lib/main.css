@@ -1,49 +1,64 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #161826;
-  --color-surface: #232532;
-  --color-text: #e9e9ed;
-  --color-accent: #9184d9;
+  /* Product surfaces. The dark surface is neutral/ink; the text is neutral/paper. */
+  --color-bg: #1e1e1e;
+  --color-surface: #2a2730;
+  --color-text: #fafafa;
+  --color-accent: #b298d6;
 
-  --color-neutral-100: #f3f5fe;
-  --color-neutral-200: #e4e7f5;
-  --color-neutral-300: #cfd3e5;
-  --color-neutral-400: #b2b6ca;
-  --color-neutral-500: #9397ab;
-  --color-neutral-600: #75798c;
-  --color-neutral-700: #595d6c;
-  --color-neutral-800: #3f424d;
-  --color-neutral-900: #292b31;
+  /* Neutrals, warmed toward the iris hue so they sit with the brand rather than beside it. */
+  --color-neutral-100: #f6f4f8;
+  --color-neutral-200: #e8e4ee;
+  --color-neutral-300: #cfc9d8;
+  --color-neutral-400: #b0a9bd;
+  --color-neutral-500: #8a8494;
+  --color-neutral-600: #6d6779;
+  --color-neutral-700: #524d5c;
+  --color-neutral-800: #3a3642;
+  --color-neutral-900: #26232c;
 
-  --color-accent-100: #f5f4ff;
-  --color-accent-200: #e7e5fe;
-  --color-accent-300: #d2cefd;
-  --color-accent-400: #b5abfc;
-  --color-accent-500: #968ae0;
-  --color-accent-600: #796cbf;
-  --color-accent-700: #5d5294;
-  --color-accent-800: #423a6a;
-  --color-accent-900: #2b2741;
+  /* The UI accent ramp is the brand iris family: 100 = iris-050, 400 = iris-300, 600 = iris-500. */
+  --color-accent-100: #f4f1f9;
+  --color-accent-200: #e7dff3;
+  --color-accent-300: #d3c4e7;
+  --color-accent-400: #b298d6;
+  --color-accent-500: #9679bc;
+  --color-accent-600: #75549c;
+  --color-accent-700: #5c4179;
+  --color-accent-800: #422f57;
+  --color-accent-900: #2a1e37;
 
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 14px;
 
-  --shadow-sm: 0 0 0 1px #3f424d;
-  --shadow-md: 0 0 0 1px #595d6c, 0 6px 18px rgba(0, 0, 0, .55);
-  --shadow-lg: 0 0 0 1px #9397ab, 0 16px 40px rgba(0, 0, 0, .65);
+  --shadow-sm: 0 0 0 1px #3a3642;
+  --shadow-md: 0 0 0 1px #524d5c, 0 6px 18px rgba(0, 0, 0, .55);
+  --shadow-lg: 0 0 0 1px #8a8494, 0 16px 40px rgba(0, 0, 0, .65);
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   /* Wordmark only — see docs/BRAND.md. Not a UI font. */
   --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
 
-  /* FranciscoSolis brand mark palette — fixed values, never themed. */
-  --color-brand: #2f6bff;
-  --color-brand-on-dark: #4d82ff;
-  --color-brand-ink: #0f2440;
-  --color-brand-surface-dark: #0b1626;
-  --color-brand-surface-light: #f7f9fc;
+  /*
+   * FranciscoSolis brand tokens — fixed values, never themed. See docs/BRAND.md.
+   * iris-500 fails contrast on ink (2.8:1), so dark surfaces take iris-300 instead.
+   */
+  --color-brand-periwinkle-500: #5a68c4;
+  --color-brand-plum-500: #8a4270;
+  --color-brand-iris-500: #75549c;
+  --color-brand-iris-300: #b298d6;
+  --color-brand-iris-050: #f4f1f9;
+  --color-brand-ink: #1e1e1e;
+  --color-brand-paper: #fafafa;
+
+  /* Accent aliases, by surface: light surfaces take iris-500, dark surfaces iris-300. */
+  --color-brand: var(--color-brand-iris-500);
+  --color-brand-on-dark: var(--color-brand-iris-300);
+
+  /* Tile fill and hero surfaces only — never the wordmark, never reversed or re-angled. */
+  --gradient-brand: linear-gradient(45deg, #5a68c4, #8a4270);
 }
 
 /* Text Size (kept for legacy re-activation, not user-visible right now) */
@@ -112,11 +127,11 @@ body.fs-cursor-active * {
   --fs-shine: 0;
   /* The trailing edge (left, in the drop's own rotated frame) pulls into a tail as it travels. */
   border-radius: var(--fs-drop-tail) 50% 50% var(--fs-drop-tail) / 50% 50% 50% 50%;
-  border: 1px solid rgba(210, 206, 253, calc(.45 + var(--fs-glass) * .2));
+  border: 1px solid rgba(216, 200, 238, calc(.45 + var(--fs-glass) * .2));
   background: radial-gradient(circle at 50% 50%,
     transparent 45%,
     rgba(255, 255, 255, calc(.03 + var(--fs-glass) * .02)) 80%,
-    rgba(145, 132, 217, calc(.10 + var(--fs-glass) * .04)) 100%);
+    rgba(178, 152, 214, calc(.10 + var(--fs-glass) * .04)) 100%);
   -webkit-backdrop-filter:
     blur(calc(1px + var(--fs-glass) * 5px))
     saturate(calc(140% + var(--fs-glass) * 25%))
@@ -127,8 +142,8 @@ body.fs-cursor-active * {
     brightness(calc(1.12 - var(--fs-glass) * .26));
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, .45),
-    inset 0 0 0 1px rgba(22, 24, 38, calc(var(--fs-glass) * .5)),
-    inset 0 0 10px rgba(145, 132, 217, calc(.08 + var(--fs-glass) * .08)),
+    inset 0 0 0 1px rgba(30, 30, 30, calc(var(--fs-glass) * .5)),
+    inset 0 0 10px rgba(178, 152, 214, calc(.08 + var(--fs-glass) * .08)),
     0 6px 16px rgba(0, 0, 0, calc(.22 + var(--fs-glass) * .28));
   will-change: transform;
 }
@@ -171,8 +186,8 @@ body.fs-cursor-active * {
 /* Light bending at the rim, where a drop of water distorts the most. */
 .fs-lens-refraction {
   background:
-    radial-gradient(circle at 50% 50%, transparent 58%, rgba(255, 255, 255, .06) 74%, rgba(210, 206, 253, .22) 88%, rgba(255, 255, 255, .42) 96%, transparent 100%),
-    radial-gradient(circle at 50% 50%, transparent 76%, rgba(145, 132, 217, .30) 93%, transparent 100%);
+    radial-gradient(circle at 50% 50%, transparent 58%, rgba(255, 255, 255, .06) 74%, rgba(216, 200, 238, .22) 88%, rgba(255, 255, 255, .42) 96%, transparent 100%),
+    radial-gradient(circle at 50% 50%, transparent 76%, rgba(178, 152, 214, .30) 93%, transparent 100%);
   mix-blend-mode: screen;
 }
 
@@ -184,7 +199,7 @@ body.fs-cursor-active * {
     rgba(255, 255, 255, .34) 26deg,
     transparent 62deg,
     transparent 180deg,
-    rgba(210, 206, 253, .24) 214deg,
+    rgba(216, 200, 238, .24) 214deg,
     transparent 250deg);
   -webkit-mask: radial-gradient(circle, transparent 58%, #000 78%, #000 100%);
   mask: radial-gradient(circle, transparent 58%, #000 78%, #000 100%);
@@ -195,7 +210,7 @@ body.fs-cursor-active * {
 .fs-lens-glare {
   background:
     radial-gradient(22% 16% at 28% 17%, rgba(255, 255, 255, calc(.35 + var(--fs-glass) * .2)), transparent 100%),
-    radial-gradient(14% 10% at 72% 84%, rgba(210, 206, 253, calc(.18 + var(--fs-glass) * .12)), transparent 100%);
+    radial-gradient(14% 10% at 72% 84%, rgba(216, 200, 238, calc(.18 + var(--fs-glass) * .12)), transparent 100%);
 }
 
 @keyframes fs-lens-spin {

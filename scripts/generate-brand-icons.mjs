@@ -4,19 +4,21 @@
  *
  * The mark is two shapes on a 64×64 grid, so rendering it exactly is cheaper than pulling in a
  * rasterizer: this samples the geometry directly and writes PNGs with zlib. Re-run via
- * `pnpm brand:icons` whenever public/brand/fs-mark.svg changes.
+ * `pnpm brand:icons` whenever public/brand/svg/fs-mark.svg changes.
  */
 import {deflateSync} from "node:zlib";
-import {mkdirSync, writeFileSync} from "node:fs";
+import {mkdirSync, readFileSync, writeFileSync} from "node:fs";
 import {dirname, join} from "node:path";
 import {fileURLToPath} from "node:url";
 
 const OUT_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 
-/* Geometry, on the 64×64 grid used by public/brand/fs-mark.svg. */
+/* Geometry, on the 64×64 grid used by public/brand/svg/fs-mark.svg. */
 const GRID = 64;
 const TILE_RADIUS = 14;
-const BRAND_BLUE = [0x2f, 0x6b, 0xff];
+/* The tile carries the brand gradient: periwinkle at bottom-left → plum at top-right, 45°. */
+const PERIWINKLE = [0x5a, 0x68, 0xc4];
+const PLUM = [0x8a, 0x42, 0x70];
 const PEAK = [[32, 14], [50, 50], [37.5, 50], [32, 39], [26.5, 50], [14, 50]];
 /** Samples per axis, per pixel. 4×4 is enough to keep the peak's diagonals clean at 16 px. */
 const SUPERSAMPLE = 4;
@@ -43,10 +45,21 @@ const insidePolygon = (x, y, points) => {
 };
 
 /**
+ * Samples the brand gradient at a point given in unit coordinates of the tile's own box.
+ *
+ * The SVG runs it from (0, 1) to (1, 0) — bottom-left to top-right, 45° — so the parameter is the
+ * projection onto that axis. Never reverse or re-angle it; see docs/BRAND.md.
+ */
+const gradientAt = (u, v, channel) => {
+  const t = Math.min(Math.max((u - v + 1) / 2, 0), 1);
+  return PERIWINKLE[channel] + (PLUM[channel] - PERIWINKLE[channel]) * t;
+};
+
+/**
  * Renders one icon as raw RGBA.
  *
  * @param size edge length in px
- * @param maskable when true, drops the rounded tile for a full-bleed blue field and shrinks the
+ * @param maskable when true, drops the rounded tile for a full-bleed gradient field and shrinks the
  *   peak into the safe zone, as Android's adaptive icons expect
  */
 const render = (size, maskable) => {
@@ -71,17 +84,20 @@ const render = (size, maskable) => {
         }
       }
 
-      /* The peak is white-on-blue, so composite it over the tile before writing the pixel. */
+      /* The peak is white-on-gradient, so composite it over the tile before writing the pixel. */
       const tileAlpha = maskable ? 1 : tile / samples;
       const peakAlpha = Math.min(peak / samples, tileAlpha);
       const white = peakAlpha;
-      const blue = tileAlpha - peakAlpha;
+      const fill = tileAlpha - peakAlpha;
       const alpha = tileAlpha;
       const at = (py * size + px) * 4;
+      /* The gradient spans the tile, which is the whole canvas in both variants. */
+      const u = (px + 0.5) / size;
+      const v = (py + 0.5) / size;
 
       if (alpha > 0) {
         for (let c = 0; c < 3; c++) {
-          pixels[at + c] = Math.round((white * 255 + blue * BRAND_BLUE[c]) / alpha);
+          pixels[at + c] = Math.round((white * 255 + fill * gradientAt(u, v, c)) / alpha);
         }
       }
       pixels[at + 3] = Math.round(alpha * 255);
@@ -166,6 +182,8 @@ const write = (name, buffer) => {
   written.push(`${name} (${buffer.length} B)`);
 };
 
+/* The vector favicon is the mark itself; emitting it here keeps it in step with the raster set. */
+write("favicon.svg", Buffer.from(readFileSync(join(OUT_DIR, "brand", "svg", "fs-mark.svg"))));
 write("apple-touch-icon.png", png(180));
 write("icon-192.png", png(192));
 write("icon-512.png", png(512));

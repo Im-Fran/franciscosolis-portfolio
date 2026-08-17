@@ -1,23 +1,27 @@
 {
   "kicker": "BRAND",
-  "title": "Brand Mark",
+  "title": "Visual Identity",
   "back": "Back",
-  "intro": "A peak on a blue tile, locked to a two-tone wordmark set as one name. Every mark on this page is rendered live by the same components the site itself ships — not a screenshot — so what you see here is exactly what visitors get.",
+  "intro": "A white peak on a gradient tile, locked to a two-tone wordmark set as one name. Every mark on this page is rendered live by the same components the site itself ships — not a screenshot — so what you see here is exactly what visitors get.",
   "rationale": {
     "title": "Why it looks like this",
-    "lead": "The mark and choices each carry a meaning tied to what the company does.",
+    "lead": "B2B software for businesses of every size: appointments, quotes, signatures, change requests. Trusted, precise, intelligent — enterprise-ready without feeling cold. Every decision carries a meaning tied to that.",
     "items": [
       {
         "term": "The peak",
-        "body": "An upward triangle with a notch cut from its base — three readings at once: the initial A-like apex of a summit (growth, ambition of the businesses you serve), a checkmark-adjacent silhouette (approval — quotes signed, appointments confirmed), and a subtle FS ligature reduced to pure geometry. Solid fill = certainty; nothing decorative."
+        "body": "An upward triangle with a notch cut from its base — three readings at once: the apex of a summit (growth, the ambition of the businesses you serve), a checkmark-adjacent silhouette (approval — quotes signed, appointments confirmed), and an F/S ligature reduced to pure geometry. Solid fill = certainty; nothing decorative."
       },
       {
-        "term": "The blue tile",
-        "body": "A rounded square is the most \"software\" of shapes — an app icon by construction. Blue #2f6bff is the trust color of B2B, but pushed brighter than corporate navy so it reads intelligent and current, not bureaucratic."
+        "term": "The tile",
+        "body": "A rounded square is the most \"software\" of shapes — an app icon by construction. It carries the brand gradient, and the peak cut from it stays white at every size: the one contrast pairing that never has to be checked."
+      },
+      {
+        "term": "The gradient",
+        "body": "Periwinkle #5A68C4 into plum #8A4270, at 45°, always running bottom-left to top-right. Two colors instead of one corporate flat fill — movement and range, without giving up the discipline of a fixed axis."
       },
       {
         "term": "The two-tone wordmark",
-        "body": "\"Francisco\" in accent blue, \"Solis\" in ink navy — one name, two words made legible without a space or hyphen. The color split does the job punctuation would, which mirrors the product philosophy: structure without friction."
+        "body": "\"Francisco\" in iris, \"Solis\" in ink — one name, two words made legible without a space or hyphen. The color split does the job punctuation would, which mirrors the product philosophy: structure without friction."
       },
       {
         "term": "Sora SemiBold",
@@ -25,44 +29,81 @@
       },
       {
         "term": "The palette logic",
-        "body": "Ink navy #0f2440 for authority, one bright accent for action, near-white surfaces — the restraint itself signals \"we handle serious business documents.\""
+        "body": "Ink #1E1E1E for authority, one accent for action, near-white surfaces — the restraint itself signals \"we handle serious business documents.\""
       }
     ]
   },
   "lockup": {
-    "title": "Primary lockup",
-    "body": "The mark and the wordmark travel together. FranciscoSolis is one name: no space, no hyphen, and no line break between the words.",
+    "title": "Horizontal lockup",
+    "body": "The mark and the wordmark travel together. FranciscoSolis is one name: no space, no hyphen, and no line break between the words. Use it for the website header, docs, and email signatures.",
     "on_dark": "On dark surfaces",
     "on_light": "On light surfaces",
-    "note": "On dark surfaces \"Francisco\" lightens to #4d82ff and \"Solis\" goes white. Everywhere else it stays #2f6bff over ink navy."
+    "note": "On dark surfaces \"Francisco\" lightens to iris-300 and \"Solis\" goes paper. Everywhere else it stays iris-500 over ink — iris-500 on ink only reaches 2.8:1, so it never appears there."
   },
-  "stacked": {
-    "title": "Stacked variant",
-    "body": "For square placements and social profiles, where the horizontal lockup would have to set too small to stay legible."
+  "vertical": {
+    "title": "Vertical lockup",
+    "body": "For square placements and splash screens, where the horizontal lockup would have to set too small to stay legible."
   },
   "mark": {
     "title": "The mark alone",
-    "body": "Used for avatars, favicons, and app icons. It never sets below 16 px — under that the peak's shoulders close up and the tile's radius starts eating the artwork.",
-    "sizes_label": "16, 24, 32 and 64 px",
+    "body": "Used for app icons, avatars, and favicons. It never sets below 16 px — under that the peak's shoulders close up and the tile's radius starts eating the artwork.",
+    "sizes_label": "16, 24, 32, 64 px and the circle avatar",
+    "circle_label": "circle",
     "mono_title": "Monochrome",
-    "mono_body": "For single-color and print contexts. Reach for this instead of recoloring the tile."
+    "mono_body": "For single-color contexts — print, engraving, watermarks. Reach for these instead of recoloring the tile or flattening the gradient.",
+    "mono_ink_label": "Ink, on light",
+    "mono_white_label": "White, on dark"
   },
   "color": {
-    "title": "Color",
-    "body": "The palette is fixed. Click any value to copy it.",
+    "title": "Color tokens",
+    "body": "The palette is fixed. Click any token to copy its value.",
     "copy": "Copy {{hex}}",
     "copied": "Copied",
-    "roles": {
-      "accent": "Accent blue — tile and \"Francisco\"",
-      "on_dark": "Accent on dark — \"Francisco\" over dark surfaces",
-      "ink": "Ink navy — \"Solis\" and the mono mark",
-      "surface_dark": "Dark surface",
-      "surface_light": "Light surface"
+    "gradient_note": "The gradient always runs periwinkle (bottom-left) → plum (top-right) at 45°. Never reverse or re-angle it, and never apply it to the wordmark text.",
+    "headers": {
+      "token": "Token",
+      "rgb": "RGB",
+      "use": "Use"
+    },
+    "uses": {
+      "brand/gradient": "Tile fill and hero surfaces only",
+      "brand/periwinkle-500": "Gradient start",
+      "brand/plum-500": "Gradient end",
+      "brand/iris-500": "Accent: \"Francisco\", buttons, links",
+      "brand/iris-300": "Accent on dark surfaces",
+      "brand/iris-050": "Tinted light surfaces",
+      "neutral/ink": "\"Solis\", body text, dark surfaces",
+      "neutral/paper": "Light backgrounds"
+    }
+  },
+  "contrast": {
+    "title": "Contrast guide",
+    "body": "Measured against WCAG 2.1 for normal text. Anything not listed here has not been cleared.",
+    "on": "on",
+    "fail": "FAIL — use iris-300 on dark",
+    "headers": {
+      "pairing": "Pairing",
+      "ratio": "Ratio",
+      "level": "Level"
+    }
+  },
+  "spacing": {
+    "title": "Spacing guide",
+    "body": "Screen values at 96 dpi, where 1 px = 0.2646 mm. Clear space and the tile gap scale proportionally with the mark.",
+    "headers": {
+      "rule": "Rule"
+    },
+    "rules": {
+      "clear_space": "Clear space, all sides (½ mark height @ 64 px)",
+      "tile_gap": "Tile → wordmark gap (0.28 × mark height @ 64 px)",
+      "min_mark": "Minimum mark size",
+      "min_horizontal": "Minimum horizontal lockup height",
+      "min_vertical": "Minimum vertical lockup width"
     }
   },
   "type": {
     "title": "Typography",
-    "body": "The wordmark is Sora SemiBold (600) at −2% letter-spacing. Sora is reserved for the wordmark — the product UI runs on Inter and does not need to match.",
+    "body": "The wordmark is Sora SemiBold (600) at −2% letter-spacing. Sora is the wordmark face only — the product UI runs on Inter and does not need to match.",
     "specimen_caption": "Sora SemiBold 600, −2% letter-spacing"
   },
   "clear_space": {
@@ -70,14 +111,25 @@
     "body": "Keep clear space equal to half the mark's height on every side of any lockup. Where a container's own padding already meets that — as the site header's does — don't add it a second time.",
     "label": "half the mark's height"
   },
-  "donts": {
-    "title": "Don'ts",
-    "items": [
-      "Don't stretch or squash the mark",
-      "Don't recolor the tile",
-      "Don't rotate the mark",
-      "Don't place it on low-contrast backgrounds",
-      "Don't separate the words or change the casing"
+  "rules": {
+    "title": "Do and don't",
+    "body": "The short version of everything above.",
+    "do": "Do",
+    "dont": "Don't",
+    "do_items": [
+      "Keep the peak white on the tile — always",
+      "Accent one word only: Francisco",
+      "Use the mono marks in single-color contexts",
+      "Hold clear space: half the mark's height, all sides",
+      "Use the supplied files — never retype or redraw"
+    ],
+    "dont_items": [
+      "Don't stretch, squash, or rotate the mark",
+      "Don't recolor the tile or substitute a flat fill for the gradient",
+      "Don't reverse or re-angle the gradient",
+      "Don't apply the gradient to the wordmark text",
+      "Don't place the mark on low-contrast backgrounds",
+      "Don't add a space or hyphen, or change the casing of the name"
     ]
   },
   "code": {
@@ -86,15 +138,18 @@
   },
   "assets": {
     "title": "Assets",
-    "body": "Vector sources, plus raster exports at 4×. Use these for handoff — design tools, documents, and third parties.",
-    "download_svg": "SVG",
-    "download_png": "PNG",
+    "body": "SVG is the source of truth, PNG ships at 4× for universal use, WEBP is the web-optimized export. Use these for handoff — design tools, documents, and third parties.",
+    "note": "Lockup SVGs require Sora to be installed on the machine rendering them; the PNG and WEBP exports have the type baked in.",
     "uses": {
-      "horizontal": "Website header and docs, on light surfaces",
-      "horizontal_dark": "Dark surfaces",
-      "stacked": "Square placements and social profiles",
-      "mark": "Avatar, favicon, app icon",
-      "mark_mono": "Single-color and print"
+      "horizontal": "Website header, docs, email signatures (light)",
+      "horizontal_dark": "Same, on dark surfaces",
+      "vertical": "Square placements, splash screens (light)",
+      "vertical_dark": "Same, on dark surfaces",
+      "mark": "App icon, avatar, favicon",
+      "mark_mono_ink": "Single-color contexts on light",
+      "mark_mono_white": "Single-color contexts on dark",
+      "avatar": "Platforms that force circular crops",
+      "favicons": "Favicon and PWA icon set, in px"
     }
   }
 }

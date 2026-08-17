@@ -32,7 +32,7 @@ export const AuthShell = ({title, children}: {title: string; children: ReactNode
       <header className="border-b border-neutral-800">
         <div className="container mx-auto flex flex-wrap items-center gap-4 px-4 py-4">
           <Link to="/" aria-label="FranciscoSolis" data-fs-hover>
-            <BrandLockup size={28} tone="dark"/>
+            <BrandLockup size={28} tone="auto"/>
           </Link>
 
           <nav className="flex items-center gap-1" aria-label={title}>

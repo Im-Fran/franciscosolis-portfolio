@@ -20,7 +20,7 @@ export const Nav = () => {
       <nav className="container mx-auto flex items-center justify-between px-4 py-4">
         {/* The header's own px-4/py-4 already exceeds the brand's clear space at this mark size. */}
         <a href="#home" className="inline-flex items-center" data-fs-hover>
-          <BrandLockup size={26} tone="dark"/>
+          <BrandLockup size={26} tone="auto"/>
         </a>
         <div className="flex items-center gap-6">
           {links.map((link) => (
@@ -33,7 +33,13 @@ export const Nav = () => {
               {t(link.labelKey)}
             </a>
           ))}
-          <Button variant="ghost" size="sm" onClick={toggleLanguage} data-fs-hover>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleLanguage}
+            data-fs-hover
+            aria-label={t("common:toggle_lang", {lang: language === "es" ? "EN" : "ES"})}
+          >
             {language === "es" ? "EN" : "ES"}
           </Button>
         </div>

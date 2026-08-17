@@ -47,6 +47,9 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 const approachAngle = (current: number, goal: number, ratio: number) =>
   current + (((goal - current + 540) % 360) - 180) * ratio;
 
+/** Controls whose copy would otherwise act like a second, real control in the document. */
+const FORM_CONTROL_SELECTOR = "input, select, textarea, button, a[href], [tabindex]";
+
 const buildClone = (source: HTMLElement) => {
   const clone = source.cloneNode(true) as HTMLElement;
 
@@ -54,6 +57,18 @@ const buildClone = (source: HTMLElement) => {
   clone.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
   clone.setAttribute("aria-hidden", "true");
   clone.classList.add("fs-lens-clone");
+
+  /*
+   * The copy is decoration, but the browser cannot tell: a cloned radio keeps its `name`, joins the
+   * real group and can uncheck the input it was copied from, and every cloned control stays in the
+   * tab order even though it is hidden. Stripping the name and the tab stop leaves only the picture.
+   */
+  const controls = [clone, ...clone.querySelectorAll<HTMLElement>(FORM_CONTROL_SELECTOR)];
+  controls.forEach((node) => {
+    if (!node.matches(FORM_CONTROL_SELECTOR)) return;
+    node.removeAttribute("name");
+    node.setAttribute("tabindex", "-1");
+  });
 
   const computed = getComputedStyle(source);
   INHERITED_PROPS.forEach((prop) => clone.style.setProperty(prop, computed.getPropertyValue(prop)));
@@ -68,14 +83,22 @@ const buildClone = (source: HTMLElement) => {
   return clone;
 };
 
+export type CustomCursorOptions = {
+  /** False hands the pointer back to the OS: nothing is listened to and no layer is promoted. */
+  enabled: boolean;
+  /** Keeps the drop, but without the spring, the stretch or the lean into the direction of travel. */
+  reduceMotion: boolean;
+};
+
 export const useCustomCursor = (
   dotRef: RefObject<HTMLDivElement | null>,
   lensRef: RefObject<HTMLDivElement | null>,
   uprightRef: RefObject<HTMLDivElement | null>,
   glareRef: RefObject<HTMLDivElement | null>,
+  {enabled, reduceMotion}: CustomCursorOptions,
 ) => {
   useLayoutEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (!enabled) return;
     if (!dotRef.current || !lensRef.current) return;
     if (!uprightRef.current || !glareRef.current) return;
 
@@ -83,7 +106,6 @@ export const useCustomCursor = (
     const lens = lensRef.current;
     const upright = uprightRef.current;
     const glare = glareRef.current;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     gsap.set([dot, lens], {xPercent: -50, yPercent: -50, x: -200, y: -200});
     gsap.set(lens, {width: IDLE_SIZE, height: IDLE_SIZE});
@@ -294,5 +316,5 @@ export const useCustomCursor = (
       gsap.killTweensOf([lensState, dot, lens]);
       upright.replaceChildren();
     };
-  }, [dotRef, lensRef, uprightRef, glareRef]);
+  }, [dotRef, lensRef, uprightRef, glareRef, enabled, reduceMotion]);
 };

@@ -93,7 +93,7 @@ export const UserDetail = ({userId, roles, onClose, onChanged}: UserDetailProps)
                           aria-label={t("auth:admin.users.revoke_role", {role: role.name})}
                           disabled={busy !== null}
                           onClick={() => void run(`role-${role.id}`, () => authApi.admin.revokeRole(userId, role.id))}
-                          className="cursor-pointer rounded-full p-0.5 text-accent-300 transition-colors hover:bg-accent-700/60 hover:text-white disabled:opacity-50"
+                          className="cursor-pointer rounded-full p-0.5 text-accent-300 transition-colors hover:bg-accent-700/60 hover:text-accent-100 disabled:opacity-50"
                         >
                           {busy === `role-${role.id}` ? <Spinner size={12}/> : <X size={12}/>}
                         </button>

@@ -23,11 +23,25 @@ const MIN_MARK_SIZE = {
   vertical: 120 / 3.75,
 } as const;
 
+/**
+ * Wordmark colours per tone. `auto` reads the theme-aware aliases, which the accessibility themes
+ * re-point in src/lib/main.css; the two fixed tones stay pinned to the brand values so the brand
+ * page can show both side by side whatever the visitor's theme is.
+ */
+const BRAND_TONE_COLOR = {
+  dark: {name: "--color-brand-on-dark", surname: "--color-brand-paper"},
+  light: {name: "--color-brand", surname: "--color-brand-ink"},
+  auto: {name: "--color-brand-auto", surname: "--color-brand-auto-contrast"},
+} as const;
+
 export type BrandLockupProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
   /** Mark edge length in px; the wordmark scales with it. Clamped up to the variant's minimum. */
   size?: number;
-  /** `dark` is the variant for dark surfaces, where "Francisco" lightens and "Solis" goes paper. */
-  tone?: "light" | "dark";
+  /**
+   * `dark` is the variant for dark surfaces, where "Francisco" lightens and "Solis" goes paper.
+   * `auto` follows the active theme, for the lockups sitting on the product's own surfaces.
+   */
+  tone?: "light" | "dark" | "auto";
   variant?: "horizontal" | "vertical";
   /**
    * Reserve the brand's clear space (half the mark's height) as padding. Leave off where the
@@ -74,10 +88,10 @@ export const BrandLockup = ({
         className="font-display font-semibold leading-none whitespace-nowrap"
         style={{fontSize: `${fontSize}px`, letterSpacing: "-0.02em"}}
       >
-        <span style={{color: tone === "dark" ? "var(--color-brand-on-dark)" : "var(--color-brand)"}}>
+        <span style={{color: `var(${BRAND_TONE_COLOR[tone].name})`}}>
           Francisco
         </span>
-        <span style={{color: tone === "dark" ? "var(--color-brand-paper)" : "var(--color-brand-ink)"}}>
+        <span style={{color: `var(${BRAND_TONE_COLOR[tone].surname})`}}>
           Solis
         </span>
       </span>

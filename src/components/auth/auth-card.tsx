@@ -37,7 +37,7 @@ export const AuthCard = ({title, subtitle, eyebrow, children, footer, className}
       <div className={cn("relative z-10 w-full max-w-md", className)}>
         <div className="mx-auto mb-10 flex w-fit flex-col items-center gap-2">
           <Link to="/" className="flex" aria-label="FranciscoSolis" data-fs-hover>
-            <BrandLockup size={34} tone="dark"/>
+            <BrandLockup size={34} tone="auto"/>
           </Link>
           {eyebrow && (
             <span className="text-[11px] tracking-[0.28em] text-neutral-500 uppercase">{eyebrow}</span>

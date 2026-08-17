@@ -14,7 +14,7 @@ export const ProjectCard = ({category, title, description, longDescription, tech
     <>
       <Card elevation="md" className="reveal-item fs-hoverable w-full flex-1 flex flex-col overflow-hidden p-0">
         <button type="button" data-fs-hover onClick={() => setOpen(true)} className="flex flex-1 flex-col w-full h-full text-left">
-          <div className="h-[260px] w-full shrink-0 bg-neutral-900 flex items-center justify-center text-neutral-700 text-sm">
+          <div className="h-[260px] w-full shrink-0 bg-neutral-900 flex items-center justify-center text-neutral-500 text-sm">
             {media ? <img src={media} alt={title} className="h-full w-full object-cover"/> : "GIF"}
           </div>
           <div className="flex flex-1 flex-col justify-between p-6">
@@ -34,7 +34,7 @@ export const ProjectCard = ({category, title, description, longDescription, tech
       </Card>
 
       <Modal open={open} onClose={() => setOpen(false)} title={title}>
-        <div className="h-[200px] w-full overflow-hidden rounded-[var(--radius-sm)] bg-neutral-900 flex items-center justify-center text-neutral-700 text-sm">
+        <div className="h-[200px] w-full overflow-hidden rounded-[var(--radius-sm)] bg-neutral-900 flex items-center justify-center text-neutral-500 text-sm">
           {media ? <img src={media} alt={title} className="h-full w-full object-cover"/> : "GIF"}
         </div>
         <Badge variant="accent" className="mt-4">{t(`projects:categories.${category}`)}</Badge>

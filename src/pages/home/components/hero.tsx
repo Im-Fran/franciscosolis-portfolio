@@ -4,15 +4,20 @@ import gsap from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
 import {GithubLogoIcon, MouseIcon} from "@phosphor-icons/react";
 import {Button} from "@/components/ui/button/button.tsx";
+import {useA11y} from "@/lib/a11y";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Hero = () => {
   const {t} = useTranslation();
+  const {motion} = useA11y();
   const sectionRef = useRef<HTMLElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    /* Both tweens start from a hidden or offset state, so the opt-out has to be before the setup. */
+    if (motion === "reduced") return;
+
     const ctx = gsap.context(() => {
       const lines = gsap.utils.toArray<HTMLElement>("[data-fs-hero-line]");
       gsap.set(lines, {opacity: 0, y: 40});
@@ -40,7 +45,7 @@ export const Hero = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [motion]);
 
   return (
     <section id="home" ref={sectionRef} className="relative min-h-screen w-full overflow-hidden flex flex-col justify-end">

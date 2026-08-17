@@ -2,16 +2,18 @@ import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 import {MapPin} from "@phosphor-icons/react";
 import {BrandLockup} from "@/components/brand";
+import {AccessibilityLauncher} from "@/components/a11y";
 
 const Footer = () => {
   const {t} = useTranslation();
 
   return (
     <footer className="border-t border-neutral-800 py-6 text-sm text-neutral-500">
-      <div className="container mx-auto px-4 pb-6 mb-6 border-b border-neutral-800 flex justify-center sm:justify-start">
+      <div className="container mx-auto px-4 pb-6 mb-6 border-b border-neutral-800 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
         <Link to="/" aria-label="FranciscoSolis" data-fs-hover>
-          <BrandLockup size={30} tone="dark"/>
+          <BrandLockup size={30} tone="auto"/>
         </Link>
+        <AccessibilityLauncher/>
       </div>
       <div className="container mx-auto px-4 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
         <span className="inline-flex items-center gap-1">

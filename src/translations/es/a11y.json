@@ -1,0 +1,88 @@
+{
+  "namespace": "Accesibilidad",
+  "open": "Accesibilidad",
+  "open_hint": "Abrir el panel de accesibilidad",
+  "title": "Accesibilidad",
+  "description": "Ajusta cómo se ve y se mueve el sitio. Tus preferencias se guardan solo en este navegador.",
+  "reset": "Restablecer todo",
+  "reset_done": "Preferencias de accesibilidad restablecidas",
+  "close": "Cerrar",
+  "shortcut_hint": "Abre la paleta de comandos con {{shortcut}}",
+  "skip_to_content": "Saltar al contenido",
+  "changed": "{{setting}}: {{value}}",
+  "enabled": "Activado",
+  "disabled": "Desactivado",
+  "following_system": "Siguiendo al sistema: {{value}}",
+  "settings": {
+    "theme": {
+      "label": "Tema",
+      "hint": "«Daltonismo» usa una paleta segura para daltónicos y subraya los enlaces.",
+      "options": {
+        "light": "Claro",
+        "dark": "Oscuro",
+        "system": "Sistema",
+        "daltonism": "Daltonismo"
+      }
+    },
+    "fontScale": {
+      "label": "Tamaño de texto",
+      "hint": "Escala todo el sitio, no solo los párrafos.",
+      "options": {
+        "sm": "Pequeño",
+        "md": "Normal",
+        "lg": "Grande",
+        "xl": "Muy grande"
+      }
+    },
+    "motion": {
+      "label": "Animaciones",
+      "hint": "«Sistema» respeta la configuración de movimiento reducido de tu equipo.",
+      "options": {
+        "system": "Sistema",
+        "full": "Completas",
+        "reduced": "Reducidas"
+      }
+    },
+    "cursor": {
+      "label": "Cursor",
+      "hint": "El cursor de gota solo aparece con mouse o trackpad.",
+      "options": {
+        "drop": "Gota líquida",
+        "system": "Del sistema"
+      }
+    },
+    "language": {
+      "label": "Idioma",
+      "hint": "También cambia el atributo lang de la página para los lectores de pantalla.",
+      "options": {
+        "es": "Español",
+        "en": "Inglés"
+      }
+    },
+    "highContrast": {
+      "label": "Alto contraste",
+      "hint": "Refuerza el texto, los bordes y el foco del teclado."
+    },
+    "underlineLinks": {
+      "label": "Subrayar enlaces",
+      "hint": "Para que un enlace nunca dependa solo del color."
+    },
+    "readableSpacing": {
+      "label": "Espaciado de lectura",
+      "hint": "Más interlineado y separación entre letras y palabras."
+    }
+  },
+  "palette": {
+    "title": "Paleta de comandos",
+    "placeholder": "Escribe para buscar un ajuste…",
+    "empty": "Sin resultados para «{{query}}»",
+    "results": "{{count}} comando disponible",
+    "results_other": "{{count}} comandos disponibles",
+    "open_panel": "Abrir el panel completo",
+    "reset_command": "Restablecer todas las preferencias",
+    "navigate": "navegar",
+    "run": "aplicar",
+    "close": "cerrar",
+    "active": "activo"
+  }
+}

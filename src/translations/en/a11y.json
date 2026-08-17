@@ -1,0 +1,88 @@
+{
+  "namespace": "Accessibility",
+  "open": "Accessibility",
+  "open_hint": "Open the accessibility panel",
+  "title": "Accessibility",
+  "description": "Tune how the site looks and moves. Your preferences stay in this browser only.",
+  "reset": "Reset everything",
+  "reset_done": "Accessibility preferences reset",
+  "close": "Close",
+  "shortcut_hint": "Open the command palette with {{shortcut}}",
+  "skip_to_content": "Skip to content",
+  "changed": "{{setting}}: {{value}}",
+  "enabled": "On",
+  "disabled": "Off",
+  "following_system": "Following the system: {{value}}",
+  "settings": {
+    "theme": {
+      "label": "Theme",
+      "hint": "“Colour-blind safe” swaps in a safe palette and underlines every link.",
+      "options": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System",
+        "daltonism": "Colour-blind safe"
+      }
+    },
+    "fontScale": {
+      "label": "Text size",
+      "hint": "Scales the whole site, not just body copy.",
+      "options": {
+        "sm": "Small",
+        "md": "Normal",
+        "lg": "Large",
+        "xl": "Extra large"
+      }
+    },
+    "motion": {
+      "label": "Animations",
+      "hint": "“System” follows your device's reduced-motion setting.",
+      "options": {
+        "system": "System",
+        "full": "Full",
+        "reduced": "Reduced"
+      }
+    },
+    "cursor": {
+      "label": "Cursor",
+      "hint": "The water drop only shows up with a mouse or trackpad.",
+      "options": {
+        "drop": "Liquid drop",
+        "system": "System cursor"
+      }
+    },
+    "language": {
+      "label": "Language",
+      "hint": "Also updates the page's lang attribute for screen readers.",
+      "options": {
+        "es": "Spanish",
+        "en": "English"
+      }
+    },
+    "highContrast": {
+      "label": "High contrast",
+      "hint": "Strengthens text, hairlines and the keyboard focus ring."
+    },
+    "underlineLinks": {
+      "label": "Underline links",
+      "hint": "So a link never depends on colour alone."
+    },
+    "readableSpacing": {
+      "label": "Reading spacing",
+      "hint": "More line height and more room between letters and words."
+    }
+  },
+  "palette": {
+    "title": "Command palette",
+    "placeholder": "Type to search a setting…",
+    "empty": "No results for “{{query}}”",
+    "results": "{{count}} command available",
+    "results_other": "{{count}} commands available",
+    "open_panel": "Open the full panel",
+    "reset_command": "Reset every preference",
+    "navigate": "navigate",
+    "run": "run",
+    "close": "close",
+    "active": "active"
+  }
+}

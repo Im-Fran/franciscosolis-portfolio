@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next";
 import gsap from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
 import {useScrollReveal} from "@/pages/home/hooks/useScrollReveal.ts";
+import {useA11y} from "@/lib/a11y";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,12 +14,15 @@ export const Experience = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+  const {motion} = useA11y();
   useScrollReveal(sectionRef);
 
   const milestones = t("experience:milestones", {returnObjects: true}) as Milestone[];
 
   useLayoutEffect(() => {
     if (!timelineRef.current || !lineRef.current) return;
+    /* The line is drawn from scaleY 0, so reduced motion leaves it drawn rather than scrubbing it. */
+    if (motion === "reduced") return;
 
     const mm = gsap.matchMedia();
     mm.add(
@@ -40,7 +44,7 @@ export const Experience = () => {
     );
 
     return () => mm.revert();
-  }, []);
+  }, [motion]);
 
   return (
     <section id="experience" ref={sectionRef} className="container mx-auto px-4 py-24">

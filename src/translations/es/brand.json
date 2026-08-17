@@ -1,23 +1,27 @@
 {
   "kicker": "MARCA",
-  "title": "Brand Mark",
+  "title": "Identidad Visual",
   "back": "Volver",
-  "intro": "Un pico sobre una teja azul, unido a un wordmark de dos tonos escrito como un solo nombre. Cada marca de esta página se renderiza en vivo con los mismos componentes que usa el sitio — no son capturas — así que lo que ves acá es exactamente lo que ve un visitante.",
+  "intro": "Un pico blanco sobre una teja con degradado, unido a un wordmark de dos tonos escrito como un solo nombre. Cada marca de esta página se renderiza en vivo con los mismos componentes que usa el sitio — no son capturas — así que lo que ves acá es exactamente lo que ve un visitante.",
   "rationale": {
     "title": "Por qué se ve así",
-    "lead": "La marca y cada decisión cargan un significado ligado a lo que hace la empresa.",
+    "lead": "Software B2B para empresas de cualquier tamaño: citas, cotizaciones, firmas, solicitudes de cambio. Confiable, preciso, inteligente — listo para el mundo enterprise sin sentirse frío. Cada decisión carga un significado ligado a eso.",
     "items": [
       {
         "term": "El pico",
-        "body": "Un triángulo ascendente con una muesca recortada en su base — tres lecturas a la vez: la cima de una cumbre con forma de A inicial (crecimiento, la ambición de los negocios a los que sirves), una silueta cercana a un checkmark (aprobación — cotizaciones firmadas, citas confirmadas), y una ligadura FS sutil reducida a geometría pura. Relleno sólido = certeza; nada decorativo."
+        "body": "Un triángulo ascendente con una muesca recortada en su base — tres lecturas a la vez: la cima de una cumbre (crecimiento, la ambición de los negocios a los que sirves), una silueta cercana a un checkmark (aprobación — cotizaciones firmadas, citas confirmadas), y una ligadura F/S reducida a geometría pura. Relleno sólido = certeza; nada decorativo."
       },
       {
-        "term": "La teja azul",
-        "body": "Un cuadrado redondeado es la más \"software\" de las formas — un icono de app por construcción. El azul #2f6bff es el color de confianza del B2B, pero llevado más brillante que el azul marino corporativo para que se lea inteligente y actual, no burocrático."
+        "term": "La teja",
+        "body": "Un cuadrado redondeado es la más \"software\" de las formas — un icono de app por construcción. Lleva el degradado de la marca, y el pico recortado sobre ella se mantiene blanco en cualquier tamaño: el único par de contraste que nunca hay que verificar."
+      },
+      {
+        "term": "El degradado",
+        "body": "Periwinkle #5A68C4 hacia ciruela #8A4270, a 45°, siempre desde abajo-izquierda hacia arriba-derecha. Dos colores en vez de un relleno plano corporativo — movimiento y rango, sin renunciar a la disciplina de un eje fijo."
       },
       {
         "term": "El wordmark de dos tonos",
-        "body": "\"Francisco\" en azul de acento, \"Solis\" en azul tinta — un solo nombre, dos palabras legibles sin espacio ni guion. La división por color hace el trabajo que haría la puntuación, lo que refleja la filosofía del producto: estructura sin fricción."
+        "body": "\"Francisco\" en iris, \"Solis\" en tinta — un solo nombre, dos palabras legibles sin espacio ni guion. La división por color hace el trabajo que haría la puntuación, lo que refleja la filosofía del producto: estructura sin fricción."
       },
       {
         "term": "Sora SemiBold",
@@ -25,44 +29,81 @@
       },
       {
         "term": "La lógica de la paleta",
-        "body": "Azul tinta #0f2440 para la autoridad, un solo acento brillante para la acción, superficies casi blancas — la contención misma dice \"manejamos documentos de negocio serios\"."
+        "body": "Tinta #1E1E1E para la autoridad, un solo acento para la acción, superficies casi blancas — la contención misma dice \"manejamos documentos de negocio serios\"."
       }
     ]
   },
   "lockup": {
-    "title": "Lockup principal",
-    "body": "La marca y el wordmark viajan juntos. FranciscoSolis es un solo nombre: sin espacio, sin guion y sin salto de línea entre las palabras.",
+    "title": "Lockup horizontal",
+    "body": "La marca y el wordmark viajan juntos. FranciscoSolis es un solo nombre: sin espacio, sin guion y sin salto de línea entre las palabras. Úsalo en el header del sitio, documentación y firmas de correo.",
     "on_dark": "Sobre superficies oscuras",
     "on_light": "Sobre superficies claras",
-    "note": "Sobre superficies oscuras \"Francisco\" se aclara a #4d82ff y \"Solis\" pasa a blanco. En el resto se mantiene #2f6bff sobre azul tinta."
+    "note": "Sobre superficies oscuras \"Francisco\" se aclara a iris-300 y \"Solis\" pasa a paper. En el resto se mantiene iris-500 sobre tinta — iris-500 sobre tinta solo alcanza 2.8:1, así que nunca aparece ahí."
   },
-  "stacked": {
-    "title": "Variante apilada",
-    "body": "Para espacios cuadrados y perfiles sociales, donde el lockup horizontal tendría que achicarse demasiado para seguir siendo legible."
+  "vertical": {
+    "title": "Lockup vertical",
+    "body": "Para espacios cuadrados y pantallas de inicio, donde el lockup horizontal tendría que achicarse demasiado para seguir siendo legible."
   },
   "mark": {
     "title": "La marca sola",
-    "body": "Se usa para avatares, favicons e iconos de app. Nunca baja de 16 px — bajo ese tamaño los hombros del pico se cierran y el radio de la teja empieza a comerse el trazo.",
-    "sizes_label": "16, 24, 32 y 64 px",
+    "body": "Se usa para iconos de app, avatares y favicons. Nunca baja de 16 px — bajo ese tamaño los hombros del pico se cierran y el radio de la teja empieza a comerse el trazo.",
+    "sizes_label": "16, 24, 32, 64 px y el avatar circular",
+    "circle_label": "círculo",
     "mono_title": "Monocromo",
-    "mono_body": "Para contextos de un solo color e impresión. Usa esta versión en vez de recolorear la teja."
+    "mono_body": "Para contextos de un solo color — impresión, grabado, marcas de agua. Usa estas versiones en vez de recolorear la teja o aplanar el degradado.",
+    "mono_ink_label": "Tinta, sobre claro",
+    "mono_white_label": "Blanco, sobre oscuro"
   },
   "color": {
-    "title": "Color",
-    "body": "La paleta es fija. Haz clic en cualquier valor para copiarlo.",
+    "title": "Tokens de color",
+    "body": "La paleta es fija. Haz clic en cualquier token para copiar su valor.",
     "copy": "Copiar {{hex}}",
     "copied": "Copiado",
-    "roles": {
-      "accent": "Azul de acento — teja y \"Francisco\"",
-      "on_dark": "Acento sobre oscuro — \"Francisco\" en superficies oscuras",
-      "ink": "Azul tinta — \"Solis\" y la marca mono",
-      "surface_dark": "Superficie oscura",
-      "surface_light": "Superficie clara"
+    "gradient_note": "El degradado siempre va de periwinkle (abajo-izquierda) a ciruela (arriba-derecha) en 45°. Nunca lo inviertas ni le cambies el ángulo, y nunca lo apliques al texto del wordmark.",
+    "headers": {
+      "token": "Token",
+      "rgb": "RGB",
+      "use": "Uso"
+    },
+    "uses": {
+      "brand/gradient": "Relleno de la teja y superficies hero, nada más",
+      "brand/periwinkle-500": "Inicio del degradado",
+      "brand/plum-500": "Fin del degradado",
+      "brand/iris-500": "Acento: \"Francisco\", botones, enlaces",
+      "brand/iris-300": "Acento sobre superficies oscuras",
+      "brand/iris-050": "Superficies claras con tinte",
+      "neutral/ink": "\"Solis\", texto de cuerpo, superficies oscuras",
+      "neutral/paper": "Fondos claros"
+    }
+  },
+  "contrast": {
+    "title": "Guía de contraste",
+    "body": "Medido contra WCAG 2.1 para texto normal. Todo lo que no está en esta tabla no está aprobado.",
+    "on": "sobre",
+    "fail": "FALLA — usa iris-300 sobre oscuro",
+    "headers": {
+      "pairing": "Par",
+      "ratio": "Razón",
+      "level": "Nivel"
+    }
+  },
+  "spacing": {
+    "title": "Guía de espaciado",
+    "body": "Valores de pantalla a 96 dpi, donde 1 px = 0,2646 mm. El espacio libre y el gap de la teja escalan proporcionalmente con la marca.",
+    "headers": {
+      "rule": "Regla"
+    },
+    "rules": {
+      "clear_space": "Espacio libre, todos los lados (½ altura de la marca @ 64 px)",
+      "tile_gap": "Gap teja → wordmark (0,28 × altura de la marca @ 64 px)",
+      "min_mark": "Tamaño mínimo de la marca",
+      "min_horizontal": "Altura mínima del lockup horizontal",
+      "min_vertical": "Ancho mínimo del lockup vertical"
     }
   },
   "type": {
     "title": "Tipografía",
-    "body": "El wordmark es Sora SemiBold (600) con −2% de letter-spacing. Sora está reservada para el wordmark — la UI del producto usa Inter y no necesita coincidir.",
+    "body": "El wordmark es Sora SemiBold (600) con −2% de letter-spacing. Sora es la tipografía del wordmark y nada más — la UI del producto usa Inter y no necesita coincidir.",
     "specimen_caption": "Sora SemiBold 600, −2% de letter-spacing"
   },
   "clear_space": {
@@ -70,14 +111,25 @@
     "body": "Mantén un espacio libre igual a la mitad de la altura de la marca en todos los lados de cualquier lockup. Cuando el padding del contenedor ya lo cumple — como pasa en el header del sitio — no lo agregues de nuevo.",
     "label": "la mitad de la altura de la marca"
   },
-  "donts": {
-    "title": "Qué no hacer",
-    "items": [
-      "No estires ni aplastes la marca",
-      "No recolorees la teja",
-      "No rotes la marca",
-      "No la pongas sobre fondos de bajo contraste",
-      "No separes las palabras ni cambies las mayúsculas"
+  "rules": {
+    "title": "Qué hacer y qué no",
+    "body": "La versión corta de todo lo anterior.",
+    "do": "Sí",
+    "dont": "No",
+    "do_items": [
+      "Mantén el pico blanco sobre la teja — siempre",
+      "Acentúa una sola palabra: Francisco",
+      "Usa las marcas mono en contextos de un solo color",
+      "Respeta el espacio libre: media altura de la marca, en todos los lados",
+      "Usa los archivos entregados — nunca los reescribas ni los redibujes"
+    ],
+    "dont_items": [
+      "No estires, aplastes ni rotes la marca",
+      "No recolorees la teja ni cambies el degradado por un relleno plano",
+      "No inviertas ni cambies el ángulo del degradado",
+      "No apliques el degradado al texto del wordmark",
+      "No pongas la marca sobre fondos de bajo contraste",
+      "No agregues espacio ni guion, ni cambies las mayúsculas del nombre"
     ]
   },
   "code": {
@@ -86,15 +138,18 @@
   },
   "assets": {
     "title": "Recursos",
-    "body": "Fuentes vectoriales, más exportaciones ráster a 4×. Úsalas para handoff — herramientas de diseño, documentos y terceros.",
-    "download_svg": "SVG",
-    "download_png": "PNG",
+    "body": "SVG es la fuente de verdad, PNG viene a 4× para uso universal, y WEBP es la exportación optimizada para web. Úsalos para handoff — herramientas de diseño, documentos y terceros.",
+    "note": "Los SVG de los lockups necesitan Sora instalada en la máquina que los renderiza; las exportaciones PNG y WEBP ya traen la tipografía incrustada.",
     "uses": {
-      "horizontal": "Header del sitio y documentación, sobre superficies claras",
-      "horizontal_dark": "Superficies oscuras",
-      "stacked": "Espacios cuadrados y perfiles sociales",
-      "mark": "Avatar, favicon, icono de app",
-      "mark_mono": "Un solo color e impresión"
+      "horizontal": "Header del sitio, documentación, firmas de correo (claro)",
+      "horizontal_dark": "Lo mismo, sobre superficies oscuras",
+      "vertical": "Espacios cuadrados, pantallas de inicio (claro)",
+      "vertical_dark": "Lo mismo, sobre superficies oscuras",
+      "mark": "Icono de app, avatar, favicon",
+      "mark_mono_ink": "Contextos de un solo color sobre claro",
+      "mark_mono_white": "Contextos de un solo color sobre oscuro",
+      "avatar": "Plataformas que fuerzan recortes circulares",
+      "favicons": "Set de favicon e iconos PWA, en px"
     }
   }
 }

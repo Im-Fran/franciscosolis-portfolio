@@ -4,8 +4,8 @@
   "description": "Francisco Solís — Full Stack & Mobile Developer",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b1626",
-  "theme_color": "#2f6bff",
+  "background_color": "#1e1e1e",
+  "theme_color": "#75549c",
   "icons": [
     { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
     { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },

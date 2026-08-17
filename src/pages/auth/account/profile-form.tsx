@@ -1,0 +1,153 @@
+import {useState} from "react";
+import type {FormEvent} from "react";
+import {useTranslation} from "react-i18next";
+import {FloppyDisk} from "@phosphor-icons/react";
+import {Alert} from "@/components/ui/alert.tsx";
+import {Button} from "@/components/ui/button/button.tsx";
+import {Field, Input} from "@/components/ui/input.tsx";
+import {Spinner} from "@/components/ui/spinner.tsx";
+import {authApi} from "@/lib/auth/api.ts";
+import {useAuth} from "@/lib/auth/auth-context.ts";
+import {describeError} from "@/lib/auth/useResource.ts";
+import {Panel} from "@/pages/auth/components/panel.tsx";
+import {Avatar} from "@/pages/auth/components/auth-shell.tsx";
+import type {ProfileUpdate, User} from "@/lib/auth/types.ts";
+
+const EDITABLE = ["name", "given_name", "family_name", "picture", "locale"] as const;
+type EditableField = (typeof EDITABLE)[number];
+
+const toForm = (user: User): Record<EditableField, string> => ({
+  name: user.name ?? "",
+  given_name: user.given_name ?? "",
+  family_name: user.family_name ?? "",
+  picture: user.picture ?? "",
+  locale: user.locale ?? "",
+});
+
+/** Edits the profile fields the account owns. The email is the identity key and is not editable. */
+export const ProfileForm = ({user}: {user: User}) => {
+  const {t} = useTranslation();
+  const {reload} = useAuth();
+  const [form, setForm] = useState(() => toForm(user));
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
+
+  const original = toForm(user);
+  const dirty = EDITABLE.some((key) => form[key] !== original[key]);
+
+  const set = (key: EditableField) => (event: {target: {value: string}}) => {
+    setForm((current) => ({...current, [key]: event.target.value}));
+    setSaved(false);
+  };
+
+  const submit = async (event: FormEvent) => {
+    event.preventDefault();
+    setError(null);
+    setSaving(true);
+
+    /* Only send what changed, and turn cleared fields into the nulls the API uses for "unset". */
+    const changes: ProfileUpdate = {};
+    for (const key of EDITABLE) {
+      if (form[key] !== original[key]) changes[key] = form[key].trim() || null;
+    }
+
+    try {
+      await authApi.updateMe(changes);
+      await reload();
+      setSaved(true);
+    } catch (cause) {
+      setError(describeError(cause).message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <Panel title={t("auth:account.profile_title")} description={t("auth:account.profile_description")}>
+      <form className="flex flex-col gap-5" onSubmit={submit}>
+        <div className="flex items-center gap-4">
+          <Avatar name={form.name || user.name} email={user.email} picture={form.picture || user.picture} size={56}/>
+          <div className="min-w-0">
+            <p className="truncate text-sm text-text">{user.name || user.email}</p>
+            <p className="truncate text-[13px] text-neutral-500">{user.email}</p>
+          </div>
+        </div>
+
+        <Field label={t("auth:account.email_label")} htmlFor="profile-email" hint={t("auth:account.email_hint")}>
+          <Input id="profile-email" value={user.email} readOnly disabled autoComplete="email"/>
+        </Field>
+
+        <Field label={t("auth:account.name_label")} htmlFor="profile-name">
+          <Input
+            id="profile-name"
+            value={form.name}
+            onChange={set("name")}
+            maxLength={120}
+            autoComplete="name"
+            placeholder={t("auth:account.name_placeholder")}
+          />
+        </Field>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label={t("auth:account.given_name_label")} htmlFor="profile-given-name">
+            <Input
+              id="profile-given-name"
+              value={form.given_name}
+              onChange={set("given_name")}
+              maxLength={120}
+              autoComplete="given-name"
+            />
+          </Field>
+          <Field label={t("auth:account.family_name_label")} htmlFor="profile-family-name">
+            <Input
+              id="profile-family-name"
+              value={form.family_name}
+              onChange={set("family_name")}
+              maxLength={120}
+              autoComplete="family-name"
+            />
+          </Field>
+        </div>
+
+        <Field label={t("auth:account.picture_label")} htmlFor="profile-picture" hint={t("auth:account.picture_hint")}>
+          <Input
+            id="profile-picture"
+            type="url"
+            inputMode="url"
+            value={form.picture}
+            onChange={set("picture")}
+            placeholder="https://"
+          />
+        </Field>
+
+        <Field label={t("auth:account.locale_label")} htmlFor="profile-locale" hint={t("auth:account.locale_hint")}>
+          <Input id="profile-locale" value={form.locale} onChange={set("locale")} maxLength={20} placeholder="es-CL"/>
+        </Field>
+
+        {error && <Alert tone="error">{t(`auth:errors.${error}`, {defaultValue: error})}</Alert>}
+        {saved && !dirty && <Alert tone="success">{t("auth:account.saved")}</Alert>}
+
+        <div className="flex items-center gap-3">
+          <Button type="submit" disabled={!dirty || saving} data-fs-hover>
+            {saving ? <Spinner size={16}/> : <FloppyDisk size={16}/>}
+            {t("auth:account.save")}
+          </Button>
+          {dirty && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                setForm(toForm(user));
+                setError(null);
+              }}
+              data-fs-hover
+            >
+              {t("auth:common.cancel")}
+            </Button>
+          )}
+        </div>
+      </form>
+    </Panel>
+  );
+};

@@ -1,7 +1,8 @@
 import {cva, type VariantProps} from "class-variance-authority";
 import type * as React from "react";
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}
+/** Rendered as a `<span>`, so a badge is valid wherever inline content is — inside a `<p>` included. */
+export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof badgeVariants> {}
 
 export const badgeVariants = cva(
   "inline-flex items-center rounded-[var(--radius-sm)] border px-2.5 py-1 text-xs font-medium tracking-wide",

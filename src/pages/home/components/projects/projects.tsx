@@ -37,8 +37,8 @@ export const Projects = () => {
               <CardBody className="flex flex-1 flex-col justify-between">
                 <div>
                   <Code size={22} className="text-accent-300 mb-3"/>
-                  <CardTitle className="text-base">{project.title}</CardTitle>
-                  <p className="mt-2 text-sm text-neutral-400">{project.description}</p>
+                  <CardTitle className="text-base">{t(`projects:secondary.${project.id}.title`)}</CardTitle>
+                  <p className="mt-2 text-sm text-neutral-400">{t(`projects:secondary.${project.id}.description`)}</p>
                 </div>
                 <span className="mt-3 inline-flex items-center gap-1 text-xs text-accent-300">
                   {t("projects:open_in_github")} <ArrowUpRight size={12}/>

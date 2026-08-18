@@ -12,5 +12,37 @@
     "mobile": "Mobile App",
     "webapp": "Web App",
     "api": "API & Backend"
+  },
+  "featured": {
+    "mi-utem": {
+      "title": "Mi UTEM",
+      "description": "The official app of Universidad Tecnológica Metropolitana for its students.",
+      "long_description": "Mobile app for UTEM students: timetables, grades, attendance and the digital student card in one place. I have worked on it since 2023 as part of the Experimental Development Club (ExDev), building new features in Flutter and automating App Store and Google Play releases with Fastlane and CI/CD."
+    },
+    "oktobeer": {
+      "title": "OKTOBEER",
+      "description": "Landing page for a pub in Calama, Chile.",
+      "long_description": "A single-page site showing the menu, location and contact details of a pub in Calama. Built with Next.js and Tailwind CSS, tuned to load fast on mobile and to let the owner update the menu without touching any code."
+    },
+    "portfolio": {
+      "title": "franciscosolis.cl",
+      "description": "This very site: portfolio, my own auth service and CMS on Cloudflare.",
+      "long_description": "My personal portfolio, rewritten on React 19 and Vite with a backend of my own in Hono.dev running on Cloudflare Workers. It ships ES/EN internationalisation, an accessibility centre with a command palette, and a custom CMS backed by D1 and R2 to manage projects and content without redeploying."
+    },
+    "craftaro": {
+      "title": "Craftaro Marketplace",
+      "description": "A plugin and extension marketplace, built from the ground up.",
+      "long_description": "I led the development of a full marketplace from scratch: catalogue, seller accounts, licensing and downloads. Laravel backend with PostgreSQL and Redis, React and Tailwind CSS on the front, payments and payouts wired through Stripe, plus the Linux server infrastructure, continuous deployment and REST APIs holding it together."
+    }
+  },
+  "secondary": {
+    "rubybox": {
+      "title": "RubyBox",
+      "description": "Inventory management and business dashboard."
+    },
+    "sonatype-central-upload": {
+      "title": "SonatypeCentralUpload",
+      "description": "Gradle plugin for publishing artifacts to Sonatype Central."
+    }
   }
 }

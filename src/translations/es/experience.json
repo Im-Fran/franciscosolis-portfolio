@@ -8,19 +8,34 @@
       "description": "Empecé programando por curiosidad, explorando proyectos abiertos y aprendiendo Java y Kotlin sin miedo a equivocarme."
     },
     {
-      "label": "Después",
-      "title": "Desarrollo Full-Stack",
-      "description": "Sumé frontend y backend web, construyendo productos completos de punta a punta."
+      "label": "2020 — 2023",
+      "title": "Songoda LLC · Del soporte a la dirección técnica",
+      "description": "Partí liderando la moderación de la comunidad y terminé dirigiendo el desarrollo del marketplace: Laravel, Vue y React sobre PostgreSQL y Redis, integración y despliegue continuo, y la administración de los servidores Linux que sostenían la plataforma."
     },
     {
-      "label": "Luego",
-      "title": "Móvil, APIs & microservicios",
-      "description": "Extendí mi trabajo a apps móviles y arquitecturas de servicios desacoplados y APIs robustas."
+      "label": "2022 — Presente",
+      "title": "Ingeniería Informática · UTEM",
+      "description": "Estudio Ingeniería Informática en la Universidad Tecnológica Metropolitana, en Santiago, mientras trabajo. Además fui parte del centro de estudiantes de la carrera, en el área de relaciones estudiantiles."
     },
     {
-      "label": "Hoy",
-      "title": "Nuevos desafíos",
-      "description": "Sigo aprendiendo tecnologías nuevas y buscando proyectos donde aportar y crecer en equipo."
+      "label": "2023 — 2024",
+      "title": "Craftaro LLC · Un marketplace desde cero",
+      "description": "Dirigí la organización y el desarrollo de un marketplace nuevo con Laravel, React y Tailwind CSS. Me hice cargo de la integración con Stripe, de la infraestructura de las plataformas asociadas y de optimizar las bases de datos en PostgreSQL y Redis."
+    },
+    {
+      "label": "2023 — Presente",
+      "title": "Club ExDev · De miembro a líder",
+      "description": "Entré al Club de Desarrollo Experimental de la UTEM para trabajar en la app Mi UTEM con Flutter, Fastlane y CI/CD, además de proyectos de virtualización con Proxmox y Active Directory. Desde 2025 lidero el club y lo represento en ferias estudiantiles."
+    },
+    {
+      "label": "2024",
+      "title": "Reconocimientos y certificaciones",
+      "description": "Gané el Challenge Lab del Google DevFest 2024 con BigQuery ML, obtuve la certificación GitHub Foundations y acredité inglés C2 en el EF SET con 74/100."
+    },
+    {
+      "label": "2025 — Presente",
+      "title": "Inside Security · Protección de la Infraestructura",
+      "description": "Administro sistemas operativos, servicios de red e infraestructura en la nube con configuraciones seguras, implemento monitoreo para detectar y responder a incidentes, colaboro en investigaciones forenses y trabajo con los equipos de desarrollo para que lo que se despliega sea seguro."
     }
   ]
 }

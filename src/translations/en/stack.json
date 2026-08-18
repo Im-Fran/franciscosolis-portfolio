@@ -24,7 +24,10 @@
         "JavaScript",
         "CSS",
         "HTML5",
-        "Cloudflare Pages"
+        "Cloudflare Pages",
+        "Vue.js",
+        "Nuxt",
+        "SASS"
       ]
     },
     {
@@ -37,7 +40,11 @@
         "Laravel",
         "Cloudflare Workers",
         "Bun.js",
-        "Express.js"
+        "Express.js",
+        "PHP",
+        "Hono.dev",
+        "PostgreSQL",
+        "Redis"
       ]
     },
     {
@@ -52,17 +59,34 @@
         "Xcode",
         "Android Studio",
         "Flutterfire",
-        "Firebase"
+        "Firebase",
+        "Dart",
+        "Swift"
       ]
     },
-    { "key": "apis", "tools": ["REST APIs", "Microservices", "Docker", "Git"] },
+    {
+      "key": "apis",
+      "tools": [
+        "REST APIs",
+        "Microservices",
+        "Docker",
+        "Git",
+        "Stripe",
+        "CI/CD"
+      ]
+    },
     {
       "key": "sysadmin",
       "tools": [
         "Virtualization",
         "Proxmox",
         "Linux",
-        "Red Hat Enterprise Linux"
+        "Red Hat Enterprise Linux",
+        "Ubuntu",
+        "Debian",
+        "Nginx",
+        "Windows Server",
+        "Active Directory"
       ]
     },
     {
@@ -80,11 +104,21 @@
         },
         {
           "name": "Oracle Cloud Infrastructure",
-          "tools": ["Cloud Guard", "VCN", "Compute Instances"]
+          "tools": [
+            "Cloud Guard",
+            "VCN",
+            "Compute Instances"
+          ]
         },
         {
           "name": "Cloudflare Serverless",
-          "tools": ["R2", "D1", "Workers", "Pages", "KV Namespaces"]
+          "tools": [
+            "R2",
+            "D1",
+            "Workers",
+            "Pages",
+            "KV Namespaces"
+          ]
         }
       ]
     },
@@ -95,7 +129,11 @@
         "Vulnerability scanning",
         "Vulnerability analysis",
         "Mitigation plans",
-        "System updates"
+        "System updates",
+        "Security monitoring",
+        "Incident response",
+        "Digital forensics",
+        "System hardening"
       ]
     },
     {

@@ -1,4 +1,10 @@
 {
-  "avatar_alt": "Professional headshot of Francisco Solís Maturana",
-  "contact": "Contact"
+  "avatar_alt": "Professional photo of Francisco Solís Maturana",
+  "kicker": "Hi, I'm",
+  "name": "Francisco Solís",
+  "role": "Full-Stack & Mobile Developer",
+  "bio": "Coffee ☕ lover and elegant-solution builder for all kinds of projects 💻. Full-Stack, Mobile, APIs and microservices experience 📱🔧 — always learning something new 🚀.",
+  "cta_work": "Let's work together",
+  "cta_github": "View GitHub",
+  "scroll": "Scroll"
 }

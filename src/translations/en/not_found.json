@@ -1,0 +1,7 @@
+{
+  "code": "404",
+  "title": "Segmentation Fault: Page Not Found",
+  "body": "The page you're looking for threw an uncaught exception and got garbage collected. Or maybe it never `git commit`ed in the first place.",
+  "stack_trace": "Error: PageNotFoundException\n    at Router.resolve (router.tsx:1)\n    at Universe.render (index.tsx:0)",
+  "cta": "Return to localhost:home"
+}

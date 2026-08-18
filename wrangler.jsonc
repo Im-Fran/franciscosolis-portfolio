@@ -2,7 +2,6 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "franciscosolis",
   "compatibility_date": "2026-07-29",
-  "main": "src/worker/index.ts",
   "preview_urls": true,
   "workers_dev": true,
   "cache": {
@@ -20,10 +19,7 @@
   },
   "assets": {
     "directory": "dist",
-    "not_found_handling": "single-page-application",
-    "run_worker_first": [
-      "/api/*"
-    ]
+    "not_found_handling": "single-page-application"
   },
   "compatibility_flags": [
     "nodejs_compat"

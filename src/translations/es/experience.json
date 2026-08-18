@@ -1,49 +1,41 @@
 {
-  "title": "Experiencia",
-  "description": "Aquí están algunas de las empresas y grupos con los que he trabajado.",
-
-  "values": [
+  "kicker": "Trayectoria",
+  "title": "Cómo he llegado hasta aquí",
+  "milestones": [
     {
-      "title": "Director de Operaciones de Marketplace",
-      "company": "Songoda LLC",
-      "period": "Oct 2020 - Sept 2022",
-      "location": "EE.UU., Remoto",
-      "description": "Lideré la comunidad en línea y el desarrollo de la plataforma de marketplace de Songoda. Me enfoqué en implementar mejoras técnicas continuas, utilizando tecnologías avanzadas como Laravel, Vue.js y TailwindCSS, y optimicé la gestión de servidores en Ubuntu, así como las bases de datos en PostgreSQL y Redis."
+      "label": "Inicios",
+      "title": "Autodidacta desde cero",
+      "description": "Empecé programando por curiosidad, explorando proyectos abiertos y aprendiendo Java y Kotlin sin miedo a equivocarme."
     },
     {
-      "title": "Director de Operaciones Web",
-      "company": "Songoda LLC",
-      "period": "May 2021 - Sept 2022",
-      "location": "EE.UU., Remoto",
-      "description": "Como Director de Operaciones Web, fui responsable de la dirección técnica y la coordinación de desarrollo en el marketplace. Optimicé la plataforma usando Laravel, Vue.js y TailwindCSS, fortaleciendo el rendimiento y supervisando la administración de infraestructura y bases de datos."
+      "label": "2020 — 2023",
+      "title": "Songoda LLC · Del soporte a la dirección técnica",
+      "description": "Partí liderando la moderación de la comunidad y terminé dirigiendo el desarrollo del marketplace: Laravel, Vue y React sobre PostgreSQL y Redis, integración y despliegue continuo, y la administración de los servidores Linux que sostenían la plataforma."
     },
     {
-      "title": "CTO",
-      "company": "Songoda LLC",
-      "period": "Sept 2022 - Jun 2023",
-      "location": "EE.UU., Remoto",
-      "description": "Como CTO, dirigí la evolución técnica de la plataforma, gestionando mejoras en la infraestructura y asegurando prácticas de alta calidad en el desarrollo. Me enfoqué en la experiencia del usuario y en garantizar la escalabilidad del sistema."
+      "label": "2022 — Presente",
+      "title": "Ingeniería Informática · UTEM",
+      "description": "Estudio Ingeniería Informática en la Universidad Tecnológica Metropolitana, en Santiago, mientras trabajo. Además fui parte del centro de estudiantes de la carrera, en el área de relaciones estudiantiles."
     },
     {
-      "title": "CTO",
-      "company": "Craftaro LLC",
-      "period": "Mar 2023 - Mar 2024",
-      "location": "EE.UU., Remoto",
-      "description": "Dirigí el desarrollo de una plataforma de marketplace desde cero, utilizando tecnologías como React.js, Laravel y TailwindCSS, con un enfoque en rendimiento y escalabilidad. Implementé un sistema de pagos con Stripe y optimicé la administración de bases de datos y servidores en Ubuntu para lograr una infraestructura eficiente."
+      "label": "2023 — 2024",
+      "title": "Craftaro LLC · Un marketplace desde cero",
+      "description": "Dirigí la organización y el desarrollo de un marketplace nuevo con Laravel, React y Tailwind CSS. Me hice cargo de la integración con Stripe, de la infraestructura de las plataformas asociadas y de optimizar las bases de datos en PostgreSQL y Redis."
     },
     {
-      "title": "Miembro",
-      "company": "Club ExDev",
-      "period": "Oct 2024 - Presente",
-      "location": "Chile, UTEM",
-      "description": "Como miembro de ExDev, he trabajado en equipo en el desarrollo de la aplicación oficial de la universidad, profundizando en el desarrollo móvil con Flutter. Esta experiencia me ha permitido mejorar en la generación de proyectos, la gestión de recursos y el uso de entornos de virtualización con Proxmox, además de representar al club en ferias estudiantiles."
+      "label": "2023 — Presente",
+      "title": "Club ExDev · De miembro a líder",
+      "description": "Entré al Club de Desarrollo Experimental de la UTEM para trabajar en la app Mi UTEM con Flutter, Fastlane y CI/CD, además de proyectos de virtualización con Proxmox y Active Directory. Desde 2025 lidero el club y lo represento en ferias estudiantiles."
     },
     {
-      "title": "Desarrollador de Aplicaciones Móviles",
-      "company": "Alpha-Nex",
-      "period": "Abr 2024 - Presente",
-      "location": "Chile, Remoto",
-      "description": "Soy parte del equipo de desarrollo de aplicaciones móviles en Alpha-Nex. He trabajado en la aplicación 'NexGreen', enfocándome en el desarrollo de nuevas funcionalidades y la optimización de la experiencia de usuario."
+      "label": "2024",
+      "title": "Reconocimientos y certificaciones",
+      "description": "Gané el Challenge Lab del Google DevFest 2024 con BigQuery ML, obtuve la certificación GitHub Foundations y acredité inglés C2 en el EF SET con 74/100."
+    },
+    {
+      "label": "2025 — Presente",
+      "title": "Inside Security · Protección de la Infraestructura",
+      "description": "Administro sistemas operativos, servicios de red e infraestructura en la nube con configuraciones seguras, implemento monitoreo para detectar y responder a incidentes, colaboro en investigaciones forenses y trabajo con los equipos de desarrollo para que lo que se despliega sea seguro."
     }
   ]
 }

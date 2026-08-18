@@ -1,25 +1,473 @@
 @import "tailwindcss";
 
 @theme {
-  --color-black: #0a0a0a;
-  --color-white: #fafafa;
+  /* Product surfaces. The dark surface is neutral/ink; the text is neutral/paper. */
+  --color-bg: #1e1e1e;
+  --color-surface: #2a2730;
+  --color-text: #fafafa;
+  --color-accent: #b298d6;
 
-  --color-accent: oklch(0.585 0.233 277.117);
+  /* Neutrals, warmed toward the iris hue so they sit with the brand rather than beside it. */
+  --color-neutral-100: #f6f4f8;
+  --color-neutral-200: #e8e4ee;
+  --color-neutral-300: #cfc9d8;
+  --color-neutral-400: #b0a9bd;
+  --color-neutral-500: #8a8494;
+  --color-neutral-600: #6d6779;
+  --color-neutral-700: #524d5c;
+  --color-neutral-800: #3a3642;
+  --color-neutral-900: #26232c;
+
+  /* The UI accent ramp is the brand iris family: 100 = iris-050, 400 = iris-300, 600 = iris-500. */
+  --color-accent-100: #f4f1f9;
+  --color-accent-200: #e7dff3;
+  --color-accent-300: #d3c4e7;
+  --color-accent-400: #b298d6;
+  --color-accent-500: #9679bc;
+  --color-accent-600: #75549c;
+  --color-accent-700: #5c4179;
+  --color-accent-800: #422f57;
+  --color-accent-900: #2a1e37;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 0 0 1px #3a3642;
+  --shadow-md: 0 0 0 1px #524d5c, 0 6px 18px rgba(0, 0, 0, .55);
+  --shadow-lg: 0 0 0 1px #8a8494, 0 16px 40px rgba(0, 0, 0, .65);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Wordmark only — see docs/BRAND.md. Not a UI font. */
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+
+  /*
+   * FranciscoSolis brand tokens — fixed values, never themed. See docs/BRAND.md.
+   * iris-500 fails contrast on ink (2.8:1), so dark surfaces take iris-300 instead.
+   */
+  --color-brand-periwinkle-500: #5a68c4;
+  --color-brand-plum-500: #8a4270;
+  --color-brand-iris-500: #75549c;
+  --color-brand-iris-300: #b298d6;
+  --color-brand-iris-050: #f4f1f9;
+  --color-brand-ink: #1e1e1e;
+  --color-brand-paper: #fafafa;
+
+  /* Accent aliases, by surface: light surfaces take iris-500, dark surfaces iris-300. */
+  --color-brand: var(--color-brand-iris-500);
+  --color-brand-on-dark: var(--color-brand-iris-300);
+
+  /*
+   * The pair a lockup uses when it sits on the product's own surface and should follow whatever
+   * theme is active (BrandLockup tone="auto"). Only the surface changes, never the brand values.
+   */
+  --color-brand-auto: var(--color-brand-iris-300);
+  --color-brand-auto-contrast: var(--color-brand-paper);
+
+  /* Tile fill and hero surfaces only — never the wordmark, never reversed or re-angled. */
+  --gradient-brand: linear-gradient(45deg, #5a68c4, #8a4270);
 }
 
-/* Text Size */
+/*
+ * ---------------------------------------------------------------------------------------------
+ * Accessibility preferences
+ *
+ * Every knob in the accessibility panel lands on <html> as a data attribute (see
+ * src/lib/a11y/preferences.ts) and is styled from here, so a preference change is a paint and
+ * never a re-render. The @theme block above is the dark palette; the blocks below re-point the
+ * same variables for the other themes, which is why components can keep using `text-neutral-500`
+ * and `bg-surface` without knowing a theme exists.
+ * ---------------------------------------------------------------------------------------------
+ */
+
 :root {
   --base-font-size: 16px;
+  /* Set by the panel; 1 is the 16px baseline the design is drawn at. */
+  --fs-font-scale: 1;
+  color-scheme: dark;
 }
 
-html.text-small {
-  font-size: calc(var(--base-font-size) * 0.875);
+html {
+  font-size: calc(var(--base-font-size) * var(--fs-font-scale));
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
-html.text-normal {
-  font-size: var(--base-font-size);
+/*
+ * Light theme. The neutral and accent ramps are inverted rather than replaced: dark-first markup
+ * reaches for `neutral-800` when it wants a hairline and `neutral-500` when it wants muted text,
+ * so flipping the ramp keeps both readings correct. The one deliberate discontinuity is between
+ * 600 and 700 — everything at 600 and below is text (and stays ≥ 4.5:1 on the page background),
+ * everything at 700 and above is a surface or a hairline.
+ */
+html[data-fs-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-text: #1e1e1e;
+  --color-accent: #75549c;
+
+  --color-neutral-100: #211f27;
+  --color-neutral-200: #332f3c;
+  --color-neutral-300: #443f4f;
+  --color-neutral-400: #55505f;
+  --color-neutral-500: #635d6e;
+  --color-neutral-600: #7a7488;
+  --color-neutral-700: #c4bdd4;
+  --color-neutral-800: #e4e0eb;
+  --color-neutral-900: #f2eff7;
+
+  --color-accent-100: #2a1e37;
+  --color-accent-200: #422f57;
+  --color-accent-300: #5c4179;
+  --color-accent-400: #75549c;
+  --color-accent-500: #9679bc;
+  --color-accent-600: #b298d6;
+  --color-accent-700: #d3c4e7;
+  --color-accent-800: #e7dff3;
+  --color-accent-900: #f4f1f9;
+
+  --shadow-sm: 0 0 0 1px #e4e0eb;
+  --shadow-md: 0 0 0 1px #d8d3e2, 0 6px 18px rgba(38, 35, 44, .10);
+  --shadow-lg: 0 0 0 1px #c4bdd4, 0 16px 40px rgba(38, 35, 44, .16);
+
+  /* Paper takes the iris-500 wordmark and ink for the surname — the brand's own light pairing. */
+  --color-brand-auto: var(--color-brand-iris-500);
+  --color-brand-auto-contrast: var(--color-brand-ink);
 }
 
-html.text-large {
-  font-size: calc(var(--base-font-size) * 1.25);
+/*
+ * Colour-blind-safe theme. Hue alone stops carrying meaning here: the iris accent becomes the
+ * Okabe-Ito sky blue, success/error swap green and red for bluish-green and vermillion (the pair
+ * that stays separable under deuteranopia, protanopia and tritanopia), the neutral mids are
+ * brightened well past 4.5:1, and links are underlined further down so colour is never the only
+ * cue. Brand tokens are untouched — the mark is fixed by docs/BRAND.md.
+ */
+html[data-fs-theme="daltonism"] {
+  color-scheme: dark;
+
+  --color-bg: #101014;
+  --color-surface: #1c1c22;
+  --color-text: #ffffff;
+  --color-accent: #56b4e9;
+
+  --color-neutral-100: #ffffff;
+  --color-neutral-200: #f2f2f5;
+  --color-neutral-300: #dcdce3;
+  --color-neutral-400: #c2c2cc;
+  --color-neutral-500: #a8a8b5;
+  --color-neutral-600: #8c8c9a;
+  --color-neutral-700: #5b5b68;
+  --color-neutral-800: #3d3d48;
+  --color-neutral-900: #24242c;
+
+  --color-accent-100: #eaf5fd;
+  --color-accent-200: #c6e6f9;
+  --color-accent-300: #8fcff2;
+  --color-accent-400: #56b4e9;
+  --color-accent-500: #2b9ada;
+  --color-accent-600: #0072b2;
+  --color-accent-700: #005b8f;
+  --color-accent-800: #00426a;
+  --color-accent-900: #002a45;
+
+  /* Vermillion for danger, bluish-green for success — the Okabe-Ito pair. */
+  --color-red-200: #ffc8a6;
+  --color-red-400: #ff8f47;
+  --color-red-500: #d55e00;
+  --color-emerald-200: #9fe8d0;
+  --color-emerald-500: #009e73;
+
+  --shadow-sm: 0 0 0 1px #3d3d48;
+  --shadow-md: 0 0 0 1px #5b5b68, 0 6px 18px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 0 0 1px #8c8c9a, 0 16px 40px rgba(0, 0, 0, .7);
+}
+
+/*
+ * High contrast. Pushes body copy to the ends of each ramp and lifts hairlines to something that
+ * survives a low-quality panel or bright sunlight, on top of whichever theme is active.
+ */
+html[data-fs-contrast="high"] {
+  --color-text: #ffffff;
+  --color-neutral-200: #f6f4f8;
+  --color-neutral-300: #e8e4ee;
+  --color-neutral-400: #d9d4e1;
+  --color-neutral-500: #c6c0d1;
+  --color-neutral-600: #b0a9bd;
+  --color-neutral-700: #8a8494;
+  --color-neutral-800: #6d6779;
+  --color-accent: #d3c4e7;
+  --color-accent-300: #e2d6f1;
+}
+
+html[data-fs-contrast="high"][data-fs-theme="light"] {
+  --color-text: #000000;
+  --color-neutral-200: #17151b;
+  --color-neutral-300: #26232c;
+  --color-neutral-400: #302c38;
+  --color-neutral-500: #3a3642;
+  --color-neutral-600: #4b4658;
+  --color-neutral-700: #8a8494;
+  --color-neutral-800: #a9a2b8;
+  --color-accent: #5c4179;
+  --color-accent-300: #422f57;
+}
+
+html[data-fs-contrast="high"][data-fs-theme="daltonism"] {
+  --color-accent: #8fcff2;
+  --color-accent-300: #c6e6f9;
+  --color-neutral-700: #9a9aa8;
+  --color-neutral-800: #6e6e7d;
+}
+
+html[data-fs-contrast="high"] *:focus-visible {
+  outline-width: 3px;
+}
+
+/*
+ * Reduced motion. GSAP writes inline styles rather than CSS, so the timelines that matter also
+ * branch on the resolved preference in JS (see useScrollReveal and the hero); this covers
+ * everything driven by plain CSS.
+ */
+html[data-fs-motion="reduced"] {
+  scroll-behavior: auto;
+}
+
+html[data-fs-motion="reduced"] *,
+html[data-fs-motion="reduced"] *::before,
+html[data-fs-motion="reduced"] *::after {
+  animation-duration: 1ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Links stop relying on colour alone — always under the colour-blind-safe theme. */
+html[data-fs-links="underlined"] :is(main, footer, header) a,
+html[data-fs-theme="daltonism"] :is(main, footer, header) a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: from-font;
+}
+
+/* Text spacing at the WCAG 1.4.12 minimums, for anyone who reads more comfortably with room. */
+html[data-fs-spacing="readable"] body {
+  line-height: 1.6;
+  letter-spacing: 0.045em;
+  word-spacing: 0.16em;
+}
+
+html[data-fs-spacing="readable"] p,
+html[data-fs-spacing="readable"] li {
+  line-height: 1.75;
+  margin-bottom: 1.35em;
+}
+
+html[data-fs-spacing="readable"] :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+/* Keyboard escape hatch out of the header and straight into the page. */
+.fs-skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transform: translateY(calc(-100% - 1.5rem));
+}
+
+.fs-skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+body.fs-cursor-active,
+body.fs-cursor-active * {
+  cursor: none;
+}
+
+/*
+ * The cursor layers ride in the top layer (via popover) so a native <dialog> modal cannot cover
+ * them. These undo the parts of the UA popover box the cursor styles do not already replace, and
+ * must stay above .fs-lens so its own border still wins.
+ */
+.fs-cursor-layer {
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  overflow: visible;
+  color: inherit;
+}
+
+/* Animated cursor: a liquid glass water drop that swells into a magnifier over interactive elements. */
+.fs-lens {
+  /* Driven per frame from the drop's own velocity: tail sharpness, glass strength, rim shine. */
+  --fs-drop-tail: 50%;
+  --fs-glass: 0;
+  --fs-shine: 0;
+  /* The trailing edge (left, in the drop's own rotated frame) pulls into a tail as it travels. */
+  border-radius: var(--fs-drop-tail) 50% 50% var(--fs-drop-tail) / 50% 50% 50% 50%;
+  border: 1px solid rgba(216, 200, 238, calc(.45 + var(--fs-glass) * .2));
+  background: radial-gradient(circle at 50% 50%,
+    transparent 45%,
+    rgba(255, 255, 255, calc(.03 + var(--fs-glass) * .02)) 80%,
+    rgba(178, 152, 214, calc(.10 + var(--fs-glass) * .04)) 100%);
+  -webkit-backdrop-filter:
+    blur(calc(1px + var(--fs-glass) * 5px))
+    saturate(calc(140% + var(--fs-glass) * 25%))
+    brightness(calc(1.12 - var(--fs-glass) * .26));
+  backdrop-filter:
+    blur(calc(1px + var(--fs-glass) * 5px))
+    saturate(calc(140% + var(--fs-glass) * 25%))
+    brightness(calc(1.12 - var(--fs-glass) * .26));
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, .45),
+    inset 0 0 0 1px rgba(30, 30, 30, calc(var(--fs-glass) * .5)),
+    inset 0 0 10px rgba(178, 152, 214, calc(.08 + var(--fs-glass) * .08)),
+    0 6px 16px rgba(0, 0, 0, calc(.22 + var(--fs-glass) * .28));
+  will-change: transform;
+}
+
+/* Holds the magnified copy of the hovered element, clipped to the drop's current shape. */
+.fs-lens-content {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  isolation: isolate;
+}
+
+/*
+ * Counter-rotated against the drop, so the magnified content and the specular stay world-upright
+ * while the drop itself leans into the movement. What is left over is a directional stretch.
+ */
+.fs-lens-upright,
+.fs-lens-glare {
+  position: absolute;
+  inset: 0;
+}
+
+.fs-lens-clone,
+.fs-lens-clone * {
+  animation: none !important;
+  transition: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.fs-lens-refraction,
+.fs-lens-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: var(--fs-shine);
+}
+
+/* Light bending at the rim, where a drop of water distorts the most. */
+.fs-lens-refraction {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 58%, rgba(255, 255, 255, .06) 74%, rgba(216, 200, 238, .22) 88%, rgba(255, 255, 255, .42) 96%, transparent 100%),
+    radial-gradient(circle at 50% 50%, transparent 76%, rgba(178, 152, 214, .30) 93%, transparent 100%);
+  mix-blend-mode: screen;
+}
+
+/* Highlight travelling around the rim, which keeps the glass alive while the drop rests. */
+.fs-lens-sheen {
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg,
+    rgba(255, 255, 255, .34) 26deg,
+    transparent 62deg,
+    transparent 180deg,
+    rgba(216, 200, 238, .24) 214deg,
+    transparent 250deg);
+  -webkit-mask: radial-gradient(circle, transparent 58%, #000 78%, #000 100%);
+  mask: radial-gradient(circle, transparent 58%, #000 78%, #000 100%);
+  animation: fs-lens-spin 7s linear infinite;
+}
+
+/* Specular arcs: small and close to the rim, the way light catches water. */
+.fs-lens-glare {
+  background:
+    radial-gradient(22% 16% at 28% 17%, rgba(255, 255, 255, calc(.35 + var(--fs-glass) * .2)), transparent 100%),
+    radial-gradient(14% 10% at 72% 84%, rgba(216, 200, 238, calc(.18 + var(--fs-glass) * .12)), transparent 100%);
+}
+
+@keyframes fs-lens-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Resolved by the provider, so an explicit "keep animations" choice still wins over the OS. */
+html[data-fs-motion="reduced"] .fs-lens-sheen {
+  animation: none;
+}
+
+/*
+ * On paper the drop reads as a smudge unless the rim and the shadow carry it, so the highlights
+ * that make it glass on ink are swapped for a darker edge. The geometry is unchanged.
+ */
+html[data-fs-theme="light"] .fs-lens {
+  border-color: rgba(117, 84, 156, calc(.35 + var(--fs-glass) * .25));
+  background: radial-gradient(circle at 50% 50%,
+    transparent 45%,
+    rgba(38, 35, 44, calc(.03 + var(--fs-glass) * .02)) 80%,
+    rgba(117, 84, 156, calc(.10 + var(--fs-glass) * .05)) 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, .8),
+    inset 0 0 0 1px rgba(117, 84, 156, calc(var(--fs-glass) * .35)),
+    inset 0 0 10px rgba(117, 84, 156, calc(.06 + var(--fs-glass) * .08)),
+    0 6px 16px rgba(38, 35, 44, calc(.14 + var(--fs-glass) * .18));
+}
+
+html[data-fs-theme="light"] .fs-lens-refraction {
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 58%, rgba(117, 84, 156, .10) 74%, rgba(117, 84, 156, .26) 88%, rgba(90, 104, 196, .34) 96%, transparent 100%),
+    radial-gradient(circle at 50% 50%, transparent 76%, rgba(117, 84, 156, .24) 93%, transparent 100%);
+}
+
+html[data-fs-theme="daltonism"] .fs-lens {
+  border-color: rgba(143, 207, 242, calc(.5 + var(--fs-glass) * .25));
+}
+
+/* Belt and braces: the hook already skips mounting, but a stale layer must never steal the pointer. */
+html[data-fs-cursor="system"] .fs-cursor-layer {
+  display: none !important;
+}
+
+@keyframes fs-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.fs-hoverable:hover {
+  transition: transform 0.35s cubic-bezier(.16, 1, .3, 1);
+  transform: translateY(-4px);
 }

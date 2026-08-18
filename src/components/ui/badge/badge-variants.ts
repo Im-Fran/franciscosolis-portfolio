@@ -1,28 +1,26 @@
 import {cva, type VariantProps} from "class-variance-authority";
 import type * as React from "react";
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}
+/** Rendered as a `<span>`, so a badge is valid wherever inline content is — inside a `<p>` included. */
+export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof badgeVariants> {}
 
 export const badgeVariants = cva(
-  "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-[var(--radius-sm)] border px-2.5 py-1 text-xs font-medium tracking-wide",
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+        accent: "border-transparent bg-accent-800/60 text-accent-300",
+        outline: "border-neutral-700 text-neutral-300 bg-transparent",
+        neutral: "border-transparent bg-neutral-800 text-neutral-300",
       },
       size: {
-        default: "h-6 text-sm px-2",
-        sm: "h-5 px-1.5 text-xs",
-        lg: "h-8 px-3 text-sm",
-        xl: "h-10 px-4 text-base",
-        '2xl': "h-12 px-5 text-lg",
-      }
+        default: "h-6 text-xs px-2.5",
+        sm: "h-5 px-2 text-[11px]",
+        lg: "h-7 px-3 text-sm",
+      },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "outline",
       size: "default",
     },
   },

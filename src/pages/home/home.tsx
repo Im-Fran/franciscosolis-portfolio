@@ -1,15 +1,15 @@
-import {GithubStats} from "@/pages/home/components/github-stats.tsx";
+import {Nav} from "@/pages/home/components/nav.tsx";
 import {Hero} from "@/pages/home/components/hero.tsx";
+import {Stack} from "@/pages/home/components/stack.tsx";
 import {Projects} from "@/pages/home/components/projects/projects.tsx";
 import {Experience} from "@/pages/home/components/experience/experience.tsx";
-import {Skills} from "@/pages/home/components/skills.tsx";
-import {Certifications} from "@/pages/home/components/certifications/certifications.tsx";
+import {Contact} from "@/pages/home/components/contact.tsx";
 
 export const Home = () => <>
+  <Nav/>
   <Hero/>
-  <GithubStats/>
+  <Stack/>
   <Projects/>
-  <Skills/>
   <Experience/>
-  <Certifications/>
+  <Contact/>
 </>

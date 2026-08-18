@@ -8,5 +8,10 @@
   "change_text_size": "Change text size",
   "text_size_small": "Small",
   "text_size_normal": "Normal",
-  "text_size_large": "Large"
+  "text_size_large": "Large",
+  "copyright": "© {{year}} Francisco Solís",
+  "footer_credit": "Made with ☕ by Francisco Solis Maturana",
+  "legal_link": "Terms & Privacy",
+  "brand_link": "Brand",
+  "loading": "Loading…"
 }

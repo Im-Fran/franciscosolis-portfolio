@@ -1,0 +1,153 @@
+{
+  "kicker": "Herramientas",
+  "title": "Con qué construyo",
+  "subtitle": "Presiona una tarjeta para ver más detalles",
+  "categoryLabels": {
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "mobile": "Móvil",
+    "apis": "APIs & Microservicios",
+    "sysadmin": "Sysadmin",
+    "cloud": "Cloud Computing",
+    "security": "Ciberseguridad",
+    "ai": "IA & LLMs"
+  },
+  "categories": [
+    {
+      "key": "frontend",
+      "tools": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vite.js",
+        "JavaScript",
+        "CSS",
+        "HTML5",
+        "Cloudflare Pages",
+        "Vue.js",
+        "Nuxt",
+        "SASS"
+      ]
+    },
+    {
+      "key": "backend",
+      "tools": [
+        "Node.js",
+        "Java",
+        "Kotlin",
+        "Spring Boot",
+        "Laravel",
+        "Cloudflare Workers",
+        "Bun.js",
+        "Express.js",
+        "PHP",
+        "Hono.dev",
+        "PostgreSQL",
+        "Redis"
+      ]
+    },
+    {
+      "key": "mobile",
+      "tools": [
+        "Kotlin",
+        "Android",
+        "React Native",
+        "Flutter",
+        "Flutter Libraries",
+        "Fastlane",
+        "Xcode",
+        "Android Studio",
+        "Flutterfire",
+        "Firebase",
+        "Dart",
+        "Swift"
+      ]
+    },
+    {
+      "key": "apis",
+      "tools": [
+        "REST APIs",
+        "Microservicios",
+        "Docker",
+        "Git",
+        "Stripe",
+        "CI/CD"
+      ]
+    },
+    {
+      "key": "sysadmin",
+      "tools": [
+        "Virtualización",
+        "Proxmox",
+        "Linux",
+        "Red Hat Enterprise Linux",
+        "Ubuntu",
+        "Debian",
+        "Nginx",
+        "Windows Server",
+        "Active Directory"
+      ]
+    },
+    {
+      "key": "cloud",
+      "groups": [
+        {
+          "name": "Google Cloud Platform",
+          "tools": [
+            "Security Command Center",
+            "Compute Engine",
+            "Google Kubernetes Engine",
+            "Cloud SQL",
+            "Cloud Storage"
+          ]
+        },
+        {
+          "name": "Oracle Cloud Infrastructure",
+          "tools": [
+            "Cloud Guard",
+            "VCN",
+            "Compute Instances"
+          ]
+        },
+        {
+          "name": "Cloudflare Serverless",
+          "tools": [
+            "R2",
+            "D1",
+            "Workers",
+            "Pages",
+            "KV Namespaces"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "security",
+      "tools": [
+        "Análisis de datos",
+        "Escaneo de vulnerabilidades",
+        "Análisis de vulnerabilidades",
+        "Planes de mitigación",
+        "Actualización de sistemas",
+        "Monitoreo de seguridad",
+        "Respuesta a incidentes",
+        "Forense digital",
+        "Hardening de sistemas"
+      ]
+    },
+    {
+      "key": "ai",
+      "tools": [
+        "ChatGPT",
+        "Gemini",
+        "Claude",
+        "Claude Code",
+        "Antigravity",
+        "LTX-2.3"
+      ]
+    }
+  ],
+  "modal_projects_label": "Proyectos relacionados",
+  "modal_empty": "Aún no hay proyectos públicos con este stack."
+}

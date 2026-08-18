@@ -1,38 +1,70 @@
-import {Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter} from "@/components/ui/card";
-import {Button} from "@/components/ui/button/button.tsx";
-import {SiGithub} from "@icons-pack/react-simple-icons";
-import {ExternalLink} from "lucide-react";
+import {useState} from "react";
+import {ArrowUpRight} from "@phosphor-icons/react";
+import {useTranslation} from "react-i18next";
+import {Card, CardTitle} from "@/components/ui/card.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
+import {Modal} from "@/components/ui/modal.tsx";
+import type {FeaturedProject} from "@/pages/home/components/projects/projects.data.ts";
 
-export type ProjectCardProps = {
-  title: string;
-  description: string;
-  technologies: string[];
-  links: ProjectCardLink[];
-}
+export const ProjectCard = ({id, category, technologies, toolbox, href, media}: FeaturedProject) => {
+  const {t} = useTranslation();
+  const [open, setOpen] = useState(false);
 
-export type ProjectCardLink = {
-  label: string | null | undefined;
-  href: string | null | undefined;
-  variant: string | null | undefined;
-  icon?: string | null | undefined;
-}
+  /* The copy is keyed by project id in the `projects` namespace — see projects.data.ts. */
+  const title = t(`projects:featured.${id}.title`);
+  const description = t(`projects:featured.${id}.description`);
+  const longDescription = t(`projects:featured.${id}.long_description`);
 
-export const ProjectCard = ({ title, description, technologies = [], links }: ProjectCardProps) => <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all shadow-sm">
-  <CardHeader>
-    <CardTitle className="text-xl">{title}</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <CardDescription className="text-gray-400">{description}</CardDescription>
-    <div className="flex flex-wrap gap-2 mt-4">
-      {technologies.map((tag, index) => <Badge key={index} variant="secondary" className="bg-gray-300/50 dark:bg-blue-950/50">{tag}</Badge>)}
-    </div>
-  </CardContent>
-  <CardFooter className="flex justify-end gap-2">
-    {links.map((link, idx) => <Button key={idx} onClick={() => window.open(link.href || '#', '_blank')} size="sm" className="gap-1" variant={link.variant === 'outline' ? 'outline' : (link.variant === 'defaultOutline' ? 'defaultOutline' : 'default')}>
-      {link.icon === 'github' && <SiGithub size={14}/>}
-      {link.icon === 'external-link' && <ExternalLink size={14}/>}
-      <span>{link.label}</span>
-    </Button>)}
-  </CardFooter>
-</Card>
+  return (
+    <>
+      <Card elevation="md" className="reveal-item fs-hoverable w-full flex-1 flex flex-col overflow-hidden p-0">
+        <button type="button" data-fs-hover onClick={() => setOpen(true)} className="flex flex-1 flex-col w-full h-full text-left">
+          <div className="h-[260px] w-full shrink-0 bg-neutral-900 flex items-center justify-center text-neutral-500 text-sm">
+            {media ? <img src={media} alt={title} className="h-full w-full object-cover"/> : "GIF"}
+          </div>
+          <div className="flex flex-1 flex-col justify-between p-6">
+            <div>
+              <Badge variant="accent" className="mb-3">{t(`projects:categories.${category}`)}</Badge>
+              <CardTitle>{title}</CardTitle>
+              <p className="mt-2 text-sm text-neutral-300 leading-[1.55]">{description}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {technologies.map((tech) => <Badge key={tech} variant="outline">{tech}</Badge>)}
+              </div>
+            </div>
+            <span className="mt-4 inline-flex items-center gap-1 text-sm text-accent-300">
+              {t("projects:view_project")} <ArrowUpRight size={14}/>
+            </span>
+          </div>
+        </button>
+      </Card>
+
+      <Modal open={open} onClose={() => setOpen(false)} title={title}>
+        <div className="h-[200px] w-full overflow-hidden rounded-[var(--radius-sm)] bg-neutral-900 flex items-center justify-center text-neutral-500 text-sm">
+          {media ? <img src={media} alt={title} className="h-full w-full object-cover"/> : "GIF"}
+        </div>
+        <Badge variant="accent" className="mt-4">{t(`projects:categories.${category}`)}</Badge>
+        <p className="mt-3 text-sm leading-[1.6] text-neutral-300">{longDescription}</p>
+
+        <p className="mt-4 text-xs uppercase tracking-[0.08em] text-neutral-500">{t("projects:skills_label")}</p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {technologies.map((tech) => <Badge key={tech} variant="outline">{tech}</Badge>)}
+        </div>
+
+        <p className="mt-4 text-xs uppercase tracking-[0.08em] text-neutral-500">{t("projects:toolbox_label")}</p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {toolbox.map((key) => <Badge key={key} variant="neutral">{t(`stack:categoryLabels.${key}`)}</Badge>)}
+        </div>
+
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          data-fs-hover
+          className="mt-6 inline-flex items-center gap-1 text-sm text-accent-300"
+        >
+          {t("projects:view_project")} <ArrowUpRight size={14}/>
+        </a>
+      </Modal>
+    </>
+  );
+};

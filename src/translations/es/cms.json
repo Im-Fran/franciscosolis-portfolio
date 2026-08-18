@@ -1,0 +1,82 @@
+{
+  "app_name": "CMS",
+  "nav": {
+    "site": "Volver al sitio",
+    "sign_out": "Cerrar sesión"
+  },
+  "sign_in": {
+    "title": "Entra al CMS",
+    "subtitle": "El contenido detrás de franciscosolis.cl. Entra con la cuenta que tenga acceso: sin contraseñas de por medio.",
+    "email_label": "Correo electrónico",
+    "email_placeholder": "tu@ejemplo.com",
+    "email_hint": "Te enviamos un enlace de un solo uso que inicia la sesión.",
+    "magic_link_cta": "Enviar enlace mágico",
+    "divider": "o",
+    "google_cta": "Continuar con Google",
+    "provider_unavailable": "Este método no está configurado en este despliegue.",
+    "no_password": "No hay contraseña que olvidar: cada inicio de sesión es un permiso nuevo y de un solo uso.",
+    "staff_only": "El CMS solo está abierto a cuentas con un rol de edición.",
+    "back_home": "Volver al sitio",
+    "sent_title": "Revisa tu correo",
+    "sent_subtitle": "Si {{email}} puede entrar al CMS, el enlace ya va en camino.",
+    "sent_alert_title": "Enlace enviado",
+    "sent_expiry": "Caduca en unos {{minutes}} minutos y funciona una sola vez.",
+    "sent_note": "Abre el enlace en este mismo navegador para que el inicio de sesión termine donde empezó. Después puedes cerrar esta pestaña.",
+    "use_another": "Usar otra dirección"
+  },
+  "callback": {
+    "title": "Iniciando tu sesión",
+    "subtitle": "Canjeando el código de autorización por tu sesión del CMS.",
+    "working": "Esto toma un momento…",
+    "error_title": "No se pudo completar el inicio de sesión",
+    "error_subtitle": "Puede que el enlace ya se haya usado o que haya caducado antes de abrirlo.",
+    "retry": "Intentar de nuevo"
+  },
+  "no_access": {
+    "title": "Sin acceso al CMS",
+    "subtitle": "Esta cuenta inició sesión, pero no tiene ningún rol en el CMS.",
+    "subtitle_email": "{{email}} inició sesión, pero no tiene ningún rol en el CMS.",
+    "alert_title": "Pide un rol de edición",
+    "alert_body": "El acceso se otorga por aplicación desde la consola de autenticación. Cuando te asignen un rol, vuelve a iniciar sesión para que el token nuevo lo lleve.",
+    "sign_out": "Cerrar sesión",
+    "back_home": "Volver al sitio"
+  },
+  "dashboard": {
+    "title": "Contenido",
+    "subtitle": "Ya tienes sesión en el CMS. Esta es la cuenta que la API ve en cada escritura, y lo que hoy puede hacer.",
+    "session_title": "Sesión iniciada como",
+    "session_description": "La sesión con la que viaja cada petición desde esta pestaña.",
+    "application_label": "Aplicación",
+    "session_id_label": "Sesión",
+    "last_login_label": "Último ingreso",
+    "email_verified_label": "Correo verificado",
+    "access_title": "Accesos",
+    "access_description": "Los roles y permisos que esta cuenta tiene en el CMS.",
+    "roles_label": "Roles",
+    "roles_empty": "Sin roles asignados.",
+    "permissions_label": "Permisos",
+    "permissions_empty": "Sin permisos asignados.",
+    "access_note": "Los roles y permisos se acuñan dentro del token de acceso, así que un cambio puede tardar hasta la vigencia del token en verse aquí. La API siempre es la autoridad.",
+    "collections_title": "Colecciones",
+    "collections_description": "Lo que administra este CMS. El servicio es quien decide la lista.",
+    "collections_empty": "Este CMS todavía no administra colecciones.",
+    "editing_soon": "Las pantallas de edición aún no son parte de esta interfaz: esta entrega cubre el inicio de sesión y las verificaciones de acceso a su alrededor."
+  },
+  "common": {
+    "loading": "Cargando…",
+    "restoring": "Restaurando tu sesión…",
+    "failed": "Algo salió mal",
+    "retry": "Reintentar",
+    "empty": "No hay nada que mostrar.",
+    "yes": "Sí",
+    "no": "No",
+    "forbidden_title": "No disponible para tu cuenta",
+    "forbidden_body": "Esta sección necesita un permiso que tu cuenta no tiene."
+  },
+  "errors": {
+    "network": "No se pudo contactar al servicio. Revisa tu conexión e inténtalo de nuevo.",
+    "missing-code": "A esta dirección le falta el código de autorización que el proveedor debía enviar.",
+    "missing-transaction": "Este navegador no tiene registro del inicio de sesión que originó este enlace. Empieza de nuevo desde la página de inicio de sesión del CMS.",
+    "state-mismatch": "No se pudo verificar el inicio de sesión. Empieza de nuevo desde la página de inicio de sesión del CMS."
+  }
+}

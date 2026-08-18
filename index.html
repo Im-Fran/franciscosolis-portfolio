@@ -2,8 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#75549c" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Sora:wght@600&display=swap" rel="stylesheet">
     <title>Francisco Solís - Full Stack & Mobile Developer</title>
 
     <!-- HTML Meta Tags -->
@@ -16,7 +23,7 @@
     <meta property="og:title" content="Francisco Solís - Full Stack & Mobile Developer">
     <meta property="og:description" content="I'm passionate about creating elegant solutions to complex problems. I have experience with many frontend, backend and mobile tools.">
     <meta property="og:image" content="https://franciscosolis.cl/profile-picture-full.webp">
-    <meta property="og:logo" content="https://franciscosolis.cl/profile-picture.webp">
+    <meta property="og:logo" content="https://franciscosolis.cl/brand/png/fs-mark.png">
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
@@ -28,6 +35,51 @@
 
     <link rel="preload" as="image" href="/profile-picture.webp">
 
+    <!--
+      Applies the stored accessibility preferences before the first paint, so a visitor who chose
+      the light theme or a larger text size never sees a frame of the default dark one. This is a
+      hand-rolled mirror of applyPreferences() in src/lib/a11y/preferences.ts — keep the two in
+      sync; the data attributes are the contract main.css styles against.
+    -->
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var scales = {sm: 0.875, md: 1, lg: 1.15, xl: 1.3};
+        var stored = {};
+
+        try {
+          stored = JSON.parse(localStorage.getItem('fs:a11y') || '{}') || {};
+        } catch (error) {
+          /* Storage unavailable or malformed — the defaults below still render a usable page. */
+        }
+
+        var media = function (query) {
+          return typeof matchMedia === 'function' && matchMedia(query).matches;
+        };
+        var pick = function (value, allowed, fallback) {
+          return allowed.indexOf(value) === -1 ? fallback : value;
+        };
+
+        var theme = pick(stored.theme, ['light', 'dark', 'system', 'daltonism'], 'system');
+        var motion = pick(stored.motion, ['system', 'full', 'reduced'], 'system');
+        var scale = pick(stored.fontScale, ['sm', 'md', 'lg', 'xl'], 'md');
+
+        root.dataset.fsTheme = theme === 'system'
+          ? (media('(prefers-color-scheme: dark)') ? 'dark' : 'light')
+          : theme;
+        root.dataset.fsMotion = motion === 'system'
+          ? (media('(prefers-reduced-motion: reduce)') ? 'reduced' : 'full')
+          : motion;
+        root.dataset.fsFontScale = scale;
+        root.dataset.fsCursor = pick(stored.cursor, ['drop', 'system'], 'drop');
+        root.dataset.fsContrast = stored.highContrast === true ? 'high' : 'normal';
+        root.dataset.fsLinks = stored.underlineLinks === true ? 'underlined' : 'default';
+        root.dataset.fsSpacing = stored.readableSpacing === true ? 'readable' : 'default';
+        root.style.setProperty('--fs-font-scale', String(scales[scale]));
+        if (stored.language === 'es' || stored.language === 'en') root.lang = stored.language;
+      })();
+    </script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3G7Q5ZRSDZ"></script>
     <script>
@@ -38,7 +90,7 @@
       gtag('config', 'G-3G7Q5ZRSDZ');
     </script>
   </head>
-  <body class="bg-linear-to-b from-white dark:from-black to-neutral-100 dark:to-gray-950 text-black dark:text-white">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

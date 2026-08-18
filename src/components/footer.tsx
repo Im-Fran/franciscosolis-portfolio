@@ -1,86 +1,37 @@
 import {useTranslation} from "react-i18next";
-import {useEffect} from "react";
-import {useTextSize} from "@/contexts/TextSizeContext.tsx";
-
-const availableLangs = ['en', 'es']
+import {Link} from "react-router-dom";
+import {MapPin} from "@phosphor-icons/react";
+import {BrandLockup} from "@/components/brand";
+import {AccessibilityLauncher} from "@/components/a11y";
 
 const Footer = () => {
-  const {t, i18n} = useTranslation();
-  const {textSize, setTextSize} = useTextSize();
+  const {t} = useTranslation();
 
-  const toggleLanguage = async () => {
-    const newLang = i18n.language === 'es' ? 'en' : 'es';
-    localStorage.setItem('locale', newLang);
-    await i18n.changeLanguage(newLang);
-  }
-
-  const changeTextSize = () => {
-    const newSize = textSize === 'small' ? 'normal' : textSize === 'normal' ? 'large' : 'small';
-    setTextSize(newSize);
-  }
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const lang = urlParams.get('lang');
-
-    if (lang && availableLangs.includes(lang)) {
-      i18n.changeLanguage(lang).then();
-      localStorage.setItem('locale', lang);
-    }
-
-    const storedLang = localStorage.getItem('locale');
-    if (storedLang && availableLangs.includes(storedLang)) {
-      i18n.changeLanguage(storedLang).then();
-    }
-  }, [i18n]);
-
-  return <footer role={"contentinfo"}>
-
-    {/* Mobile Controls Group */}
-    <div className="fixed right-0 bottom-0 -translate-y-1/2 z-50 flex flex-col gap-2">
-      {/* Text Size Toggle */}
-      <button
-        onClick={changeTextSize}
-        className="flex items-center justify-center py-3 px-2 bg-gray-200 dark:bg-gray-800 shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors rounded-l-lg border-r-0"
-        aria-label={t('change_text_size')}
-        style={{
-          borderTopRightRadius: 0,
-          borderBottomRightRadius: 0,
-          boxShadow: "-2px 0 10px rgba(0,0,0,0.1)"
-        }}
-      >
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-sm text-gray-600 dark:text-gray-300">
-            {textSize === "small" ? "A" : textSize === "large" ? "A++" : "A+"}
-          </span>
-        </div>
-      </button>
-
-      {/* Lang Toggle */}
-      <button
-        onClick={toggleLanguage}
-        className="flex items-center justify-center py-3 px-2 bg-gray-200 dark:bg-gray-800 shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors rounded-l-lg border-r-0"
-        aria-label={t('change_language')}
-        style={{
-          borderTopRightRadius: 0,
-          borderBottomRightRadius: 0,
-          boxShadow: "-2px 0 10px rgba(0,0,0,0.1)"
-        }}
-      >
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-sm text-gray-600 dark:text-gray-300">
-            {i18n.language === "en" ? "🇺🇸" : "🇨🇱"}
-          </span>
-        </div>
-      </button>
-    </div>
-
-    <div className={"w-full flex flex-col items-center justify-center text-center py-4 border-t gap-4"}>
-      <div className={"flex items-center justify-center gap-2"}>
-        {t('all_rights_reserved', {year: new Date().getFullYear()})}
+  return (
+    <footer className="border-t border-neutral-800 py-6 text-sm text-neutral-500">
+      <div className="container mx-auto px-4 pb-6 mb-6 border-b border-neutral-800 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+        <Link to="/" aria-label="FranciscoSolis" data-fs-hover>
+          <BrandLockup size={30} tone="auto"/>
+        </Link>
+        <AccessibilityLauncher/>
       </div>
-    </div>
-  </footer>;
+      <div className="container mx-auto px-4 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
+        <span className="inline-flex items-center gap-1">
+          <MapPin size={14}/> {t("contact:location")}
+        </span>
+        <span className="flex flex-col items-center gap-1 sm:flex-row sm:gap-4">
+          <span>{t("common:footer_credit")}</span>
+          <Link to="/brand" className="text-neutral-500 hover:text-text transition-colors" data-fs-hover>
+            {t("common:brand_link")}
+          </Link>
+          <Link to="/legal" className="text-neutral-500 hover:text-text transition-colors" data-fs-hover>
+            {t("common:legal_link")}
+          </Link>
+        </span>
+        <span>{t("common:copyright", {year: new Date().getFullYear()})}</span>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

@@ -1,84 +1,48 @@
 {
-  "title": "Proyectos",
-  "description": "Aquí están algunos de los proyectos en los que he trabajado.",
-
-  "values": [
-    {
-      "title": "Portafolio",
-      "description": "Este sitio web es un portafolio de mi trabajo. Fue construido usando ViteJS con React y Tailwind CSS. El backend está escrito en TypeScript usando Cloudflare Workers.",
-      "technologies": ["React", "ViteJS", "TailwindCSS", "TypeScript", "Cloudflare Pages"],
-      "links": [
-        {
-          "label": "Ver Código",
-          "href": "https://github.com/Im-Fran/franciscosolis-portfolio",
-          "variant": "outline",
-          "icon": "github"
-        },
-        {
-          "label": "Ver en Vivo",
-          "href": "https://franciscosolis.cl",
-          "variant": "defaultOutline",
-          "icon": "external-link"
-        }
-      ]
-    },
-    {
-      "title": "OKTOBEER",
-      "description": "Un sitio web para mostrar el menú, contacto y ubicación de un pub en Calama, Chile.",
-      "technologies": ["React", "NextJS", "TailwindCSS", "TypeScript", "Vercel", "v0"],
-      "links": [
-        {
-          "label": "Ver Código",
-          "href": "https://github.com/Im-Fran/oktobeer",
-          "variant": "outline",
-          "icon": "github"
-        },
-        {
-          "label": "Ver en Vivo",
-          "href": "https://oktobeer.franciscosolis.cl",
-          "variant": "defaultOutline",
-          "icon": "external-link"
-        }
-      ]
-    },
-    {
-      "title": "RubyBox",
-      "description": "Proyecto con un Backend en Laravel y un Frontend en ViteJS para gestionar inventario y un panel de control empresarial.",
-      "technologies": ["Laravel", "ViteJS", "TailwindCSS", "PHP", "PostgreSQL"],
-      "links": [
-        {
-          "label": "Ver Código",
-          "href": "https://github.com/Im-Fran/rubybox.cl",
-          "variant": "outline",
-          "icon": "github"
-        }
-      ]
-    },
-    {
+  "kicker": "Trabajo",
+  "title": "Proyectos destacados",
+  "subtitle": "Presiona una tarjeta para ver más detalles",
+  "view_project": "Ver proyecto",
+  "open_in_github": "Abrir en GitHub",
+  "view_all": "Ver todos los proyectos en GitHub",
+  "skills_label": "Skills",
+  "toolbox_label": "Toolbox",
+  "categories": {
+    "landing": "Landing Page",
+    "mobile": "Aplicación Móvil",
+    "webapp": "Web App",
+    "api": "API & Backend"
+  },
+  "featured": {
+    "mi-utem": {
       "title": "Mi UTEM",
-      "description": "Una aplicación móvil para los estudiantes de la Universidad Tecnológica Metropolitana (UTEM).",
-      "technologies": ["Flutter", "Dart", "Firebase", "Android", "iOS", "Swift", "Kotlin", "Fastlane"],
-      "links": [
-        {
-          "label": "Ver Código",
-          "href": "https://github.com/exdevutem/mi-utem",
-          "variant": "outline",
-          "icon": "github"
-        }
-      ]
+      "description": "La app oficial de la Universidad Tecnológica Metropolitana para sus estudiantes.",
+      "long_description": "App móvil para los estudiantes de la UTEM: horarios, notas, asistencia y credencial digital en un solo lugar. Trabajo en ella desde 2023 dentro del Club de Desarrollo Experimental (ExDev), desarrollando nuevas funcionalidades en Flutter y automatizando el despliegue a la App Store y Google Play con Fastlane y CI/CD."
     },
-    {
-      "title": "SonatypeCentralUpload",
-      "description": "Un plugin Gradle para subir artefactos a Sonatype Central.",
-      "technologies": ["Kotlin", "Gradle", "Maven", "Sonatype"],
-      "links": [
-        {
-          "label": "Ver Código",
-          "href": "https://github.com/Im-Fran/SonatypeCentralUpload",
-          "variant": "outline",
-          "icon": "github"
-        }
-      ]
+    "oktobeer": {
+      "title": "OKTOBEER",
+      "description": "Landing page para un pub en Calama, Chile.",
+      "long_description": "Sitio de una sola página que muestra el menú, la ubicación y los datos de contacto de un pub en Calama. Construido con Next.js y Tailwind CSS, pensado para cargar rápido en móvil y para que el dueño pueda actualizar el menú sin tocar código."
+    },
+    "portfolio": {
+      "title": "franciscosolis.cl",
+      "description": "Este mismo sitio: portafolio, auth propio y CMS sobre Cloudflare.",
+      "long_description": "Mi portafolio personal, reescrito sobre React 19 y Vite con un backend propio en Hono.dev corriendo en Cloudflare Workers. Incluye internacionalización ES/EN, un centro de accesibilidad con paleta de comandos, y un CMS propio respaldado por D1 y R2 para administrar proyectos y contenido sin volver a desplegar."
+    },
+    "craftaro": {
+      "title": "Marketplace Craftaro",
+      "description": "Marketplace de plugins y extensiones, construido desde cero.",
+      "long_description": "Dirigí el desarrollo de un marketplace completo desde cero: catálogo, cuentas de vendedores, licencias y descargas. Backend en Laravel con PostgreSQL y Redis, frontend en React y Tailwind CSS, pagos y payouts integrados con Stripe, y la infraestructura de servidores Linux, despliegue continuo y APIs REST que lo sostienen."
     }
-  ]
+  },
+  "secondary": {
+    "rubybox": {
+      "title": "RubyBox",
+      "description": "Inventario y panel de control empresarial."
+    },
+    "sonatype-central-upload": {
+      "title": "SonatypeCentralUpload",
+      "description": "Plugin Gradle para publicar artefactos en Sonatype Central."
+    }
+  }
 }

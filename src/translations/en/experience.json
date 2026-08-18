@@ -8,19 +8,34 @@
       "description": "I started coding out of curiosity, exploring open-source projects and learning Java and Kotlin without fear of getting it wrong."
     },
     {
-      "label": "Then",
-      "title": "Full-Stack development",
-      "description": "I added frontend and web backend, building complete products end to end."
+      "label": "2020 — 2023",
+      "title": "Songoda LLC · From support to technical lead",
+      "description": "I started out leading community moderation and ended up directing marketplace development: Laravel, Vue and React over PostgreSQL and Redis, continuous integration and deployment, and the administration of the Linux servers holding the platform up."
     },
     {
-      "label": "Later",
-      "title": "Mobile, APIs & microservices",
-      "description": "I extended my work to mobile apps and decoupled service architectures with robust APIs."
+      "label": "2022 — Present",
+      "title": "Computer Science Engineering · UTEM",
+      "description": "I study Computer Science Engineering at Universidad Tecnológica Metropolitana, in Santiago, alongside work. I was also part of the programme's student council, in student relations."
     },
     {
-      "label": "Today",
-      "title": "New challenges",
-      "description": "I keep learning new technologies and looking for projects where I can contribute and grow as part of a team."
+      "label": "2023 — 2024",
+      "title": "Craftaro LLC · A marketplace from scratch",
+      "description": "I led the planning and development of a brand-new marketplace with Laravel, React and Tailwind CSS. I owned the Stripe integration, the infrastructure behind the associated platforms, and the tuning of the PostgreSQL and Redis databases."
+    },
+    {
+      "label": "2023 — Present",
+      "title": "ExDev Club · From member to lead",
+      "description": "I joined UTEM's Experimental Development Club to work on the Mi UTEM app with Flutter, Fastlane and CI/CD, plus virtualisation projects with Proxmox and Active Directory. Since 2025 I lead the club and represent it at student fairs."
+    },
+    {
+      "label": "2024",
+      "title": "Awards and certifications",
+      "description": "I won the Google DevFest 2024 Challenge Lab with BigQuery ML, earned the GitHub Foundations certification, and certified C2 English on the EF SET with 74/100."
+    },
+    {
+      "label": "2025 — Present",
+      "title": "Inside Security · Infrastructure Protection",
+      "description": "I administer operating systems, network services and cloud infrastructure under secure configurations, run monitoring to detect and respond to incidents, take part in digital forensics investigations, and work with development teams so what ships is secure."
     }
   ]
 }

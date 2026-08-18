@@ -108,8 +108,8 @@ export const Stack = () => {
                 data-fs-hover
                 className="block rounded-[var(--radius-sm)] border border-neutral-800 p-4 transition-colors hover:border-accent-700"
               >
-                <p className="text-text">{project.title}</p>
-                <p className="mt-1 text-sm text-neutral-400">{project.description}</p>
+                <p className="text-text">{t(`projects:featured.${project.id}.title`)}</p>
+                <p className="mt-1 text-sm text-neutral-400">{t(`projects:featured.${project.id}.description`)}</p>
               </a>
             ))}
           </div>

@@ -24,7 +24,10 @@
         "JavaScript",
         "CSS",
         "HTML5",
-        "Cloudflare Pages"
+        "Cloudflare Pages",
+        "Vue.js",
+        "Nuxt",
+        "SASS"
       ]
     },
     {
@@ -37,7 +40,11 @@
         "Laravel",
         "Cloudflare Workers",
         "Bun.js",
-        "Express.js"
+        "Express.js",
+        "PHP",
+        "Hono.dev",
+        "PostgreSQL",
+        "Redis"
       ]
     },
     {
@@ -52,12 +59,21 @@
         "Xcode",
         "Android Studio",
         "Flutterfire",
-        "Firebase"
+        "Firebase",
+        "Dart",
+        "Swift"
       ]
     },
     {
       "key": "apis",
-      "tools": ["REST APIs", "Microservicios", "Docker", "Git"]
+      "tools": [
+        "REST APIs",
+        "Microservicios",
+        "Docker",
+        "Git",
+        "Stripe",
+        "CI/CD"
+      ]
     },
     {
       "key": "sysadmin",
@@ -65,7 +81,12 @@
         "Virtualización",
         "Proxmox",
         "Linux",
-        "Red Hat Enterprise Linux"
+        "Red Hat Enterprise Linux",
+        "Ubuntu",
+        "Debian",
+        "Nginx",
+        "Windows Server",
+        "Active Directory"
       ]
     },
     {
@@ -83,11 +104,21 @@
         },
         {
           "name": "Oracle Cloud Infrastructure",
-          "tools": ["Cloud Guard", "VCN", "Compute Instances"]
+          "tools": [
+            "Cloud Guard",
+            "VCN",
+            "Compute Instances"
+          ]
         },
         {
           "name": "Cloudflare Serverless",
-          "tools": ["R2", "D1", "Workers", "Pages", "KV Namespaces"]
+          "tools": [
+            "R2",
+            "D1",
+            "Workers",
+            "Pages",
+            "KV Namespaces"
+          ]
         }
       ]
     },
@@ -98,7 +129,11 @@
         "Escaneo de vulnerabilidades",
         "Análisis de vulnerabilidades",
         "Planes de mitigación",
-        "Actualización de sistemas"
+        "Actualización de sistemas",
+        "Monitoreo de seguridad",
+        "Respuesta a incidentes",
+        "Forense digital",
+        "Hardening de sistemas"
       ]
     },
     {

@@ -6,9 +6,14 @@ import {Badge} from "@/components/ui/badge/badge.tsx";
 import {Modal} from "@/components/ui/modal.tsx";
 import type {FeaturedProject} from "@/pages/home/components/projects/projects.data.ts";
 
-export const ProjectCard = ({category, title, description, longDescription, technologies, toolbox, href, media}: FeaturedProject) => {
+export const ProjectCard = ({id, category, technologies, toolbox, href, media}: FeaturedProject) => {
   const {t} = useTranslation();
   const [open, setOpen] = useState(false);
+
+  /* The copy is keyed by project id in the `projects` namespace — see projects.data.ts. */
+  const title = t(`projects:featured.${id}.title`);
+  const description = t(`projects:featured.${id}.description`);
+  const longDescription = t(`projects:featured.${id}.long_description`);
 
   return (
     <>

@@ -1,7 +1,9 @@
 # Auth interface
 
-The screens under `/auth` are the front-end of [`franciscosolis-auth`](https://api.franciscosolis.cl/auth/openapi.json),
-the centralized auth service for franciscosolis.cl and its services.
+The screens under `/auth`, plus the hosted sign-in screen at `/apps/auth`, are the front-end of
+[`franciscosolis-auth`](https://api.franciscosolis.cl/auth/openapi.json), the centralized auth
+service for franciscosolis.cl and its services. That service is a pure API — it renders no HTML —
+so every page a user sees during a sign-in is one of these.
 
 | Route            | What it is                                                              |
 | ---------------- | ----------------------------------------------------------------------- |
@@ -9,9 +11,35 @@ the centralized auth service for franciscosolis.cl and its services.
 | `/auth/callback` | Where both providers return; redeems the authorization code             |
 | `/auth/account`  | Profile, granted access, linked providers, active sessions              |
 | `/auth/admin`    | Users, invitations, client applications, roles and permissions          |
+| `/apps/auth`     | The service's **hosted** sign-in screen — see below                      |
 
 `/auth/account` and `/auth/admin` need a session; anonymous visitors are sent to `/auth` with a
 `return_to` so the flow resumes where they were headed.
+
+## The hosted sign-in screen
+
+`api.franciscosolis.cl` is a backend end to end: it answers JSON and redirects and renders no
+pages at all. An OAuth flow has exactly one step that must face a human, and `/apps/auth` is it.
+
+The service's `GET /oauth/authorize` validates a request, parks it, and redirects the browser to
+`https://franciscosolis.cl/apps/auth?request=<handle>` (its `AUTH_LOGIN_URL`). The screen then:
+
+1. reads `GET /oauth/authorize/<handle>` for the client's name and the providers this deployment
+   actually has configured — it hardcodes none of them;
+2. posts an address to `POST /oauth/authorize/<handle>/magic-link`, or navigates to a provider's
+   `start_url`;
+3. leaves the rest to the service, which redirects back to the *client's* registered redirect URI
+   with a single-use code.
+
+This is what sets it apart from `/auth`, and why it is a separate screen rather than a mode of the
+same one. `/auth` signs **this site** in: it mints its own PKCE verifier and `state` and drives the
+flow as a client. `/apps/auth` signs in whichever application parked the request — which need not
+be one of this site's — so it holds no session, no client id and no transaction of its own. The
+handle in the query string is its entire context, and holding it grants nothing: a provider still
+has to authenticate someone, and the code still goes to the client's registered redirect URI.
+
+Its two `fetch` endpoints are cross-origin by construction; the auth service allows them from any
+origin an active client registered (`CORS_PARKED_REQUEST` in its `middleware/cors.ts`).
 
 ## How sign-in works
 
@@ -96,6 +124,8 @@ src/lib/auth/
   auth-client.ts    composes the above into one application's client
   auth-provider.tsx restores the session and keeps context in step with the token store
   useResource.ts    load-one-resource hook with abort, retry and 403 reporting
+  authorize.ts      the parked-request endpoints behind /apps/auth — no client, no session
 src/components/auth/ the sign-in and callback panels, shared by every application on this site
-src/pages/auth/      the screens, split out of the main bundle and fetched on demand
+src/pages/auth/      the screens, split out of the main bundle and fetched on demand;
+                     authorize.tsx is the hosted screen and belongs to no application here
 ```

@@ -1,0 +1,70 @@
+{
+  "list": {
+    "title": "Documentos legales",
+    "description": "La política de privacidad, los términos y todo lo demás que el sitio tiene que dejar por escrito. Los guarda el módulo del CMS y los sirve en GET /cms/legal, que solo responde con los documentos publicados. Ojo: la página /legal del sitio todavía no está conectada acá — sigue mostrando su propio texto —, así que publicar aquí no cambia lo que ve un visitante.",
+    "panel_title": "Documentos",
+    "count_one": "{{count}} documento, borradores incluidos.",
+    "count_other": "{{count}} documentos, borradores incluidos.",
+    "new": "Nuevo documento",
+    "search_placeholder": "Filtra por título, slug o resumen…",
+    "caption": "Documentos legales",
+    "columns": {
+      "document": "Documento",
+      "status": "Estado",
+      "version": "Versión",
+      "effective": "Vigencia",
+      "updated": "Última edición",
+      "actions": "Acciones"
+    },
+    "edit_aria": "Editar {{title}}",
+    "delete_aria": "Eliminar {{title}}",
+    "no_matches": "Nada de acá coincide con «{{search}}».",
+    "empty_title": "Todavía no hay documentos legales",
+    "empty_description": "Lo normal es partir por dos: una política de privacidad y unos términos. Lo que escribas acá es lo que el sitio sirve en /legal, una vez publicado.",
+    "empty_action": "Escribir el primero",
+    "delete_title": "¿Eliminar este documento?",
+    "delete_body": "«{{title}}» se eliminará para siempre y no hay vuelta atrás. Una política que alguna vez estuvo publicada normalmente conviene dejarla en Archivado: alguien puede necesitar saber qué decían los términos el año pasado.",
+    "delete_confirm": "Eliminar documento"
+  },
+  "editor": {
+    "back": "Documentos legales",
+    "title_new": "Nuevo documento legal",
+    "title_edit": "Documento legal",
+    "description_new": "Parte como borrador: nada llega al sitio público hasta que el estado diga Publicado.",
+    "description_edit": "En un documento ya publicado, guardar es publicar: el sitio lo lee tal cual queda acá.",
+    "document": "Documento",
+    "document_hint": "Cómo se llama el documento y cómo queda archivado. El slug es lo que la página pública usa en su dirección.",
+    "text": "Texto",
+    "text_hint": "El documento en sí, en Markdown. Esta es la parte que la gente realmente lee, así que es la que vale el tiempo.",
+    "fields": {
+      "title": "Título",
+      "slug": "Slug",
+      "summary": "Resumen",
+      "status": "Estado",
+      "version": "Versión",
+      "effective_at": "Vigente desde",
+      "body": "Texto del documento"
+    },
+    "hints": {
+      "title": "Cómo se llama el documento, arriba de la página pública.",
+      "slug": "Su dirección en el sitio — /legal/privacy, /legal/terms. Minúsculas, dígitos y guiones.",
+      "summary": "Una o dos líneas sobre qué cubre, para índices y vistas previas de enlaces. {{count}} / {{max}} caracteres.",
+      "version": "Una etiqueta que eliges tú, tipo 2026-08 o v3. Subirla junto con el texto es lo que mantiene honesta a la política sobre cuándo cambió.",
+      "effective_at": "Desde cuándo rige esta versión. Déjalo vacío si rige desde el momento en que se publica."
+    },
+    "status_hint": {
+      "draft": "Se ve solo acá adentro. El sitio público no sirve borradores.",
+      "published": "Lo puede leer cualquiera que entre al sitio.",
+      "archived": "Queda para el registro, fuera del sitio público."
+    },
+    "body_required": "Un documento legal es su texto: escribe el cuerpo antes de guardar. La API rechaza uno vacío.",
+    "body_placeholder": "## 1. Quiénes somos\n\nEscribe el documento acá…",
+    "updated_at": "Guardado por última vez el {{date}}.",
+    "publish_title": "¿Publicar este documento?",
+    "publish_body": "«{{title}}» queda legible al tiro: cualquiera que entre al sitio lo puede leer, y pasa a ser lo que el sitio declara. Después lo puedes devolver a borrador, pero lo que fue público, público fue.",
+    "publish_confirm": "Publicar documento",
+    "delete_title": "¿Eliminar este documento?",
+    "delete_body": "«{{title}}» se eliminará para siempre y no hay vuelta atrás. Una política que alguna vez estuvo publicada normalmente conviene dejarla en Archivado: alguien puede necesitar saber qué decían los términos el año pasado.",
+    "delete_confirm": "Eliminar documento"
+  }
+}

@@ -6,6 +6,7 @@ import {Legal} from "@/pages/legal/legal.tsx";
 import {NotFound} from "@/pages/not-found/not-found.tsx";
 import {authRoutes, authorizeRoutes} from "@/pages/auth/auth-routes.tsx";
 import {cmsRoutes} from "@/pages/cms/cms-routes.tsx";
+import {CmsLegacyRedirect} from "@/pages/cms/components/legacy-redirect.tsx";
 
 const routes = [
   {
@@ -33,6 +34,11 @@ const routes = [
       authorizeRoutes,
       /* CMS — its own application, signed in under its own client id */
       cmsRoutes,
+      /* The CMS moved from /apps/cms to /cms; old links and bookmarks still resolve */
+      {
+        path: "apps/cms/*",
+        element: <CmsLegacyRedirect/>,
+      },
       /* 404 */
       {
         path: "*",

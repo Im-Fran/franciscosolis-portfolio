@@ -1,7 +1,18 @@
 {
   "app_name": "CMS",
   "nav": {
-    "site": "Volver al sitio",
+    "label": "Secciones del CMS",
+    "menu": "Menú",
+    "overview": "Resumen",
+    "content": "Contenido",
+    "site": "Sitio",
+    "legal": "Documentos legales",
+    "email": "Correo",
+    "templates": "Plantillas",
+    "messages": "Mensajes",
+    "activity": "Actividad",
+    "audit": "Bitácora",
+    "site_link": "Volver al sitio",
     "sign_out": "Cerrar sesión"
   },
   "sign_in": {
@@ -41,42 +52,101 @@
     "sign_out": "Cerrar sesión",
     "back_home": "Volver al sitio"
   },
-  "dashboard": {
-    "title": "Contenido",
-    "subtitle": "Ya tienes sesión en el CMS. Esta es la cuenta que la API ve en cada escritura, y lo que hoy puede hacer.",
-    "session_title": "Sesión iniciada como",
-    "session_description": "La sesión con la que viaja cada petición desde esta pestaña.",
-    "application_label": "Aplicación",
-    "session_id_label": "Sesión",
-    "last_login_label": "Último ingreso",
-    "email_verified_label": "Correo verificado",
-    "access_title": "Accesos",
-    "access_description": "Los roles y permisos que esta cuenta tiene en el CMS.",
-    "roles_label": "Roles",
-    "roles_empty": "Sin roles asignados.",
-    "permissions_label": "Permisos",
-    "permissions_empty": "Sin permisos asignados.",
-    "access_note": "Los roles y permisos se acuñan dentro del token de acceso, así que un cambio puede tardar hasta la vigencia del token en verse aquí. La API siempre es la autoridad.",
-    "collections_title": "Colecciones",
-    "collections_description": "Lo que administra este CMS. El servicio es quien decide la lista.",
-    "collections_empty": "Este CMS todavía no administra colecciones.",
-    "editing_soon": "Las pantallas de edición aún no son parte de esta interfaz: esta entrega cubre el inicio de sesión y las verificaciones de acceso a su alrededor."
-  },
   "common": {
     "loading": "Cargando…",
+    "checking": "Comprobando tu acceso…",
     "restoring": "Restaurando tu sesión…",
     "failed": "Algo salió mal",
     "retry": "Reintentar",
+    "refresh": "Actualizar",
     "empty": "No hay nada que mostrar.",
+    "no_collections": "Este CMS todavía no administra colecciones.",
     "yes": "Sí",
     "no": "No",
+    "none": "—",
+    "optional": "Opcional",
     "forbidden_title": "No disponible para tu cuenta",
-    "forbidden_body": "Esta sección necesita un permiso que tu cuenta no tiene."
+    "forbidden_body": "Esta sección necesita un permiso que tu cuenta no tiene.",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "back": "Volver",
+    "save": "Guardar cambios",
+    "saving": "Guardando…",
+    "create": "Crear",
+    "creating": "Creando…",
+    "delete": "Eliminar",
+    "deleting": "Eliminando…",
+    "saved": "Cambios guardados.",
+    "created": "Creado.",
+    "deleted": "Eliminado.",
+    "discard": "Descartar cambios",
+    "unsaved": "Tienes cambios sin guardar.",
+    "notifications": "Notificaciones",
+    "pagination": "Paginación",
+    "page_range": "Mostrando {{from}}–{{to}}",
+    "page_empty": "No hay filas en esta página",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "search": "Buscar",
+    "search_placeholder": "Buscar…",
+    "filter_all": "Todos",
+    "clear_filters": "Limpiar filtros",
+    "copy": "Copiar",
+    "copied": "Copiado al portapapeles.",
+    "count_rows_one": "{{count}} fila",
+    "count_rows_other": "{{count}} filas"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio.",
+    "slug_invalid": "Usa minúsculas, dígitos y guiones — hasta 80 caracteres, sin empezar ni terminar en guion.",
+    "too_long": "Hasta {{max}} caracteres.",
+    "invalid_url": "Escribe una URL completa, que empiece con http:// o https://.",
+    "invalid_email": "Escribe una dirección de correo válida.",
+    "invalid_json": "Corrige el JSON antes de guardar."
+  },
+  "status": {
+    "draft": "Borrador",
+    "published": "Publicado",
+    "archived": "Archivado",
+    "queued": "En cola",
+    "sent": "Enviado",
+    "failed": "Fallido"
+  },
+  "markdown": {
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "heading": "Título",
+    "list": "Lista con viñetas",
+    "link": "Enlace",
+    "code": "Código en línea",
+    "write": "Escribir",
+    "preview": "Vista previa",
+    "split": "Dividido",
+    "preview_empty": "Todavía no hay nada que previsualizar.",
+    "hint": "Markdown — **negrita**, _cursiva_, [enlaces](https://) y listas.",
+    "count": "{{count}} caracteres",
+    "count_max": "{{count}} / {{max}} caracteres",
+    "reading": "unos {{minutes}} min de lectura"
+  },
+  "json": {
+    "format": "Formatear",
+    "invalid": "JSON inválido: {{message}}",
+    "not_an_object": "El valor tiene que ser un objeto JSON — una lista o un valor suelto será rechazado."
+  },
+  "tags": {
+    "placeholder": "Escribe una etiqueta y pulsa Enter",
+    "remove": "Quitar la etiqueta {{tag}}"
+  },
+  "reorder": {
+    "handle": "Reordenar — elemento {{position}} de {{total}}. Pulsa espacio y usa las flechas."
   },
   "errors": {
     "network": "No se pudo contactar al servicio. Revisa tu conexión e inténtalo de nuevo.",
     "missing-code": "A esta dirección le falta el código de autorización que el proveedor debía enviar.",
     "missing-transaction": "Este navegador no tiene registro del inicio de sesión que originó este enlace. Empieza de nuevo desde la página de inicio de sesión del CMS.",
-    "state-mismatch": "No se pudo verificar el inicio de sesión. Empieza de nuevo desde la página de inicio de sesión del CMS."
+    "state-mismatch": "No se pudo verificar el inicio de sesión. Empieza de nuevo desde la página de inicio de sesión del CMS.",
+    "forbidden": "Tu cuenta no puede hacer esto.",
+    "not_found": "Ese registro ya no existe.",
+    "conflict": "Otro registro ya usa ese slug."
   }
 }

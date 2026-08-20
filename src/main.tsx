@@ -24,6 +24,14 @@ i18next
     lng: readPreferences().language,
     fallbackLng: 'en',
     ns: ['common', 'personal_info', 'projects', 'experience', 'hero', 'nav', 'stack', 'contact', 'legal', 'brand', 'not_found', 'auth', 'cms', 'a11y'],
+    /*
+     * React escapes every string it renders as a text node, so i18next escaping the value first
+     * only double-encodes it: a title with an apostrophe reaches the screen as `O&#39;Brien`, and a
+     * `JSON.parse` message — which is mostly quotes — becomes unreadable. Nothing here feeds a
+     * translated string to `dangerouslySetInnerHTML` or `<Trans>`, which are the two cases that
+     * would still need the escaping.
+     */
+    interpolation: {escapeValue: false},
     backend: {
       backends: [I18NextLocalStorageBackend],
       backendOptions: [

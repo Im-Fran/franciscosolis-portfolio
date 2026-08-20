@@ -18,9 +18,30 @@ export const CMS_BASE_URL = trimTrailingSlash(
 export const CMS_CLIENT_ID = import.meta.env.VITE_CMS_CLIENT_ID ?? "franciscosolis-cms";
 
 /** Base path of the CMS interface inside this site. */
-export const CMS_ROUTE = "/apps/cms";
+export const CMS_ROUTE = "/cms";
 export const CMS_SIGN_IN_ROUTE = `${CMS_ROUTE}/sign-in`;
 export const CMS_CALLBACK_ROUTE = `${CMS_ROUTE}/callback`;
+
+/**
+ * Where the interface's own sections live. Kept here rather than spelled out at each call site so
+ * a link and the route it points at cannot drift apart.
+ */
+export const cmsRoute = {
+  overview: CMS_ROUTE,
+  content: (collection: string) => `${CMS_ROUTE}/content/${collection}`,
+  contentNew: (collection: string) => `${CMS_ROUTE}/content/${collection}/new`,
+  contentItem: (collection: string, id: string) => `${CMS_ROUTE}/content/${collection}/${id}`,
+  legal: `${CMS_ROUTE}/legal`,
+  legalNew: `${CMS_ROUTE}/legal/new`,
+  legalItem: (id: string) => `${CMS_ROUTE}/legal/${id}`,
+  templates: `${CMS_ROUTE}/email/templates`,
+  templateNew: `${CMS_ROUTE}/email/templates/new`,
+  templateItem: (id: string) => `${CMS_ROUTE}/email/templates/${id}`,
+  emails: `${CMS_ROUTE}/email/messages`,
+  emailNew: `${CMS_ROUTE}/email/messages/new`,
+  emailItem: (id: string) => `${CMS_ROUTE}/email/messages/${id}`,
+  audit: `${CMS_ROUTE}/audit`,
+} as const;
 
 /**
  * A separate storage namespace is what keeps the two sessions apart: signing out of the CMS must

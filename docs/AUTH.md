@@ -60,7 +60,7 @@ Every application on this origin is its own OAuth client. `createAuthClient(conf
 application's whole stack — its session, its view of the API and its sign-in flow — and
 `<AuthProvider client={…}>` puts it in front of a set of routes, so `useAuth()` resolves to whichever
 application the subtree belongs to. The site's own client is the default; the CMS nests its own over
-`/apps/cms` (see [CMS.md](./CMS.md)).
+`/cms` (see [CMS.md](./CMS.md)).
 
 A client's `storageNamespace` is what keeps the sessions apart: tokens minted for different
 applications carry different roles, and signing out of one must not touch the other.

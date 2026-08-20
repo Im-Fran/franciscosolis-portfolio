@@ -8,7 +8,18 @@
 
 /** Envelope every endpoint answers with, except the OAuth token endpoint. */
 export type ApiEnvelope<T> = { code: number; data: T };
-export type ApiErrorBody = { code: number; error: string };
+/**
+ * A rejection, in any of the three shapes the service answers with: its own `{ code, error }`, the
+ * OAuth endpoints' `{ error, error_description }` (RFC 6749 §5.2, and no `code`), and a schema
+ * failure's array of issues. `parseError` reads all three.
+ */
+export type ApiErrorBody = {
+  code?: number;
+  error: string | Array<{message?: string} | string>;
+  /** The sentence, when the code beside it is a machine token like `invalid_grant`. */
+  error_description?: string;
+  message?: string;
+};
 
 /* ── Service metadata ─────────────────────────────────────────────────────── */
 

@@ -22,6 +22,27 @@ export const CMS_ROUTE = "/cms";
 export const CMS_SIGN_IN_ROUTE = `${CMS_ROUTE}/sign-in`;
 export const CMS_CALLBACK_ROUTE = `${CMS_ROUTE}/callback`;
 
+/** Where the interface answered before it moved off `/apps/cms`; `router.tsx` still forwards it. */
+export const CMS_LEGACY_ROUTE = "/apps/cms";
+
+/**
+ * Redirect URI the CMS asks the auth service to send the browser back to.
+ *
+ * It is deliberately *not* `CMS_CALLBACK_ROUTE`. The application is still registered under the
+ * pre-move `/apps/cms/callback`, and the authorization server matches redirect URIs by exact
+ * string: asking for the new path is refused outright — `400 redirect_uri is not registered for
+ * this client` — on every entry point, before any redirect this site could forward can happen.
+ * Quoting the registered path instead lands the browser on `/apps/cms/callback`, which
+ * `router.tsx` forwards to the callback screen with the code and state intact, and the exchange
+ * quotes the same registered value because it reads this config rather than the address bar.
+ *
+ * Once the application carries `<origin>/cms/callback` among its redirect URIs — Admin →
+ * Applications in the auth interface — set `VITE_CMS_REDIRECT_PATH=/cms/callback` (or change the
+ * default here) and the extra hop disappears.
+ */
+export const CMS_REDIRECT_PATH =
+  import.meta.env.VITE_CMS_REDIRECT_PATH ?? `${CMS_LEGACY_ROUTE}/callback`;
+
 /**
  * Where the interface's own sections live. Kept here rather than spelled out at each call site so
  * a link and the route it points at cannot drift apart.
@@ -54,6 +75,7 @@ export const CMS_AUTH_CONFIG: AuthClientConfig = {
   scope: AUTH_SCOPE,
   signInRoute: CMS_SIGN_IN_ROUTE,
   callbackRoute: CMS_CALLBACK_ROUTE,
+  redirectPath: CMS_REDIRECT_PATH,
   defaultReturnTo: CMS_ROUTE,
   returnToPrefix: CMS_ROUTE,
 };

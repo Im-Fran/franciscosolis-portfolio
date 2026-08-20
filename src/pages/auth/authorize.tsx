@@ -10,6 +10,7 @@ import {Button} from "@/components/ui/button/button.tsx";
 import {Field, Input} from "@/components/ui/input.tsx";
 import {Spinner} from "@/components/ui/spinner.tsx";
 import {loadAuthorizationRequest, requestParkedMagicLink} from "@/lib/auth/authorize.ts";
+import {looksLikeEmail} from "@/lib/auth/format.ts";
 import type {PendingAuthorizationProvider} from "@/lib/auth/types.ts";
 import {describeError, useResource} from "@/lib/auth/useResource.ts";
 
@@ -56,10 +57,15 @@ export const Authorize = () => {
     event.preventDefault();
     if (!handle) return;
     setError(null);
+
+    /* Same as the site's own sign-in: `noValidate` means nothing else checks the shape. */
+    const recipient = address.trim();
+    if (!looksLikeEmail(recipient)) return setError("invalid-email");
+
     setBusy("magic_link");
     try {
-      const {expires_in} = await requestParkedMagicLink(handle, address.trim());
-      setPhase({kind: "sent", email: address.trim(), expiresIn: expires_in});
+      const {expires_in} = await requestParkedMagicLink(handle, recipient);
+      setPhase({kind: "sent", email: recipient, expiresIn: expires_in});
     } catch (cause) {
       setError(describeError(cause).message);
     } finally {

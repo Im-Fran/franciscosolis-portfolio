@@ -4,7 +4,7 @@ import {webAuth} from "@/lib/auth/auth-client.ts";
 import type {AuthClient} from "@/lib/auth/auth-client.ts";
 import {AuthContext, hasAdminAccess} from "@/lib/auth/auth-context.ts";
 import type {AuthStatus} from "@/lib/auth/auth-context.ts";
-import {AuthNetworkError} from "@/lib/auth/client.ts";
+import {AuthApiError, AuthNetworkError} from "@/lib/auth/client.ts";
 import type {MeResponse} from "@/lib/auth/types.ts";
 
 /**
@@ -33,13 +33,20 @@ export const AuthProvider = ({client = webAuth, children}: {client?: AuthClient;
       setError(null);
       setStatus("authenticated");
     } catch (cause) {
-      if (cause instanceof AuthNetworkError) {
-        /* The tokens may still be good; report the fault instead of signing the user out. */
-        setError("network");
+      /*
+       * Only a rejection tells us the session is over. A service that could not be reached, or one
+       * that answered 5xx or with a body that would not parse, says nothing about whether these
+       * tokens are still good — so the fault is reported and the session kept, rather than showing
+       * a sign-in form for what is a server-side hiccup and inviting a magic link nobody needed.
+       */
+      const faulted = cause instanceof AuthNetworkError || (cause instanceof AuthApiError && cause.status >= 500);
+      if (faulted) {
+        setError(cause instanceof AuthNetworkError ? "network" : "unexpected");
         setStatus(client.session.getTokens() ? "authenticated" : "anonymous");
         return;
       }
       setMe(null);
+      setError(null);
       setStatus("anonymous");
     }
   }, [client]);

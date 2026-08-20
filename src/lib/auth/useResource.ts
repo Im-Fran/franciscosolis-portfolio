@@ -11,10 +11,19 @@ export type Resource<T> = {
   reload: () => void;
 };
 
+/**
+ * Turns a thrown cause into something a view can show.
+ *
+ * The two auth errors carry text written for a person. Anything else reaching here is a programming
+ * fault, and its `message` is written for whoever is reading a stack trace — a truncated response
+ * once put "Expected ',' or '}' after property value in JSON at position 29" in front of a user.
+ * Those collapse to one translated line, and the detail goes where it is useful instead.
+ */
 export const describeError = (cause: unknown) => {
   if (cause instanceof AuthNetworkError) return {message: "network", status: null};
   if (cause instanceof AuthApiError) return {message: cause.message, status: cause.status};
-  return {message: cause instanceof Error ? cause.message : String(cause), status: null};
+  console.error("Unexpected failure while talking to the auth service:", cause);
+  return {message: "unexpected", status: null};
 };
 
 /**

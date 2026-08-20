@@ -27,8 +27,10 @@ Everything except `sign-in` and `callback` needs a session; anonymous visitors a
 outside `/cms` is dropped.
 
 The interface used to live at `/apps/cms`. That path still resolves — `router.tsx` forwards the whole
-sub-path, query string included, so old links and the previously registered redirect URI keep
-working until the application is re-registered.
+sub-path, query string included — and the sign-in flow depends on it: the application is still
+registered under `<origin>/apps/cms/callback`, so that is the redirect URI the CMS asks for and the
+path the service returns the browser to. The forward carries the `code` and `state` on to
+`/cms/callback`, which redeems them. See *A client application of its own* below.
 
 ## A client application of its own
 
@@ -37,8 +39,21 @@ The CMS signs in at the same issuer as the rest of the site, but under its own c
 | | Site | CMS |
 | --- | --- | --- |
 | Client id | `franciscosolis-web` | `franciscosolis-cms` |
-| Redirect URI | `<origin>/auth/callback` | `<origin>/cms/callback` |
+| Redirect URI (registered) | `<origin>/auth/callback` | `<origin>/apps/cms/callback` |
+| Callback route (in the app) | `/auth/callback` | `/cms/callback` |
 | Storage namespace | `fs.auth.*` | `fs.cms.*` |
+
+The CMS's two rows differ because the application was never re-registered after the interface moved
+off `/apps/cms`, and the authorization server matches redirect URIs by exact string: asking for
+`<origin>/cms/callback` is refused with `400 redirect_uri is not registered for this client` at
+every entry point — magic link, Google and `/oauth/authorize` alike — *before* any redirect this
+site could forward. `CMS_REDIRECT_PATH` in `src/lib/cms/config.ts` therefore quotes the registered
+path, and `redirectUri()` derives the value from that config rather than from the address bar, so
+the token exchange quotes the same string the flow started with, as RFC 6749 §4.1.3 requires.
+
+To retire the extra hop: add `<origin>/cms/callback` to the application's redirect URIs under
+**Admin → Applications**, then set `VITE_CMS_REDIRECT_PATH=/cms/callback` (or change the default in
+`src/lib/cms/config.ts`). Do not remove the old URI until every deployment has been rebuilt.
 
 That is what makes the access token come back minted **for the CMS**, carrying the roles the account
 holds in this application — which is exactly what `/cms/admin/*` checks. It also means the two
@@ -114,18 +129,22 @@ page to the API is its own change.
 
 ## Configuration
 
-| Variable             | Default                             |
-| -------------------- | ----------------------------------- |
-| `VITE_CMS_BASE_URL`  | `https://api.franciscosolis.cl/cms` |
-| `VITE_CMS_CLIENT_ID` | `franciscosolis-cms`                |
+| Variable                 | Default                             |
+| ------------------------ | ----------------------------------- |
+| `VITE_CMS_BASE_URL`      | `https://api.franciscosolis.cl/cms` |
+| `VITE_CMS_CLIENT_ID`     | `franciscosolis-cms`                |
+| `VITE_CMS_REDIRECT_PATH` | `/apps/cms/callback`                |
 
 The application has to exist on the auth service with this site's CMS callback among its redirect
-URIs — `https://franciscosolis.cl/cms/callback` in production, `http://localhost:5173/cms/callback`
-for local work. Register it from **Admin → Applications** in the auth interface (leave *Confidential*
-off; a browser client cannot keep a secret), then grant the editor accounts a role scoped to it.
+URIs. What is registered today is `https://franciscosolis.cl/apps/cms/callback` in production and
+`http://localhost:5173/apps/cms/callback` for local work — the pre-move paths, which is why
+`VITE_CMS_REDIRECT_PATH` defaults to the legacy one. Register from **Admin → Applications** in the
+auth interface (leave *Confidential* off; a browser client cannot keep a secret), then grant the
+editor accounts a role scoped to it.
 
-Note that the API answers CORS for `https://franciscosolis.cl` only, so a dev server on
-`localhost:5173` needs the origin allowed on the service before the CMS can talk to it.
+The auth API answers CORS for an exact allowlist — `https://franciscosolis.cl` and
+`http://localhost:5173` — so a dev server on the default Vite port can talk to it as is. A dev
+server on any other port needs its origin added on the service first.
 
 ## Layout of the code
 

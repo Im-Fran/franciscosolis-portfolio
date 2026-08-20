@@ -33,14 +33,59 @@ export type RequestOptions = {
 
 export type RequestFn = <T>(path: string, options?: RequestOptions) => Promise<T>;
 
+/** How long a read may take before it counts as unreachable. Generous: this is a stall, not a SLA. */
+const REQUEST_TIMEOUT_MS = 20_000;
+
+/**
+ * The human-readable half of an error body, whichever of the three shapes it arrives in.
+ *
+ * The API answers `{ error }` with a plain string for its own rejections, but the OAuth endpoints
+ * follow RFC 6749 and put the sentence in `error_description` beside a machine code in `error`,
+ * and a schema failure answers with an *array* of issues. Reading only the string case turned the
+ * first into a bare `invalid_grant` and the other two into `Bad Request` — the service had said
+ * "A valid email address is required" and the screen showed `HTTP 400`.
+ */
+const messageFrom = (body: Partial<ApiErrorBody>): string | null => {
+  if (typeof body?.error_description === "string" && body.error_description) return body.error_description;
+
+  const {error} = body ?? {};
+  if (typeof error === "string" && error) return error;
+
+  if (Array.isArray(error)) {
+    const issues = error
+      .map((issue) => (typeof issue === "string" ? issue : issue?.message))
+      .filter((issue): issue is string => typeof issue === "string" && issue.length > 0);
+    if (issues.length > 0) return [...new Set(issues)].join(" ");
+  }
+
+  return typeof body?.message === "string" && body.message ? body.message : null;
+};
+
 const parseError = async (response: Response) => {
   try {
-    const body = (await response.json()) as Partial<ApiErrorBody>;
-    if (typeof body?.error === "string") return body.error;
+    return messageFrom((await response.json()) as Partial<ApiErrorBody>) ?? fallbackMessage(response);
   } catch {
     /* Empty or non-JSON error bodies fall back to the status text. */
+    return fallbackMessage(response);
   }
-  return response.statusText || `HTTP ${response.status}`;
+};
+
+const fallbackMessage = (response: Response) => response.statusText || `HTTP ${response.status}`;
+
+/**
+ * Reads a body the service said was JSON.
+ *
+ * A truncated or rewritten payload — a proxy that timed out mid-stream, a captive portal — is a
+ * fault of the hop, not of the session, so it is reported as one instead of letting V8's
+ * `SyntaxError` walk up into an alert box reading "Expected ',' or '}' at position 29". 502 is
+ * both accurate and what the layers above already read as "keep the session, show the fault".
+ */
+const parseJson = <T>(text: string): T => {
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new AuthApiError(502, "malformed-response");
+  }
 };
 
 export type HttpClient = ReturnType<typeof createHttpClient>;
@@ -57,15 +102,33 @@ export const createHttpClient = (baseUrl: string, session: SessionStore) => {
     if (options.json !== undefined) headers["Content-Type"] = "application/json";
     if (token) headers.Authorization = `Bearer ${token}`;
 
+    const method = options.method ?? "GET";
+    /*
+     * A deadline, so a service that accepts the connection and then never answers reads as a
+     * failure rather than as a spinner that never resolves — that is what left "Restoring your
+     * session…" on screen for as long as the service cared to take.
+     *
+     * Reads only. Aborting a write mid-flight tells the caller nothing about whether it landed,
+     * and a half-known write is worse than a slow one.
+     */
+    const deadline = method === "GET" ? AbortSignal.timeout(REQUEST_TIMEOUT_MS) : null;
+    const signal =
+      deadline && options.signal ? AbortSignal.any([options.signal, deadline]) : (deadline ?? options.signal);
+
     try {
       return await fetch(`${baseUrl}${path}`, {
-        method: options.method ?? "GET",
+        method,
         headers,
         body: options.json === undefined ? undefined : JSON.stringify(options.json),
-        signal: options.signal,
+        signal,
       });
     } catch (error) {
-      if (error instanceof DOMException && error.name === "AbortError") throw error;
+      /* The caller's own abort — an unmount, or changed inputs — is not a fault to report. */
+      if (options.signal?.aborted) throw error;
+      if (error instanceof DOMException && error.name === "TimeoutError") throw new AuthNetworkError();
+      if (error instanceof DOMException && error.name === "AbortError") {
+        throw deadline?.aborted ? new AuthNetworkError() : error;
+      }
       throw new AuthNetworkError();
     }
   };
@@ -100,7 +163,7 @@ export const createHttpClient = (baseUrl: string, session: SessionStore) => {
     const text = response.status === 204 ? "" : await response.text();
     if (!text) return undefined as T;
 
-    const body = JSON.parse(text) as ApiEnvelope<T> | T;
+    const body = parseJson<ApiEnvelope<T> | T>(text);
     return body && typeof body === "object" && "code" in body && "data" in body
       ? (body as ApiEnvelope<T>).data
       : (body as T);
@@ -119,7 +182,7 @@ export const createHttpClient = (baseUrl: string, session: SessionStore) => {
       throw new AuthNetworkError();
     }
     if (!response.ok) throw new AuthApiError(response.status, await parseError(response));
-    return (await response.json()) as T;
+    return parseJson<T>(await response.text());
   };
 
   return {request, postForm};

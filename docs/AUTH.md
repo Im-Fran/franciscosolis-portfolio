@@ -87,10 +87,15 @@ the usual cost of a browser-only public client with no back-end of its own to ho
 Both values are build-time env vars (see `.env.example`), so a preview deployment can point at
 another issuer or register under its own client id without a code change:
 
-| Variable               | Default                             |
-| ---------------------- | ----------------------------------- |
-| `VITE_AUTH_BASE_URL`   | `https://api.franciscosolis.cl/auth` |
-| `VITE_AUTH_CLIENT_ID`  | `franciscosolis-web`                 |
+| Variable                  | Default                              |
+| ------------------------- | ------------------------------------ |
+| `VITE_AUTH_BASE_URL`      | `https://api.franciscosolis.cl/auth` |
+| `VITE_AUTH_CLIENT_ID`     | `franciscosolis-web`                 |
+| `VITE_AUTH_REDIRECT_PATH` | `/auth/callback`                     |
+
+`VITE_AUTH_REDIRECT_PATH` exists for the case the CMS is in today: an application registered under a
+path the interface has since moved away from. Point it at the registered path and let `router.tsx`
+forward that landing to the callback route, rather than moving the route to match the registration.
 
 Each application registers separately; the CMS's own entry is documented in [CMS.md](./CMS.md).
 

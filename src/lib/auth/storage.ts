@@ -34,6 +34,17 @@ export type StoredTokens = {
 /** A transaction older than this is stale — a magic link the user never finished opening. */
 const TRANSACTION_TTL_MS = 30 * 60 * 1000;
 
+/**
+ * How many pending sign-ins to keep at once.
+ *
+ * One slot is not enough: a single slot means "send me another link" — or a second tab — silently
+ * overwrites the verifier the first link needs, and opening that first link then fails as a
+ * `state-mismatch`, which reads to the user as tampering rather than as the ordinary thing they
+ * just did. Each entry is a few hundred bytes and expires on its own, so remembering the recent
+ * few costs nothing and makes every link the user was actually sent redeemable.
+ */
+const MAX_TRANSACTIONS = 5;
+
 /** Refresh this long before the real expiry, so a request never travels with a just-dead token. */
 const EXPIRY_SKEW_MS = 30 * 1000;
 
@@ -54,6 +65,14 @@ const write = (key: string, value: unknown) => {
   }
 };
 
+const has = (key: string) => {
+  try {
+    return localStorage.getItem(key) !== null;
+  } catch {
+    return false;
+  }
+};
+
 const remove = (key: string) => {
   try {
     localStorage.removeItem(key);
@@ -69,27 +88,67 @@ export const createAuthStorage = (namespace: string) => {
   const tokensKey = `${namespace}.tokens`;
   const transactionKey = `${namespace}.transaction`;
 
+  /**
+   * Reads the record, expiring stale entries on the way out. A record written before this key
+   * held a list is a bare object, so it is normalized rather than discarded — an upgrade must not
+   * strand a magic link that is already in someone's inbox.
+   */
+  const readTransactions = (): AuthTransaction[] => {
+    const stored = read<AuthTransaction | AuthTransaction[]>(transactionKey);
+    if (!stored) return [];
+
+    const now = Date.now();
+    const live = (Array.isArray(stored) ? stored : [stored]).filter(
+      (transaction) => transaction?.state && now - transaction.created_at <= TRANSACTION_TTL_MS,
+    );
+
+    if (live.length === 0) remove(transactionKey);
+    return live;
+  };
+
   return {
     /** Exposed so the session store can tell its own `storage` events from another client's. */
     tokensKey,
 
-    readTokens: () => read<StoredTokens>(tokensKey),
+    readTokens: () => {
+      const tokens = read<StoredTokens>(tokensKey);
+      if (tokens && typeof tokens.access_token === "string" && tokens.access_token) return tokens;
+
+      /*
+       * Present but unusable — `{}`, `null`, unparseable, a half-written record. An object without
+       * a token is the harmful shape: it reads as "there is a session" to every guard while failing
+       * at the point of use, so each visit to a protected route flashes a loader and bounces back
+       * to sign-in, for good. Clearing whatever is there puts the browser back in a clean anonymous
+       * state instead.
+       */
+      if (has(tokensKey)) remove(tokensKey);
+      return null;
+    },
     writeTokens: (tokens: StoredTokens) => write(tokensKey, tokens),
     clearTokens: () => remove(tokensKey),
 
-    writeTransaction: (transaction: AuthTransaction) => write(transactionKey, transaction),
+    /** The live transactions, newest first, with the expired ones already dropped. */
+    readTransactions: () => readTransactions(),
 
-    readTransaction: () => {
-      const transaction = read<AuthTransaction>(transactionKey);
-      if (!transaction) return null;
-      if (Date.now() - transaction.created_at > TRANSACTION_TTL_MS) {
-        remove(transactionKey);
-        return null;
-      }
-      return transaction;
+    writeTransaction: (transaction: AuthTransaction) => {
+      const kept = readTransactions().filter((pending) => pending.state !== transaction.state);
+      write(transactionKey, [transaction, ...kept].slice(0, MAX_TRANSACTIONS));
     },
 
-    clearTransaction: () => remove(transactionKey),
+    /** The transaction a callback's `state` belongs to, or the newest one when asked for none. */
+    readTransaction: (state?: string) => {
+      const pending = readTransactions();
+      if (state === undefined) return pending[0] ?? null;
+      return pending.find((transaction) => transaction.state === state) ?? null;
+    },
+
+    /** Forgets one transaction, or every one of them when asked for none. */
+    clearTransaction: (state?: string) => {
+      if (state === undefined) return remove(transactionKey);
+      const kept = readTransactions().filter((transaction) => transaction.state !== state);
+      if (kept.length === 0) return remove(transactionKey);
+      write(transactionKey, kept);
+    },
   };
 };
 

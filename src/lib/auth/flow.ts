@@ -37,19 +37,25 @@ export const createAuthFlow = (
   /** Sends the magic link. Answers 202 whether or not the address has an account, by design. */
   const startMagicLink = async (email: string, returnTo = config.defaultReturnTo) => {
     const {transaction, codeChallenge} = await beginTransaction("magic_link", returnTo);
-    return http.request<{message: string; expires_in: number}>("/magic-link", {
-      auth: false,
-      method: "POST",
-      json: {
-        email,
-        client_id: config.clientId,
-        redirect_uri: redirectUri(config),
-        state: transaction.state,
-        code_challenge: codeChallenge,
-        code_challenge_method: "S256",
-        scope: config.scope,
-      },
-    });
+    try {
+      return await http.request<{message: string; expires_in: number}>("/magic-link", {
+        auth: false,
+        method: "POST",
+        json: {
+          email,
+          client_id: config.clientId,
+          redirect_uri: redirectUri(config),
+          state: transaction.state,
+          code_challenge: codeChallenge,
+          code_challenge_method: "S256",
+          scope: config.scope,
+        },
+      });
+    } catch (cause) {
+      /* No link went out, so nothing will ever redeem this verifier — do not leave it lying about. */
+      storage.clearTransaction(transaction.state);
+      throw cause;
+    }
   };
 
   /** Hands the browser over to Google; the flow resumes at the callback route. */
@@ -75,9 +81,15 @@ export const createAuthFlow = (
   const exchanges = new Map<string, Promise<string>>();
 
   const exchange = async (code: string, state: string) => {
-    const transaction = storage.readTransaction();
-    if (!transaction) throw new AuthApiError(400, "missing-transaction");
-    if (transaction.state !== state) throw new AuthApiError(400, "state-mismatch");
+    /*
+     * Looked up by `state` rather than "the last one started": the user may well have several
+     * links in flight — a second address, a second tab — and every one of them has to stay
+     * redeemable. A `state` no pending transaction claims is the genuine mismatch.
+     */
+    const transaction = storage.readTransaction(state);
+    if (!transaction) {
+      throw new AuthApiError(400, storage.readTransactions().length === 0 ? "missing-transaction" : "state-mismatch");
+    }
 
     const tokens = await http.postForm<TokenResponse>("/oauth/token", {
       grant_type: "authorization_code",
@@ -88,7 +100,7 @@ export const createAuthFlow = (
     });
 
     session.startSession(tokens);
-    storage.clearTransaction();
+    storage.clearTransaction(transaction.state);
     return transaction.return_to || config.defaultReturnTo;
   };
 

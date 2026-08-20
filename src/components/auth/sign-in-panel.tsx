@@ -30,7 +30,7 @@ export type SignInPanelProps = {
 /**
  * Provider picker and magic-link form — the whole sign-in screen bar its surroundings.
  *
- * Nothing here is specific to one application: the site's `/auth` and the CMS's `/apps/cms/sign-in`
+ * Nothing here is specific to one application: the site's `/auth` and the CMS's `/cms/sign-in`
  * render the same panel against their own client and their own copy.
  */
 export const SignInPanel = ({ns, client, returnTo, eyebrow, footer}: SignInPanelProps) => {

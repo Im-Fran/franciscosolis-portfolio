@@ -1,3 +1,4 @@
+import {Suspense} from "react";
 import {Outlet} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {ArrowClockwise} from "@phosphor-icons/react";
@@ -41,9 +42,16 @@ export const CmsLayout = () => {
     );
   }
 
+  /*
+   * A second boundary inside the shell, rather than relying on the one around the whole subtree:
+   * each section fetches its own chunk and its own translation namespace on first visit, and
+   * suspending above the shell would blank the header and the navigation every time.
+   */
   return (
     <CmsShell>
-      <Outlet/>
+      <Suspense fallback={<AuthLoading label={t("cms:common.loading")}/>}>
+        <Outlet/>
+      </Suspense>
     </CmsShell>
   );
 };

@@ -149,7 +149,8 @@ export const CmsShell = ({children}: {children: ReactNode}) => {
           </div>
         </aside>
 
-        <main className="min-w-0 flex-1">{children}</main>
+        {/* A plain div, not a <main>: the site's root layout already owns the document's main. */}
+        <div className="min-w-0 flex-1">{children}</div>
       </div>
 
       <ToastViewport/>

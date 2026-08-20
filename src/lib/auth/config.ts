@@ -2,7 +2,7 @@
  * Where the auth service lives and how a front-end identifies itself to it.
  *
  * Every application hosted on this origin is its own OAuth client: the site itself signs in under
- * `franciscosolis-web` at `/auth`, the CMS under `franciscosolis-cms` at `/apps/cms`. They talk to
+ * `franciscosolis-web` at `/auth`, the CMS under `franciscosolis-cms` at `/cms`. They talk to
  * the same issuer but get tokens minted for different applications — with different roles — so each
  * one keeps its own session. An `AuthClientConfig` describes one of them; `createAuthClient` in
  * `auth-client.ts` turns it into a working client.
@@ -87,7 +87,7 @@ export const sanitizeReturnTo = (
   if (!value || !value.startsWith("/") || value.startsWith("//")) return config.defaultReturnTo;
 
   if (config.returnToPrefix) {
-    /* Compare on segment boundaries, so `/apps/cms-something` is not read as being inside the CMS. */
+    /* Compare on segment boundaries, so `/cms-something` is not read as being inside the CMS. */
     const rest = value.startsWith(config.returnToPrefix) ? value.slice(config.returnToPrefix.length) : null;
     if (rest === null || (rest !== "" && !rest.startsWith("/") && !rest.startsWith("?"))) {
       return config.defaultReturnTo;

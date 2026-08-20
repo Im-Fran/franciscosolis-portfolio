@@ -13,7 +13,7 @@ trail — behind a sign-in of its own.
 | `/cms/content/:collection`     | One collection's entries — filter, reorder, create                |
 | `/cms/content/:collection/new` | A new entry                                                       |
 | `/cms/content/:collection/:id` | Editing one entry                                                 |
-| `/cms/legal`                   | The legal documents the public site serves                        |
+| `/cms/legal`                   | The legal documents the CMS module holds                          |
 | `/cms/legal/new`, `/cms/legal/:id` | Writing one                                                   |
 | `/cms/email/templates`         | Reusable messages, referenced by slug when sending                |
 | `/cms/email/templates/new`, `/cms/email/templates/:id` | Editing one                               |
@@ -92,12 +92,21 @@ be a lie the interface repeats every morning.
   editor. The source is never round-tripped through HTML, so what the API stores is exactly what was
   typed. The preview is sanitized: markdown passes raw HTML through by design, and a preview shows
   what *another* editor wrote as often as your own.
+The site's own `/legal` page is **not** wired to this section: it still renders its clauses from
+the `legal` translation namespace. Publishing a document here puts it behind `GET /cms/legal` and
+nothing more, and the section says so rather than implying a link that does not exist. Wiring that
+page to the API is its own change.
+
 - **Email bodies** are HTML, not markdown, and are previewed inside a sandboxed `<iframe>`. A
   template is written to be rendered by someone else's mail client; the CMS must not be the place
   where it executes.
-- **The `data` field** of a content entry is free-form and has no documented schema, so it is edited
-  as JSON rather than through a shape the interface invents. Anything else would drift from the
-  service the first time a collection grew a field.
+- **The `data` field** of a content entry is edited as JSON rather than through a form. It looks
+  free-form — the OpenAPI schema types it as a bare object — but the endpoint's own description says
+  each collection validates it against a schema and rejects a field it does not know. That schema is
+  not exposed to the client, so a typed form here could only be a guess that drifts; the JSON box
+  lets the service be the one that says no, and its message reaches the editor. Note also that a
+  `PATCH` **replaces `data` wholesale rather than merging it**, so the interface always sends the
+  complete object.
 - **Order** is data. `POST /content/{collection}/reorder` takes the whole new order in one call, so
   dragging changes local state and an explicit save commits it — one write per session of nudging
   rather than one per nudge.
@@ -154,3 +163,11 @@ those are deliberately **not** in the preload list in `main.tsx`: a visitor read
 should never fetch the CMS's copy. A screen loads its namespace by naming it,
 `useTranslation(["cms_content", "cms"])`, which is also what makes the shared keys available
 alongside its own.
+
+One app-wide setting matters here: `main.tsx` initialises i18next with
+`interpolation: {escapeValue: false}`. React already escapes every string it renders as a text node,
+so leaving i18next's own escaping on double-encodes the value — an entry titled `O'Brien's` reaches
+the screen as `O&#39;Brien&#39;s`, and a `JSON.parse` message, which is mostly quotes, becomes
+unreadable. This is the configuration i18next documents for React, and it is only safe because
+nothing here feeds a translated string to `dangerouslySetInnerHTML` or `<Trans>`. If that ever
+changes, the escaping has to come back with it.

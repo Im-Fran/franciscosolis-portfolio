@@ -1,0 +1,59 @@
+{
+  "title": "Bitácora",
+  "description": "El registro —solo se agrega, nunca se edita— de las escrituras hechas desde el CMS: qué pasó, cuándo, y desde dónde se puede rastrear. Es el primer lugar donde mirar cuando algo cambió y nadie se acuerda de haberlo tocado. Cada entrada muestra lo que el servicio haya guardado con ella: algunas traen la cuenta detrás del cambio y el registro que tocaron, otras traen solo el evento y su hora.",
+  "refresh_hint": "La bitácora sigue creciendo en el servidor mientras esta página se queda quieta: nada llega solo hasta acá, así que actualízala cuando quieras una respuesta al día.",
+  "list": {
+    "title": "Entradas",
+    "description": "Las más nuevas primero. A las más antiguas se llega retrocediendo por la bitácora."
+  },
+  "search": {
+    "label": "Filtrar las entradas de esta página",
+    "placeholder": "Filtra por evento, cuenta o registro…",
+    "hint": "Filtra solo las entradas que ya están en esta página: el endpoint de la bitácora no acepta búsqueda, así que lo más antiguo hay que ir a buscarlo página por página.",
+    "matches": "Coinciden {{matched}} de {{total}} entradas de esta página.",
+    "none_title": "Nada en esta página coincide",
+    "none_body": "Prueba con algo más corto, limpia el filtro o cambia de página: el filtro solo ve lo que está cargado acá."
+  },
+  "page_size": {
+    "label": "Por página",
+    "aria": "Entradas por página"
+  },
+  "empty": {
+    "title": "La bitácora está vacía",
+    "body": "Todavía no se ha escrito nada desde el CMS. Crea o edita algo y va a quedar registrado acá.",
+    "page_title": "No hay nada en esta página",
+    "page_body": "La bitácora no llega tan atrás. Vuelve a la página anterior para regresar a las entradas que sí existen."
+  },
+  "entry": {
+    "actor_unknown": "Sin cuenta registrada",
+    "show_metadata": "Ver detalle",
+    "hide_metadata": "Ocultar detalle",
+    "metadata_label": "Detalle guardado con esta entrada"
+  },
+  "events": {
+    "content": {
+      "created": "Se creó una entrada de contenido",
+      "updated": "Se actualizó una entrada de contenido",
+      "deleted": "Se eliminó una entrada de contenido",
+      "reordered": "Se reordenaron las entradas de una colección"
+    },
+    "legal": {
+      "created": "Se creó un documento legal",
+      "updated": "Se actualizó un documento legal",
+      "deleted": "Se eliminó un documento legal"
+    },
+    "email_template": {
+      "created": "Se creó una plantilla de correo",
+      "updated": "Se actualizó una plantilla de correo",
+      "deleted": "Se eliminó una plantilla de correo"
+    },
+    "email-template": {
+      "created": "Se creó una plantilla de correo",
+      "updated": "Se actualizó una plantilla de correo",
+      "deleted": "Se eliminó una plantilla de correo"
+    },
+    "email": {
+      "sent": "Se envió un correo"
+    }
+  }
+}

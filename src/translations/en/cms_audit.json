@@ -1,0 +1,59 @@
+{
+  "title": "Audit log",
+  "description": "An append-only record of the writes made through the CMS — what happened, when, and where it can be traced from. It is the first place to look when a piece of content changed and nobody remembers doing it. Each entry shows whatever the service recorded with it: some carry the account behind the change and the record it touched, some carry only the event and its timestamp.",
+  "refresh_hint": "The log keeps growing on the server while this page sits still — nothing is pushed here, so reload it when you want a fresh answer.",
+  "list": {
+    "title": "Entries",
+    "description": "Newest first. Older entries are reachable by paging back through the log."
+  },
+  "search": {
+    "label": "Filter the entries on this page",
+    "placeholder": "Filter by event, account or record…",
+    "hint": "Filters only the entries already on this page — the log endpoint takes no search of its own, so anything older has to be paged to first.",
+    "matches": "{{matched}} of {{total}} entries on this page match.",
+    "none_title": "Nothing on this page matches",
+    "none_body": "Try a shorter term, clear the filter, or move to another page — the filter only sees what is loaded here."
+  },
+  "page_size": {
+    "label": "Per page",
+    "aria": "Entries per page"
+  },
+  "empty": {
+    "title": "The log is empty",
+    "body": "Nothing has been written through the CMS yet. Create or edit something and it will be recorded here.",
+    "page_title": "Nothing on this page",
+    "page_body": "The log does not reach this far back. Go to the previous page to return to the entries that exist."
+  },
+  "entry": {
+    "actor_unknown": "Account not recorded",
+    "show_metadata": "Show details",
+    "hide_metadata": "Hide details",
+    "metadata_label": "Details recorded with this entry"
+  },
+  "events": {
+    "content": {
+      "created": "Content entry created",
+      "updated": "Content entry updated",
+      "deleted": "Content entry deleted",
+      "reordered": "Content entries reordered"
+    },
+    "legal": {
+      "created": "Legal document created",
+      "updated": "Legal document updated",
+      "deleted": "Legal document deleted"
+    },
+    "email_template": {
+      "created": "Email template created",
+      "updated": "Email template updated",
+      "deleted": "Email template deleted"
+    },
+    "email-template": {
+      "created": "Email template created",
+      "updated": "Email template updated",
+      "deleted": "Email template deleted"
+    },
+    "email": {
+      "sent": "Email sent"
+    }
+  }
+}

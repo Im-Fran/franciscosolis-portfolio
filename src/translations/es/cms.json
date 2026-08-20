@@ -93,8 +93,8 @@
     "clear_filters": "Limpiar filtros",
     "copy": "Copiar",
     "copied": "Copiado al portapapeles.",
-    "count_rows": "{{count}} fila",
-    "count_rows_plural": "{{count}} filas"
+    "count_rows_one": "{{count}} fila",
+    "count_rows_other": "{{count}} filas"
   },
   "validation": {
     "required": "Este campo es obligatorio.",

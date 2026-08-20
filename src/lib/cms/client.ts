@@ -75,6 +75,10 @@ export const cmsApi = {
     create: (collection: string, body: NewContent) =>
       http.request<ContentItem>(`/admin/content/${seg(collection)}`, {method: "POST", json: body}),
 
+    /**
+     * Omitted fields are left alone and an explicit `null` clears one — but `data` is replaced
+     * wholesale rather than merged, so a caller sending it at all has to send the complete object.
+     */
     update: (collection: string, id: string, body: ContentPayload) =>
       http.request<ContentItem>(`/admin/content/${seg(collection)}/${seg(id)}`, {method: "PATCH", json: body}),
 
@@ -126,7 +130,11 @@ export const cmsApi = {
 
     get: (id: string, signal?: AbortSignal) => http.request<EmailMessage>(`/admin/emails/${seg(id)}`, {signal}),
 
-    /** Answers `202`: the message is accepted for delivery, not delivered yet. */
+    /**
+     * Sends synchronously and answers with the logged message. A provider failure comes back as a
+     * `failed` record on a successful response rather than as an HTTP error — the attempt was
+     * recorded either way — so a caller has to read `status`, not just the absence of a throw.
+     */
     send: (body: SendEmail) => http.request<EmailMessage>("/admin/emails", {method: "POST", json: body}),
   },
 

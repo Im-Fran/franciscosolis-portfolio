@@ -1,0 +1,70 @@
+{
+  "list": {
+    "title": "Legal documents",
+    "description": "The privacy policy, the terms and anything else the site has to put in writing. These are held by the CMS module and served at GET /cms/legal, which only ever answers with published documents. Note that the site's own /legal page is not wired to this yet — it still renders its own copy — so publishing here does not change what a visitor reads.",
+    "panel_title": "Documents",
+    "count_one": "{{count}} document, drafts included.",
+    "count_other": "{{count}} documents, drafts included.",
+    "new": "New document",
+    "search_placeholder": "Filter by title, slug or summary…",
+    "caption": "Legal documents",
+    "columns": {
+      "document": "Document",
+      "status": "Status",
+      "version": "Version",
+      "effective": "Effective",
+      "updated": "Last updated",
+      "actions": "Actions"
+    },
+    "edit_aria": "Edit {{title}}",
+    "delete_aria": "Delete {{title}}",
+    "no_matches": "Nothing here matches “{{search}}”.",
+    "empty_title": "No legal documents yet",
+    "empty_description": "A privacy policy and a set of terms are the usual first two. Whatever you write here is what the site serves at /legal, once it is published.",
+    "empty_action": "Write the first one",
+    "delete_title": "Delete this document?",
+    "delete_body": "“{{title}}” will be removed for good, and there is no undo. A policy that was ever published is usually worth keeping as Archived instead — someone may need to know what the terms said last year.",
+    "delete_confirm": "Delete document"
+  },
+  "editor": {
+    "back": "Legal documents",
+    "title_new": "New legal document",
+    "title_edit": "Legal document",
+    "description_new": "It starts as a draft — nothing reaches the public site until the status says Published.",
+    "description_edit": "Saving is publishing, for a document that is already published: the site reads it exactly as it stands here.",
+    "document": "Document",
+    "document_hint": "How the document is named and filed. The slug is what the public page uses in its address.",
+    "text": "Text",
+    "text_hint": "The document itself, in Markdown. This is the part visitors actually read, so it is the part worth the time.",
+    "fields": {
+      "title": "Title",
+      "slug": "Slug",
+      "summary": "Summary",
+      "status": "Status",
+      "version": "Version",
+      "effective_at": "Effective from",
+      "body": "Document text"
+    },
+    "hints": {
+      "title": "What the document is called, at the top of the public page.",
+      "slug": "Its address on the site — /legal/privacy, /legal/terms. Lowercase letters, digits and hyphens.",
+      "summary": "A line or two on what this covers, for indexes and link previews. {{count}} / {{max}} characters.",
+      "version": "A label you choose, like 2026-08 or v3. Bumping it along with the text is what keeps a policy honest about when it changed.",
+      "effective_at": "When this version starts to apply. Leave it empty if it applies from the moment it is published."
+    },
+    "status_hint": {
+      "draft": "Visible only in here. The public site does not serve drafts.",
+      "published": "Readable by anyone who visits the site.",
+      "archived": "Kept for the record, out of the public site."
+    },
+    "body_required": "A legal document is its text — write the body before saving. The API rejects an empty one.",
+    "body_placeholder": "## 1. Who we are\n\nWrite the document here…",
+    "updated_at": "Last saved {{date}}.",
+    "publish_title": "Publish this document?",
+    "publish_body": "“{{title}}” becomes publicly readable straight away: anyone visiting the site can read it, and it starts counting as what the site states. You can send it back to a draft later, but what was public was public.",
+    "publish_confirm": "Publish document",
+    "delete_title": "Delete this document?",
+    "delete_body": "“{{title}}” will be removed for good, and there is no undo. A policy that was ever published is usually worth keeping as Archived instead — someone may need to know what the terms said last year.",
+    "delete_confirm": "Delete document"
+  }
+}

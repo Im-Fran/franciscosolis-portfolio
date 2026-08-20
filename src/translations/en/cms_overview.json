@@ -1,0 +1,50 @@
+{
+  "greeting": {
+    "morning": "Good morning, {{name}}",
+    "morning_anon": "Good morning",
+    "afternoon": "Good afternoon, {{name}}",
+    "afternoon_anon": "Good afternoon",
+    "evening": "Good evening, {{name}}",
+    "evening_anon": "Good evening"
+  },
+  "subtitle": "Everything franciscosolis.cl publishes is written and edited from here.",
+  "collections": {
+    "title": "Jump back in",
+    "description": "The collections this CMS manages — the service decides the list, not this screen.",
+    "new_entry": "New entry",
+    "empty_hint": "As soon as the API reports a collection, it turns up here on its own."
+  },
+  "attention": {
+    "title": "Needs attention",
+    "description": "Work left unpublished, and mail that never made it out.",
+    "clear": "Nothing waiting. No drafts left over, and the last messages went out fine.",
+    "partial": "Nothing waiting in what could be checked from here.",
+    "unpublished": "{{n}} unpublished",
+    "failed_label": "Failed deliveries",
+    "undelivered": "{{n}} not delivered"
+  },
+  "activity": {
+    "title": "Recent activity",
+    "description": "The last few things the CMS wrote down.",
+    "see_all": "Full log",
+    "empty": "Nothing has been recorded yet."
+  },
+  "links": {
+    "title": "Everything else",
+    "description": "The rest of the CMS, one click away.",
+    "legal_hint": "Privacy, terms and the rest of the fine print",
+    "templates_hint": "The reusable bodies emails are built from",
+    "compose": "Send an email",
+    "compose_hint": "Write a message and hand it to the queue",
+    "total": "{{n}} in total"
+  },
+  "access": {
+    "title": "Your access",
+    "description": "The account the API sees on every write from this tab.",
+    "roles_label": "Roles",
+    "roles_empty": "No roles granted.",
+    "permissions_label": "Permissions",
+    "permissions_empty": "No permissions granted.",
+    "note": "Roles and permissions are minted into the access token, so a change can take up to the token's lifetime to show here. The API is always the authority."
+  }
+}

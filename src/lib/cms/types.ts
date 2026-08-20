@@ -45,8 +45,9 @@ export type ContentStatus = "draft" | "published" | "archived";
 export const CONTENT_STATUSES: ContentStatus[] = ["draft", "published", "archived"];
 
 /**
- * One entry of a collection. `data` is the collection-specific payload the API stores verbatim:
- * it has no documented schema, so the interface edits it as JSON rather than inventing one.
+ * One entry of a collection. `data` is the collection-specific payload: the service validates it
+ * against a schema it does not publish, so the interface edits it as JSON rather than inventing a
+ * form, and a `PATCH` has to carry the whole object because the API replaces it rather than merging.
  */
 export type ContentItem = {
   id: string;
@@ -134,6 +135,12 @@ export type EmailTemplate = {
   id: string;
   slug: string;
   subject: string;
+  /**
+   * The list endpoint's description says it returns "the variables each one expects", but nothing
+   * in the schema types them and the service does not appear to send them yet. Typed here so the
+   * day it does, the screens can read it instead of scanning the template text for `{{ … }}`.
+   */
+  variables?: string[];
   name?: string;
   description?: string | null;
   html?: string | null;

@@ -93,8 +93,8 @@
     "clear_filters": "Clear filters",
     "copy": "Copy",
     "copied": "Copied to the clipboard.",
-    "count_rows": "{{count}} row",
-    "count_rows_plural": "{{count}} rows"
+    "count_rows_one": "{{count}} row",
+    "count_rows_other": "{{count}} rows"
   },
   "validation": {
     "required": "This field is required.",

@@ -1,7 +1,18 @@
 {
   "app_name": "CMS",
   "nav": {
-    "site": "Back to the site",
+    "label": "CMS sections",
+    "menu": "Menu",
+    "overview": "Overview",
+    "content": "Content",
+    "site": "Site",
+    "legal": "Legal documents",
+    "email": "Email",
+    "templates": "Templates",
+    "messages": "Messages",
+    "activity": "Activity",
+    "audit": "Audit log",
+    "site_link": "Back to the site",
     "sign_out": "Sign out"
   },
   "sign_in": {
@@ -41,42 +52,101 @@
     "sign_out": "Sign out",
     "back_home": "Back to the site"
   },
-  "dashboard": {
-    "title": "Content",
-    "subtitle": "You are signed in to the CMS. This is the account the API sees on every write, and what it is currently allowed to do.",
-    "session_title": "Signed in as",
-    "session_description": "The session every request from this tab travels with.",
-    "application_label": "Application",
-    "session_id_label": "Session",
-    "last_login_label": "Last sign-in",
-    "email_verified_label": "Email verified",
-    "access_title": "Access",
-    "access_description": "The roles and permissions this account holds in the CMS.",
-    "roles_label": "Roles",
-    "roles_empty": "No roles granted.",
-    "permissions_label": "Permissions",
-    "permissions_empty": "No permissions granted.",
-    "access_note": "Roles and permissions are minted into the access token, so a change can take up to the token's lifetime to show here. The API is always the authority.",
-    "collections_title": "Collections",
-    "collections_description": "What this CMS manages. The service is the one that decides the list.",
-    "collections_empty": "This CMS manages no collections yet.",
-    "editing_soon": "Editing screens are not part of this interface yet — this release covers signing in and the access checks around it."
-  },
   "common": {
     "loading": "Loading…",
+    "checking": "Checking your access…",
     "restoring": "Restoring your session…",
     "failed": "Something went wrong",
     "retry": "Retry",
+    "refresh": "Refresh",
     "empty": "Nothing to show.",
+    "no_collections": "This CMS manages no collections yet.",
     "yes": "Yes",
     "no": "No",
+    "none": "—",
+    "optional": "Optional",
     "forbidden_title": "Not available to your account",
-    "forbidden_body": "This section needs a permission your account does not hold."
+    "forbidden_body": "This section needs a permission your account does not hold.",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "create": "Create",
+    "creating": "Creating…",
+    "delete": "Delete",
+    "deleting": "Deleting…",
+    "saved": "Changes saved.",
+    "created": "Created.",
+    "deleted": "Deleted.",
+    "discard": "Discard changes",
+    "unsaved": "You have unsaved changes.",
+    "notifications": "Notifications",
+    "pagination": "Pagination",
+    "page_range": "Showing {{from}}–{{to}}",
+    "page_empty": "No rows on this page",
+    "previous": "Previous",
+    "next": "Next",
+    "search": "Search",
+    "search_placeholder": "Search…",
+    "filter_all": "All",
+    "clear_filters": "Clear filters",
+    "copy": "Copy",
+    "copied": "Copied to the clipboard.",
+    "count_rows": "{{count}} row",
+    "count_rows_plural": "{{count}} rows"
+  },
+  "validation": {
+    "required": "This field is required.",
+    "slug_invalid": "Use lowercase letters, digits and hyphens — up to 80 characters, not starting or ending with a hyphen.",
+    "too_long": "Up to {{max}} characters.",
+    "invalid_url": "Enter a full URL, starting with http:// or https://.",
+    "invalid_email": "Enter a valid email address.",
+    "invalid_json": "Fix the JSON before saving."
+  },
+  "status": {
+    "draft": "Draft",
+    "published": "Published",
+    "archived": "Archived",
+    "queued": "Queued",
+    "sent": "Sent",
+    "failed": "Failed"
+  },
+  "markdown": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "heading": "Heading",
+    "list": "Bulleted list",
+    "link": "Link",
+    "code": "Inline code",
+    "write": "Write",
+    "preview": "Preview",
+    "split": "Split",
+    "preview_empty": "Nothing to preview yet.",
+    "hint": "Markdown — **bold**, _italic_, [links](https://) and lists.",
+    "count": "{{count}} characters",
+    "count_max": "{{count}} / {{max}} characters",
+    "reading": "about {{minutes}} min read"
+  },
+  "json": {
+    "format": "Format",
+    "invalid": "Invalid JSON: {{message}}",
+    "not_an_object": "The value has to be a JSON object — a list or a bare value will be rejected."
+  },
+  "tags": {
+    "placeholder": "Add a tag and press Enter",
+    "remove": "Remove the tag {{tag}}"
+  },
+  "reorder": {
+    "handle": "Reorder — item {{position}} of {{total}}. Press space, then the arrow keys."
   },
   "errors": {
     "network": "The service could not be reached. Check your connection and try again.",
     "missing-code": "This address is missing the authorization code the provider should have sent.",
     "missing-transaction": "This browser has no record of the sign-in that started this link. Start again from the CMS sign-in page.",
-    "state-mismatch": "The sign-in could not be verified. Start again from the CMS sign-in page."
+    "state-mismatch": "The sign-in could not be verified. Start again from the CMS sign-in page.",
+    "forbidden": "Your account is not allowed to do this.",
+    "not_found": "That record no longer exists.",
+    "conflict": "Another record already uses that slug."
   }
 }

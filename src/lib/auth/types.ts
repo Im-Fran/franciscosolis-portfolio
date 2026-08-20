@@ -30,6 +30,40 @@ export type ServiceStatus = {
   providers: AuthProviderInfo[];
 };
 
+/* ── Parked authorization requests ────────────────────────────────────────── */
+
+/** One provider as offered for a parked request, with the URL that starts it. */
+export type PendingAuthorizationProvider = {
+  name: AuthProviderName | (string & {});
+  display_name: string;
+  /** `email` providers are started by posting an address, `redirect` ones by navigating away. */
+  initiation: "email" | "redirect" | (string & {});
+  /** Absolute URL on the auth service that resumes this request through the provider. */
+  start_url: string;
+};
+
+/**
+ * A request parked by `GET /oauth/authorize`, as the hosted sign-in screen reads it.
+ *
+ * It carries only what the browser holding the handle already sent — the client's `state` and
+ * `nonce` are deliberately not here.
+ */
+export type PendingAuthorizationRequest = {
+  request: string;
+  client_id: string;
+  client_name: string;
+  scope: string | null;
+  login_hint: string | null;
+  expires_at: string;
+  providers: PendingAuthorizationProvider[];
+};
+
+/** What both magic-link endpoints answer with, whether or not an email actually went out. */
+export type MagicLinkAccepted = {
+  message: string;
+  expires_in: number;
+};
+
 /* ── Tokens ───────────────────────────────────────────────────────────────── */
 
 /** Flat OAuth 2.0 token response — not wrapped in the `{ code, data }` envelope. */

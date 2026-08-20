@@ -7,6 +7,10 @@ import {lazy} from "react";
 
 export const SignIn = lazy(() => import("@/pages/auth/sign-in.tsx").then((module) => ({default: module.SignIn})));
 
+export const Authorize = lazy(() =>
+  import("@/pages/auth/authorize.tsx").then((module) => ({default: module.Authorize})),
+);
+
 export const Callback = lazy(() =>
   import("@/pages/auth/callback.tsx").then((module) => ({default: module.Callback})),
 );

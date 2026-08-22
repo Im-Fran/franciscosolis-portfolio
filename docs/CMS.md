@@ -107,10 +107,9 @@ be a lie the interface repeats every morning.
   editor. The source is never round-tripped through HTML, so what the API stores is exactly what was
   typed. The preview is sanitized: markdown passes raw HTML through by design, and a preview shows
   what *another* editor wrote as often as your own.
-The site's own `/legal` page is **not** wired to this section: it still renders its clauses from
-the `legal` translation namespace. Publishing a document here puts it behind `GET /cms/legal` and
-nothing more, and the section says so rather than implying a link that does not exist. Wiring that
-page to the API is its own change.
+  The site's own `/legal` page reads this section: its tabs are `GET /cms/legal` and its text is
+  the Markdown written here, split at its `##` headings for the terminal's reveal. Publishing a
+  third document — a cookie policy, say — puts a third tab on that page with no deploy.
 
 - **Email bodies** are HTML, not markdown, and are previewed inside a sandboxed `<iframe>`. A
   template is written to be rendered by someone else's mail client; the CMS must not be the place
@@ -126,6 +125,16 @@ page to the API is its own change.
   dragging changes local state and an explicit save commits it — one write per session of nudging
   rather than one per nudge.
 - **Deletes** all go through a confirmation that names the record. There is no undo on this API.
+- **Translations** are a panel of their own rather than a second copy of the form, because only
+  prose is translatable: `title`, `subtitle`, `summary` and `body` on an entry, and the first,
+  third and fourth of those on a legal page. Slugs, ordering, dates, links, tags and `data` are the
+  same fact in every language. The record's own fields hold the default locale — `GET /cms/`
+  reports which that is, and which others the service publishes — and the panel writes the
+  overrides on top of it. A field left blank is not stored, and the API falls back to the source
+  text for that field alone, so a partly translated entry is a valid state rather than a
+  half-saved one; the badge on each language tab says how much of it is done. Like `data`, the map
+  is **replaced wholesale** on a `PATCH`, so the interface always sends every locale it means to
+  keep.
 
 ## Configuration
 
@@ -160,6 +169,10 @@ src/lib/cms/
   format.ts        slugs, datetime-local round-tripping, list splitting
   json.ts          reading and writing the free-form `data` object
   markdown.ts      the sanitized markdown renderer and the prose styles for a preview
+  content.ts       the *public* half of the same API — no auth, no session — which is what the
+                   landing page and /legal render themselves from
+  landing.ts       what the landing page knows about the CMS's shape: the toolbox categories it
+                   can label, and how a timeline entry's period is derived from its dates
 
 src/pages/cms/
   cms-routes.tsx   the subtree, its own AuthProvider, and the one gate every screen shares
@@ -190,3 +203,41 @@ the screen as `O&#39;Brien&#39;s`, and a `JSON.parse` message, which is mostly q
 unreadable. This is the configuration i18next documents for React, and it is only safe because
 nothing here feeds a translated string to `dangerouslySetInnerHTML` or `<Trans>`. If that ever
 changes, the escaping has to come back with it.
+
+## The landing page reads this API too
+
+Everything the portfolio shows — the projects, the toolbox, the timeline, both legal documents —
+comes from the CMS's **public** routes, which need no session and only ever return `published`
+entries. `src/lib/cms/content.ts` is that client, deliberately separate from `client.ts`: importing
+the editorial one builds the CMS's whole auth stack, and a visitor reading the portfolio has no
+business holding a second session to see a list of projects.
+
+| Section | Reads |
+| --- | --- |
+| Projects | `GET /content/projects`, split on `featured` into the carousel and the grid |
+| Toolbox | `GET /content/skills`, folded by `data.category` and then by `subtitle` |
+| Timeline | `GET /content/{experience,education,certifications}`, merged and sorted by date |
+| `/legal` | `GET /legal` for the tabs, `GET /legal/{slug}` for the Markdown |
+
+Three things follow from that, and they are the parts worth not re-deriving:
+
+- **The language is a query parameter.** Every read carries `?locale=`, taken from the
+  accessibility preferences rather than from i18next directly — that is the value the site persists
+  and mirrors onto `<html lang>`, so the copy the API serves and the copy i18next serves can never
+  disagree about which language is on screen. The service resolves the overrides and answers with
+  plain fields plus a `locale` saying which language actually came back; `/legal` reads it to label
+  an untranslated document instead of implying it is not one.
+- **What each section knows about the content model lives in `landing.ts`,** and it is always a
+  filter, never a source. A skill whose `data.category` this page has no icon for is skipped rather
+  than rendered as an unnamed card, so the CMS can grow a category without the site breaking on it.
+  The timeline's period labels are derived from `started_at`/`ended_at` there too, which is why
+  "2023 — Present" becomes "2023 — 2026" in both languages the day an editor sets an end date.
+- **A section that fails says so, alone.** The page used to be static, so it could not fail;
+  reading from an API buys editable content at the cost of that. Each section renders placeholder
+  cards while it loads — so the page does not reflow under the reader as each one lands — and one
+  line with a retry when it does not. A failure is scoped to its own section: the three read
+  different collections, and one being unreachable is no reason to blank the other two.
+
+`/legal` is lazy-loaded from `router.tsx` for a related reason: rendering the CMS's Markdown pulls
+in a parser and a sanitizer, around 25 kB gzipped that every visitor of the landing page would
+otherwise download to read a page most of them never open.

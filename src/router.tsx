@@ -1,12 +1,14 @@
+import {Suspense} from "react";
 import {createBrowserRouter} from "react-router-dom";
 import Layout from "@/components/layout.tsx";
 import {Home} from "@/pages/home/home.tsx";
 import {Brand} from "@/pages/brand/brand.tsx";
-import {Legal} from "@/pages/legal/legal.tsx";
 import {NotFound} from "@/pages/not-found/not-found.tsx";
+import {AuthLoading} from "@/components/auth/auth-loading.tsx";
 import {authRoutes, authorizeRoutes} from "@/pages/auth/auth-routes.tsx";
 import {cmsRoutes} from "@/pages/cms/cms-routes.tsx";
 import {CmsLegacyRedirect} from "@/pages/cms/components/legacy-redirect.tsx";
+import {Legal} from "@/pages/legal/lazy-screens.tsx";
 
 const routes = [
   {
@@ -26,7 +28,11 @@ const routes = [
       /* Legal */
       {
         path: "legal",
-        element: <Legal/>,
+        element: (
+          <Suspense fallback={<AuthLoading/>}>
+            <Legal/>
+          </Suspense>
+        ),
       },
       /* Auth — sign-in, the OAuth callback and the signed-in areas */
       authRoutes,

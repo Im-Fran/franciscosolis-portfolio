@@ -13,5 +13,9 @@
   "footer_credit": "Hecho con ☕ por Francisco Solis Maturana",
   "legal_link": "Términos y Privacidad",
   "brand_link": "Marca",
-  "loading": "Cargando…"
+  "loading": "Cargando…",
+  "content_unreachable": "No se pudo cargar esta sección — el servicio de contenido no está disponible ahora mismo.",
+  "content_failed": "No se pudo cargar esta sección.",
+  "retry": "Reintentar",
+  "empty": "Todavía no hay nada publicado aquí."
 }

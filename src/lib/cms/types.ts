@@ -9,10 +9,30 @@
 
 /* ── Service metadata ─────────────────────────────────────────────────────── */
 
-/** Service status: what this CMS is and which collections it manages. */
+/** Service status: what this CMS is, which collections it manages and which languages it publishes. */
 export type CmsStatus = {
   message: string;
   collections: string[];
+  /** Every locale the service serves, the default one included. */
+  locales?: string[];
+  /** The locale the entry's own columns hold; every other one is an override on top of it. */
+  default_locale?: string;
+};
+
+/**
+ * Per-locale overrides of an entry's prose, keyed by locale.
+ *
+ * The row itself holds the default locale, so this map never contains a key for it — the service
+ * rejects one. A field left out falls back to the entry's own text, which is what lets a
+ * half-translated entry render rather than showing an empty heading.
+ */
+export type Translations = Record<string, TranslationFields>;
+
+export type TranslationFields = {
+  title?: string | null;
+  subtitle?: string | null;
+  summary?: string | null;
+  body?: string | null;
 };
 
 export type CmsCollection = {
@@ -66,6 +86,8 @@ export type ContentItem = {
   image_url?: string | null;
   tags?: string[];
   data?: Record<string, unknown> | null;
+  /** Written by an editor, and only ever sent on the editorial routes. */
+  translations?: Translations | null;
   created_at?: string;
   updated_at?: string;
 };
@@ -86,6 +108,8 @@ export type ContentPayload = {
   image_url?: string | null;
   tags?: string[];
   data?: Record<string, unknown>;
+  /** Replaced wholesale like `data`, so a `PATCH` sending it has to carry every locale to keep. */
+  translations?: Translations;
 };
 
 /** A create has to carry a title; everything else the service defaults. */
@@ -112,6 +136,7 @@ export type LegalDocument = {
   body?: string | null;
   version?: string | null;
   effective_at?: string | null;
+  translations?: Translations | null;
   created_at?: string;
   updated_at?: string;
 };
@@ -124,6 +149,8 @@ export type LegalPayload = {
   status?: ContentStatus;
   version?: string | null;
   effective_at?: string | null;
+  /** Replaced wholesale, like a content entry's. */
+  translations?: Translations;
 };
 
 /** A legal document is nothing without its text, so both a title and a body are required. */

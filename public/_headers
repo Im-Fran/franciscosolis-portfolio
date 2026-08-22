@@ -1,0 +1,27 @@
+# Response headers Cloudflare adds to the static assets. Workers Assets reads this file from the
+# root of the deployed directory; Vite copies everything in `public/` there verbatim.
+
+/*
+  # The site never needs to sniff a type it did not declare.
+  X-Content-Type-Options: nosniff
+  # Cross-origin navigations carry the origin, never the path — a `?request=` handle or an
+  # authorization `code` must not travel in a Referer to the identity provider.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# The screens that hold a session, or the credential that leads to one. Framing any of these is
+# clickjacking with nothing to gain otherwise: nothing embeds the sign-in screen or the CMS.
+/auth
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+/auth/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+/cms
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+/cms/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+/apps/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'

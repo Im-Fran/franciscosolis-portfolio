@@ -49,3 +49,13 @@ export const initialsOf = (name: string | null | undefined, email: string) => {
   const letters = parts.length > 1 ? `${parts[0][0]}${parts[1][0]}` : source.slice(0, 2);
   return letters.toUpperCase();
 };
+
+/**
+ * Whether an address is worth sending to the service.
+ *
+ * The sign-in forms carry `noValidate` — the browser's own bubble does not match the rest of the
+ * screen — which also switches off the `type="email"` and `required` checks the markup asks for.
+ * This is what stands in for them: a deliberately loose shape test, since the only authority on
+ * whether an address exists is the mail that either arrives or does not.
+ */
+export const looksLikeEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);

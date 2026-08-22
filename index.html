@@ -87,7 +87,29 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-3G7Q5ZRSDZ');
+      /*
+       * Analytics never sees the sign-in query string.
+       *
+       * By default gtag reports the full address, and on the auth screens that address is the
+       * secret: `/apps/auth?request=<handle>` is a bearer credential anyone holding it can read
+       * for the life of the parked request — along with the `login_hint` inside it, which is the
+       * signing-in person's email. `code`, `state` and `token` are the same kind of value on the
+       * callbacks. They are stripped before the page_view rather than the page being exempted,
+       * so the visit is still counted, just without the credential attached.
+       */
+      gtag('config', 'G-3G7Q5ZRSDZ', {
+        page_location: (function () {
+          try {
+            var url = new URL(window.location.href);
+            ['request', 'code', 'state', 'token', 'login_hint', 'error_description'].forEach(function (key) {
+              url.searchParams.delete(key);
+            });
+            return url.toString();
+          } catch (error) {
+            return window.location.origin + window.location.pathname;
+          }
+        })(),
+      });
     </script>
   </head>
   <body>

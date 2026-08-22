@@ -147,6 +147,9 @@
     "state-mismatch": "The sign-in could not be verified. Start again from the CMS sign-in page.",
     "forbidden": "Your account is not allowed to do this.",
     "not_found": "That record no longer exists.",
-    "conflict": "Another record already uses that slug."
+    "conflict": "Another record already uses that slug.",
+    "invalid-email": "Enter an email address in the form name@example.com.",
+    "unexpected": "Something went wrong on our side. Try again in a moment.",
+    "malformed-response": "The service sent an answer this browser could not read. Try again in a moment."
   }
 }

@@ -9,6 +9,7 @@ import {Button} from "@/components/ui/button/button.tsx";
 import {Field, Input} from "@/components/ui/input.tsx";
 import {Spinner} from "@/components/ui/spinner.tsx";
 import type {AuthClient} from "@/lib/auth/auth-client.ts";
+import {looksLikeEmail} from "@/lib/auth/format.ts";
 import {describeError, useResource} from "@/lib/auth/useResource.ts";
 
 type Phase = {kind: "form"} | {kind: "sent"; email: string; expiresIn: number};
@@ -52,10 +53,16 @@ export const SignInPanel = ({ns, client, returnTo, eyebrow, footer}: SignInPanel
   const submitMagicLink = async (event: FormEvent) => {
     event.preventDefault();
     setError(null);
+
+    /* Caught here rather than at the service, which answers a validation array this screen would
+       otherwise render as a bare status line. */
+    const address = email.trim();
+    if (!looksLikeEmail(address)) return setError("invalid-email");
+
     setBusy("magic_link");
     try {
-      const {expires_in} = await client.flow.startMagicLink(email.trim(), returnTo);
-      setPhase({kind: "sent", email: email.trim(), expiresIn: expires_in});
+      const {expires_in} = await client.flow.startMagicLink(address, returnTo);
+      setPhase({kind: "sent", email: address, expiresIn: expires_in});
     } catch (cause) {
       setError(describeError(cause).message);
     } finally {

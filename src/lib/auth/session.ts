@@ -85,6 +85,19 @@ export const createSessionStore = (config: AuthClientConfig) => {
     }
 
     if (!response.ok) {
+      /*
+       * A refused refresh token does not on its own mean the chain is gone. Refresh tokens are
+       * single-use, so when another tab rotated this one while the request above was in flight,
+       * the service is refusing a token that is merely *spent* — and the pair that tab wrote is
+       * live. Only when the stored token is still the one just refused is the session really
+       * over; wiping unconditionally signed both tabs out of a perfectly good session.
+       */
+      const latest = storage.readTokens();
+      if (latest?.refresh_token && latest.refresh_token !== current.refresh_token) {
+        notify(latest);
+        return {status: "refreshed", tokens: latest};
+      }
+
       /* The chain is gone (rotated away, revoked or expired); there is nothing left to recover. */
       endSession();
       return {status: "revoked"};

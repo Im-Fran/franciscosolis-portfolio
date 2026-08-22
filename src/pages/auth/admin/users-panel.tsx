@@ -86,7 +86,8 @@ export const UsersPanel = () => {
                 <Avatar name={user.name} email={user.email} picture={user.picture} size={36}/>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm text-text">{user.name || user.email}</p>
-                  <p className="truncate text-[13px] text-neutral-500">{user.email}</p>
+                  {/* An account with no name is already identified by the line above. */}
+                  {user.name && <p className="truncate text-[13px] text-neutral-500">{user.email}</p>}
                 </div>
                 {user.status && user.status !== "active" && (
                   <Badge variant="outline" size="sm">

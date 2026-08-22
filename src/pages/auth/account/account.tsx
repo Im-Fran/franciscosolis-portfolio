@@ -1,7 +1,9 @@
 import type {ReactNode} from "react";
 import {useTranslation} from "react-i18next";
+import {ArrowClockwise} from "@phosphor-icons/react";
 import {Alert} from "@/components/ui/alert.tsx";
 import {Badge} from "@/components/ui/badge/badge.tsx";
+import {Button} from "@/components/ui/button/button.tsx";
 import {useAuth} from "@/lib/auth/auth-context.ts";
 import {formatDateTime} from "@/lib/auth/format.ts";
 import {AuthShell} from "@/pages/auth/components/auth-shell.tsx";
@@ -13,18 +15,40 @@ import {SessionsPanel} from "@/pages/auth/account/sessions-panel.tsx";
 /** What the account holds: profile, granted access, linked providers and live sessions. */
 export const Account = () => {
   const {t, i18n} = useTranslation();
-  const {me, error} = useAuth();
+  const {me, error, reload} = useAuth();
 
-  if (!me) return null;
+  const heading = (
+    <div className="mb-8">
+      <h1 className="text-[clamp(26px,4vw,36px)] leading-tight text-text">{t("auth:account.title")}</h1>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">{t("auth:account.subtitle")}</p>
+    </div>
+  );
+
+  /*
+   * The session outlived a profile load that failed: the provider keeps a session whose fault says
+   * nothing about the tokens, which leaves this screen with nothing to render. Rendering nothing is
+   * what it used to do — a page with only the footer on it, no message, and no way to reach the
+   * shell's sign-out. The shell stays; what is missing is said, with a way to ask again.
+   */
+  if (!me) {
+    return (
+      <AuthShell title={t("auth:account.title")}>
+        {heading}
+        <Alert tone="error" title={t("auth:common.failed")} className="mb-5">
+          {t(`auth:errors.${error ?? "unexpected"}`, {defaultValue: t("auth:errors.unexpected")})}
+        </Alert>
+        <Button variant="secondary" onClick={() => void reload()} data-fs-hover>
+          <ArrowClockwise size={16}/> {t("auth:common.retry")}
+        </Button>
+      </AuthShell>
+    );
+  }
 
   const {user, roles, permissions, application_id} = me;
 
   return (
     <AuthShell title={t("auth:account.title")}>
-      <div className="mb-8">
-        <h1 className="text-[clamp(26px,4vw,36px)] leading-tight text-text">{t("auth:account.title")}</h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">{t("auth:account.subtitle")}</p>
-      </div>
+      {heading}
 
       {error === "network" && (
         <Alert tone="error" className="mb-6">{t("auth:errors.network")}</Alert>

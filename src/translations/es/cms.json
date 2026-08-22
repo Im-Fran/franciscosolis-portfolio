@@ -142,6 +142,7 @@
   },
   "errors": {
     "network": "No se pudo contactar al servicio. Revisa tu conexión e inténtalo de nuevo.",
+    "session-expired": "Tu sesión del CMS terminó. Vuelve a iniciar sesión para seguir editando.",
     "missing-code": "A esta dirección le falta el código de autorización que el proveedor debía enviar.",
     "missing-transaction": "Este navegador no tiene registro del inicio de sesión que originó este enlace. Empieza de nuevo desde la página de inicio de sesión del CMS.",
     "state-mismatch": "No se pudo verificar el inicio de sesión. Empieza de nuevo desde la página de inicio de sesión del CMS.",

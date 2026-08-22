@@ -99,7 +99,9 @@ export const createAuthFlow = (
       code_verifier: transaction.code_verifier,
     });
 
-    session.startSession(tokens);
+    /* Nothing to sign in with: better a failed callback than a session that is one only in name. */
+    if (!session.startSession(tokens)) throw new AuthApiError(502, "malformed-response");
+
     storage.clearTransaction(transaction.state);
     return transaction.return_to || config.defaultReturnTo;
   };

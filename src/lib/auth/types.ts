@@ -82,7 +82,8 @@ export type TokenResponse = {
   access_token: string;
   token_type: "Bearer";
   expires_in: number;
-  refresh_token: string;
+  /** Omitted by a refresh answer that is not rotating the token; the stored one then stands. */
+  refresh_token?: string;
   scope: string | null;
   session_id: string;
 };

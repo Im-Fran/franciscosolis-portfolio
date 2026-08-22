@@ -141,7 +141,17 @@ export const createHttpClient = (baseUrl: string, session: SessionStore) => {
    */
   const request = async <T>(path: string, options: RequestOptions = {}): Promise<T> => {
     const authenticated = options.auth !== false;
-    let response = await send(path, options, authenticated ? await session.getAccessToken() : null);
+    const token = authenticated ? await session.getAccessToken() : null;
+
+    /*
+     * No token in hand — the store has none, or its refresh came back revoked. Sending the request
+     * anyway is what put unauthenticated calls in front of the API: the service answered "A Bearer
+     * access token is required" on every screen while the interface still believed it was signed
+     * in, so the failure read as a broken client instead of as a session that had ended.
+     */
+    if (authenticated && !token) throw new AuthApiError(401, "session-expired");
+
+    let response = await send(path, options, token);
 
     if (response.status === 401 && authenticated) {
       const outcome = await session.refreshSession();

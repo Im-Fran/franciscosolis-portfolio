@@ -1,4 +1,4 @@
-import type {TokenResponse} from "@/lib/auth/types.ts";
+import type {ApiEnvelope, TokenResponse} from "@/lib/auth/types.ts";
 
 /**
  * Persistence for the sign-in flow, namespaced per application so the site and the CMS can hold a
@@ -152,12 +152,34 @@ export const createAuthStorage = (namespace: string) => {
   };
 };
 
-export const toStoredTokens = (response: TokenResponse): StoredTokens => ({
-  access_token: response.access_token,
-  refresh_token: response.refresh_token,
-  session_id: response.session_id,
-  scope: response.scope,
-  expires_at: Date.now() + response.expires_in * 1000,
-});
+/** The token answer itself, whether or not it arrived inside the API's `{code, data}` envelope. */
+const tokenPayload = (body: TokenResponse | ApiEnvelope<TokenResponse>): Partial<TokenResponse> =>
+  body && typeof body === "object" && "data" in body ? body.data : body;
+
+/**
+ * The record to store for a token answer, or `null` when the answer was not one.
+ *
+ * Both halves are about the same failure: a record that reads as a session and cannot be used as
+ * one. Without an `access_token` there is no session to write at all — storing the shape anyway
+ * left every guard saying "signed in" while `readTokens` discarded the record on the next read,
+ * which is what sent unauthenticated requests to the API for the rest of the visit. And a refresh
+ * answer may leave `refresh_token` out — RFC 6749 §6 reads that as "keep the one you have" — so the
+ * stored one is carried over rather than written away.
+ */
+export const toStoredTokens = (
+  body: TokenResponse | ApiEnvelope<TokenResponse>,
+  previous?: StoredTokens | null,
+): StoredTokens | null => {
+  const response = tokenPayload(body);
+  if (typeof response?.access_token !== "string" || !response.access_token) return null;
+
+  return {
+    access_token: response.access_token,
+    refresh_token: response.refresh_token ?? previous?.refresh_token ?? "",
+    session_id: response.session_id ?? previous?.session_id ?? "",
+    scope: response.scope ?? null,
+    expires_at: Date.now() + (response.expires_in ?? 0) * 1000,
+  };
+};
 
 export const isExpired = (tokens: StoredTokens) => Date.now() >= tokens.expires_at - EXPIRY_SKEW_MS;

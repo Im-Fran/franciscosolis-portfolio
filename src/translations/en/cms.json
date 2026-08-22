@@ -142,6 +142,7 @@
   },
   "errors": {
     "network": "The service could not be reached. Check your connection and try again.",
+    "session-expired": "Your CMS session has ended. Sign in again to keep editing.",
     "missing-code": "This address is missing the authorization code the provider should have sent.",
     "missing-transaction": "This browser has no record of the sign-in that started this link. Start again from the CMS sign-in page.",
     "state-mismatch": "The sign-in could not be verified. Start again from the CMS sign-in page.",

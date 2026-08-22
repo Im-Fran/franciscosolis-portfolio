@@ -2,7 +2,7 @@ import {WEB_AUTH_CONFIG} from "@/lib/auth/config.ts";
 import type {AuthClientConfig} from "@/lib/auth/config.ts";
 import {createAuthStorage, isExpired, toStoredTokens} from "@/lib/auth/storage.ts";
 import type {StoredTokens} from "@/lib/auth/storage.ts";
-import type {TokenResponse} from "@/lib/auth/types.ts";
+import type {ApiEnvelope, TokenResponse} from "@/lib/auth/types.ts";
 
 /**
  * Owns the token lifecycle of one application outside React, so refreshing survives re-renders,
@@ -52,8 +52,11 @@ export const createSessionStore = (config: AuthClientConfig) => {
     };
   };
 
-  const startSession = (response: TokenResponse) => {
-    const tokens = toStoredTokens(response);
+  /** Stores the answer to a token request. `null` when the body was not a usable token answer. */
+  const startSession = (response: TokenResponse | ApiEnvelope<TokenResponse>) => {
+    const tokens = toStoredTokens(response, storage.readTokens());
+    if (!tokens) return null;
+
     storage.writeTokens(tokens);
     notify(tokens);
     return tokens;
@@ -66,7 +69,15 @@ export const createSessionStore = (config: AuthClientConfig) => {
 
   const performRefresh = async (): Promise<RefreshOutcome> => {
     const current = storage.readTokens();
-    if (!current?.refresh_token) return {status: "revoked"};
+    if (!current?.refresh_token) {
+      /*
+       * There is nothing left to refresh with, so the record is spent whatever else it holds.
+       * Clearing it is what ends the session everywhere at once: left in place, the guards kept
+       * reading it as "signed in" while every request went out with no token behind it.
+       */
+      if (current) endSession();
+      return {status: "revoked"};
+    }
 
     let response: Response;
     try {
@@ -103,7 +114,14 @@ export const createSessionStore = (config: AuthClientConfig) => {
       return {status: "revoked"};
     }
 
-    return {status: "refreshed", tokens: startSession((await response.json()) as TokenResponse)};
+    const rotated = startSession((await response.json()) as TokenResponse);
+
+    /*
+     * A 200 that is not a token answer — a proxy that rewrote the body, a shape this client does
+     * not know — says nothing about the chain, so the stored pair stands and the caller retries.
+     * What must not happen is storing it: that is what produced a "session" with no token in it.
+     */
+    return rotated ? {status: "refreshed", tokens: rotated} : {status: "unavailable"};
   };
 
   /** Exchanges the stored refresh token for a fresh pair. Concurrent callers share one request. */
@@ -121,7 +139,15 @@ export const createSessionStore = (config: AuthClientConfig) => {
    */
   const getAccessToken = async () => {
     const tokens = storage.readTokens();
-    if (!tokens) return null;
+    if (!tokens) {
+      /*
+       * Nothing usable is left: no record, or one the store just discarded as unreadable. That
+       * discard happens without a `storage` event of its own, so it is announced here — otherwise a
+       * screen that was rendered while the session still looked live keeps that view for good.
+       */
+      notify(null);
+      return null;
+    }
     if (!isExpired(tokens)) return tokens.access_token;
 
     const outcome = await refreshSession();

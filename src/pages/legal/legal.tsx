@@ -1,37 +1,49 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 import {ArrowLeft, GlobeSimple} from "@phosphor-icons/react";
 import {Button} from "@/components/ui/button/button.tsx";
+import {Spinner} from "@/components/ui/spinner.tsx";
 import {useLanguageToggle} from "@/hooks/useLanguageToggle.ts";
+import {useCmsLegalIndex, useCmsLegalPage} from "@/lib/cms/content.ts";
+import {PROSE_CLASS, renderMarkdown} from "@/lib/cms/markdown.ts";
+import {SectionError} from "@/pages/home/components/section-state.tsx";
 
-type LegalTab = "terms" | "privacy";
-type Clause = { title: string; body: string };
+/**
+ * The legal pages, read from the CMS.
+ *
+ * Which documents exist, what they are called and what they say all come from `/legal` now — the
+ * tabs are the API's listing, so publishing a cookie policy in `/cms` puts a third tab here with
+ * no deploy. What stays local is the terminal it is dressed as: the typing, the fake `clear`, the
+ * truncated transcript of the previous run.
+ *
+ * The bodies are Markdown, and the reveal that used to step through hand-written clauses now steps
+ * through the document's own `##` sections. That keeps the effect honest — it is revealing the
+ * real structure of the text rather than a list written to look like one — and it degrades
+ * gracefully: a document with no headings is one section that appears at once.
+ */
+
 type TerminalPhase = "typing-clear" | "loading-clear" | "typing-command" | "loading-command" | "streaming" | "loaded";
-type CommittedRun = { lines: string[] };
-type PreviousBlock = { firstLines: string[]; truncatedChars: number };
-
-const tabs: LegalTab[] = ["terms", "privacy"];
-
-const tabIds: Record<LegalTab, string> = {
-  terms: "terms-of-service",
-  privacy: "privacy-policy",
-};
+type CommittedRun = {lines: string[]};
+type PreviousBlock = {firstLines: string[]; truncatedChars: number};
 
 const CLEAR_CMD = "clear";
 const TYPE_CHAR_MS = 35;
-const CLAUSE_REVEAL_MS = 90;
+const SECTION_REVEAL_MS = 90;
 const randomLoadMs = () => 300 + Math.random() * 400;
 const randomTruncateExtraMs = () => 400 + Math.random() * 200;
 
-const buildTranscriptLines = (command: string, updated: string, clauses: Clause[]): string[] => {
-  const lines = [`$ ${CLEAR_CMD}`, `$ ${command}`, updated];
-  clauses.forEach((clause) => {
-    lines.push(clause.title);
-    lines.push(clause.body);
-  });
-  return lines;
-};
+/**
+ * Splits a Markdown document at its top-level headings.
+ *
+ * Anything before the first `##` — an editor's preamble — is kept as a leading section rather than
+ * dropped, so no text can go missing just because the document does not open with a heading.
+ */
+const splitSections = (body: string): string[] =>
+  body
+    .split(/\n(?=## )/g)
+    .map((section) => section.trim())
+    .filter(Boolean);
 
 const toPreviousBlock = ({lines}: CommittedRun): PreviousBlock => {
   const firstLines = lines.slice(0, 4);
@@ -40,9 +52,9 @@ const toPreviousBlock = ({lines}: CommittedRun): PreviousBlock => {
 };
 
 export const Legal = () => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
   const {language, toggleLanguage} = useLanguageToggle();
-  const [activeTab, setActiveTab] = useState<LegalTab>("terms");
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [phase, setPhase] = useState<TerminalPhase>("loaded");
   const [clearChars, setClearChars] = useState(CLEAR_CMD.length);
   const [commandChars, setCommandChars] = useState(0);
@@ -52,10 +64,20 @@ export const Legal = () => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({width: 0, height: 0});
 
-  const command = t(`legal:commands.${activeTab}`);
-  const clauses = t(`legal:${activeTab}.clauses`, {returnObjects: true}) as unknown as Clause[];
-  const updated = t(`legal:${activeTab}.updated`);
+  const index = useCmsLegalIndex();
+  const tabs = useMemo(() => index.data ?? [], [index.data]);
+
+  /* The first published document is the landing tab, whatever the CMS decides that is. */
+  const selectedSlug = activeSlug && tabs.some((tab) => tab.slug === activeSlug) ? activeSlug : tabs[0]?.slug ?? null;
+  const page = useCmsLegalPage(selectedSlug);
+
+  const command = selectedSlug ? `${t("legal:command")} ${selectedSlug}` : t("legal:command");
+  const sections = useMemo(() => (page.data ? splitSections(page.data.body) : []), [page.data]);
+  const updated = page.data?.version ? t("legal:updated", {version: page.data.version}) : "";
   const termUser = language === "es" ? "visitante" : "visitor";
+
+  /* The API says which language it actually served; a document with no translation says so. */
+  const untranslated = Boolean(page.data && page.data.locale !== language);
 
   useEffect(() => {
     const el = terminalRef.current;
@@ -69,6 +91,9 @@ export const Legal = () => {
   }, []);
 
   useEffect(() => {
+    /* Nothing to type until the document is in hand — the command carries its slug. */
+    if (!page.data) return;
+
     const timers: ReturnType<typeof setTimeout>[] = [];
     const schedule = (fn: () => void, delay: number) => {
       timers.push(setTimeout(fn, delay));
@@ -100,22 +125,19 @@ export const Legal = () => {
 
     const streamStartAt = commandTypedAt + randomLoadMs();
     schedule(() => setPhase("streaming"), streamStartAt);
-    for (let i = 1; i <= clauses.length; i++) {
-      schedule(() => setRevealedCount(i), streamStartAt + i * CLAUSE_REVEAL_MS);
+    for (let i = 1; i <= sections.length; i++) {
+      schedule(() => setRevealedCount(i), streamStartAt + i * SECTION_REVEAL_MS);
     }
-    schedule(() => setPhase("loaded"), streamStartAt + clauses.length * CLAUSE_REVEAL_MS + 50);
+    schedule(() => setPhase("loaded"), streamStartAt + sections.length * SECTION_REVEAL_MS + 50);
+
+    committedRun.current = {lines: [`$ ${CLEAR_CMD}`, `$ ${command}`, updated, ...sections]};
 
     return () => timers.forEach(clearTimeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, i18n.language, command]);
+  }, [page.data]);
 
-  useEffect(() => {
-    if (phase === "loaded") {
-      committedRun.current = {lines: buildTranscriptLines(command, updated, clauses)};
-    }
-  }, [phase, command, updated, clauses]);
-
-  const revealedClauses = phase === "loaded" ? clauses : clauses.slice(0, revealedCount);
+  const revealedSections = phase === "loaded" ? sections : sections.slice(0, revealedCount);
+  const streaming = phase === "streaming" || phase === "loaded";
 
   return (
     <section className="relative w-full overflow-hidden">
@@ -140,67 +162,90 @@ export const Legal = () => {
           {t("legal:title")}
         </h1>
 
-        <div className="flex flex-wrap gap-3 mb-6">
-          {tabs.map((tab) => (
-            <Button
-              key={tab}
-              variant={activeTab === tab ? "primary" : "secondary"}
-              size="sm"
-              onClick={() => setActiveTab(tab)}
-              data-fs-hover
-            >
-              {t(`legal:tabs.${tab}`)}
-            </Button>
-          ))}
-        </div>
-
-        <div className="rounded-[var(--radius-md)] border border-neutral-800 bg-surface overflow-hidden">
-          <div className="relative flex items-center gap-2 px-4 py-3 bg-neutral-900/70 border-b border-neutral-800">
-            <div className="flex gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#ff5f56]"/>
-              <span className="w-3 h-3 rounded-full bg-[#ffbd2e]"/>
-              <span className="w-3 h-3 rounded-full bg-[#27c93f]"/>
+        {index.error ? (
+          <SectionError error={index.error} onRetry={index.reload}/>
+        ) : (
+          <>
+            <div className="flex flex-wrap gap-3 mb-6">
+              {tabs.map((tab) => (
+                <Button
+                  key={tab.slug}
+                  variant={selectedSlug === tab.slug ? "primary" : "secondary"}
+                  size="sm"
+                  onClick={() => setActiveSlug(tab.slug)}
+                  data-fs-hover
+                >
+                  {tab.title}
+                </Button>
+              ))}
             </div>
-            <p className="flex-1 min-w-0 truncate px-2 text-center text-[10px] sm:text-[11px] text-neutral-500 pointer-events-none select-none">
-              {termUser}@franciscosolis.cl — zsh — {size.width}x{size.height}
-            </p>
-            <div className="w-[52px] shrink-0" aria-hidden="true"/>
-          </div>
 
-          <div ref={terminalRef} className="p-4 sm:p-6 font-mono text-xs sm:text-sm min-h-[420px]">
-            {previousRun && (
-              <div className="opacity-40 text-neutral-600 mb-4 space-y-0.5">
-                {previousRun.firstLines.map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-                <p>[+{previousRun.truncatedChars} truncated]</p>
+            <div className="rounded-[var(--radius-md)] border border-neutral-800 bg-surface overflow-hidden">
+              <div className="relative flex items-center gap-2 px-4 py-3 bg-neutral-900/70 border-b border-neutral-800">
+                <div className="flex gap-2">
+                  <span className="w-3 h-3 rounded-full bg-[#ff5f56]"/>
+                  <span className="w-3 h-3 rounded-full bg-[#ffbd2e]"/>
+                  <span className="w-3 h-3 rounded-full bg-[#27c93f]"/>
+                </div>
+                <p className="flex-1 min-w-0 truncate px-2 text-center text-[10px] sm:text-[11px] text-neutral-500 pointer-events-none select-none">
+                  {termUser}@franciscosolis.cl — zsh — {size.width}x{size.height}
+                </p>
+                <div className="w-[52px] shrink-0" aria-hidden="true"/>
               </div>
-            )}
 
-            <p className="text-neutral-500 mb-4">
-              $ {CLEAR_CMD.slice(0, clearChars)}
-              {phase === "typing-clear" && <span className="ml-0.5 animate-pulse">▍</span>}
-            </p>
-            {phase !== "typing-clear" && (
-              <p className="text-accent-300 mb-6">
-                $ {command.slice(0, phase === "loading-clear" ? 0 : commandChars)}
-                {phase === "typing-command" && <span className="ml-0.5 animate-pulse">▍</span>}
-              </p>
-            )}
-
-            {(phase === "streaming" || phase === "loaded") && (
-              <article id={tabIds[activeTab]} className="font-sans space-y-6 text-neutral-300">
-                <p className="text-neutral-500 text-xs uppercase tracking-[0.08em]">{updated}</p>
-                {revealedClauses.map((clause) => (
-                  <div key={clause.title}>
-                    <h2 className="text-text text-base sm:text-lg mb-2">{clause.title}</h2>
-                    <p className="leading-[1.6]">{clause.body}</p>
+              <div ref={terminalRef} className="p-4 sm:p-6 font-mono text-xs sm:text-sm min-h-[420px]">
+                {previousRun && (
+                  <div className="opacity-40 text-neutral-600 mb-4 space-y-0.5">
+                    {previousRun.firstLines.map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                    <p>[+{previousRun.truncatedChars} truncated]</p>
                   </div>
-                ))}
-              </article>
-            )}
-          </div>
-        </div>
+                )}
+
+                {page.error ? (
+                  <SectionError error={page.error} onRetry={page.reload}/>
+                ) : !page.data ? (
+                  <p className="flex items-center gap-3 text-neutral-500">
+                    <Spinner size={14} label={t("common:loading")}/>
+                    {t("common:loading")}
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-neutral-500 mb-4">
+                      $ {CLEAR_CMD.slice(0, clearChars)}
+                      {phase === "typing-clear" && <span className="ml-0.5 animate-pulse">▍</span>}
+                    </p>
+                    {phase !== "typing-clear" && (
+                      <p className="text-accent-300 mb-6">
+                        $ {command.slice(0, phase === "loading-clear" ? 0 : commandChars)}
+                        {phase === "typing-command" && <span className="ml-0.5 animate-pulse">▍</span>}
+                      </p>
+                    )}
+
+                    {streaming && (
+                      <article id={page.data.slug} className="font-sans space-y-2 text-neutral-300">
+                        {updated && (
+                          <p className="text-neutral-500 text-xs uppercase tracking-[0.08em]">{updated}</p>
+                        )}
+                        {untranslated && (
+                          <p className="text-neutral-500 text-xs">{t("legal:untranslated")}</p>
+                        )}
+                        {revealedSections.map((section, i) => (
+                          <div
+                            key={i}
+                            className={PROSE_CLASS}
+                            dangerouslySetInnerHTML={{__html: renderMarkdown(section)}}
+                          />
+                        ))}
+                      </article>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

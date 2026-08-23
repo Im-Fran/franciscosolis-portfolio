@@ -15,16 +15,20 @@ import {cmsRoute} from "@/lib/cms/config.ts";
 import {SLUG_PATTERN, fromDateTimeLocal, orNull, slugify, toDateTimeLocal} from "@/lib/cms/format.ts";
 import {useToast} from "@/lib/cms/toast-context.ts";
 import {CONTENT_STATUSES} from "@/lib/cms/types.ts";
-import type {ContentStatus, LegalDocument, LegalPayload} from "@/lib/cms/types.ts";
+import type {ContentStatus, LegalDocument, LegalPayload, Translations} from "@/lib/cms/types.ts";
 import {useMutation} from "@/lib/cms/useMutation.ts";
 import {ConfirmDialog} from "@/pages/cms/components/confirm-dialog.tsx";
 import {MarkdownEditor} from "@/pages/cms/components/markdown-editor.tsx";
 import {PageHeader} from "@/pages/cms/components/page-header.tsx";
+import {TranslationsPanel} from "@/pages/cms/components/translations-panel.tsx";
 
 const TITLE_MAX = 200;
 const SUMMARY_MAX = 600;
 const VERSION_MAX = 40;
 const BODY_MAX = 200000;
+
+/** A legal page has no subtitle, so its translatable prose is these three fields. */
+const TRANSLATABLE = ["title", "summary", "body"] as const;
 
 type Form = {
   title: string;
@@ -34,11 +38,21 @@ type Form = {
   version: string;
   effectiveAt: string;
   body: string;
+  translations: Translations;
 };
 
 type FieldName = keyof Form;
 
-const EMPTY: Form = {title: "", slug: "", summary: "", status: "draft", version: "", effectiveAt: "", body: ""};
+const EMPTY: Form = {
+  title: "",
+  slug: "",
+  summary: "",
+  status: "draft",
+  version: "",
+  effectiveAt: "",
+  body: "",
+  translations: {},
+};
 
 /** The API types `status` as a plain string, so an unexpected value falls back to a safe draft. */
 const asStatus = (value: string): ContentStatus =>
@@ -52,6 +66,7 @@ const toForm = (source: LegalDocument): Form => ({
   version: source.version ?? "",
   effectiveAt: toDateTimeLocal(source.effective_at),
   body: source.body ?? "",
+  translations: source.translations ?? {},
 });
 
 /**
@@ -107,8 +122,19 @@ export const LegalEditor = () => {
     setSlugTouched(true);
   }, [loaded]);
 
+  /**
+   * `translations` is the one field that is an object rather than a string, so it is compared by
+   * value. Comparing it by identity would both miss an edit inside the map and, once the panel
+   * hands back a new object, call an untouched document dirty.
+   */
+  const sameValue = (key: FieldName) =>
+    key === "translations" ?
+      JSON.stringify(form.translations) === JSON.stringify(baseline.translations)
+    : form[key] === baseline[key];
+
   const dirty = useMemo(
-    () => (Object.keys(form) as FieldName[]).some((key) => form[key] !== baseline[key]),
+    () => (Object.keys(form) as FieldName[]).some((key) => !sameValue(key)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [form, baseline],
   );
 
@@ -165,6 +191,7 @@ export const LegalEditor = () => {
       status: form.status,
       version: orNull(form.version),
       effective_at: fromDateTimeLocal(form.effectiveAt),
+      translations: form.translations,
     };
     const slug = form.slug.trim();
     if (slug) full.slug = slug;
@@ -179,6 +206,8 @@ export const LegalEditor = () => {
     if (form.version !== baseline.version) changed.version = full.version;
     if (form.effectiveAt !== baseline.effectiveAt) changed.effective_at = full.effective_at;
     if (form.slug !== baseline.slug && slug) changed.slug = slug;
+    /* Sent whole or not at all: the API replaces the map rather than merging into it. */
+    if (!sameValue("translations")) changed.translations = full.translations;
     return changed;
   };
 
@@ -417,6 +446,16 @@ export const LegalEditor = () => {
             />
           </Field>
         </Panel>
+
+        <TranslationsPanel
+          ns="cms_legal"
+          fields={TRANSLATABLE}
+          source={{title: form.title, summary: form.summary, body: form.body}}
+          value={form.translations}
+          onChange={(value) => setForm((current) => ({...current, translations: value}))}
+          limits={{title: TITLE_MAX, summary: SUMMARY_MAX, body: BODY_MAX}}
+          disabled={save.pending}
+        />
 
         {loaded?.updated_at && (
           <p className="text-[13px] text-neutral-600">

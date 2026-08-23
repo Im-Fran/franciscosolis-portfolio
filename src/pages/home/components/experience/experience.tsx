@@ -1,14 +1,28 @@
-import {useLayoutEffect, useRef} from "react";
+import {useLayoutEffect, useMemo, useRef} from "react";
 import {useTranslation} from "react-i18next";
 import gsap from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
+import {SectionError, SectionSkeleton} from "@/pages/home/components/section-state.tsx";
 import {useScrollReveal} from "@/pages/home/hooks/useScrollReveal.ts";
 import {useA11y} from "@/lib/a11y";
+import {text, useCmsCollections} from "@/lib/cms/content.ts";
+import {byPeriod, periodLabel, TIMELINE_COLLECTIONS} from "@/lib/cms/landing.ts";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Milestone = { label: string; title: string; description: string };
-
+/**
+ * The timeline, merged from three CMS collections.
+ *
+ * A career reads as one sequence, but the CMS models it as `experience`, `education` and
+ * `certifications` — which is the right split for editing (a degree and a job carry different
+ * fields) and the wrong one for reading. So the three listings are fetched together, sorted by
+ * when they started, and rendered as one line. A collection that fails to load is dropped rather
+ * than blanking the section: half a timeline still tells the story.
+ *
+ * The period beside each entry is derived from its dates rather than stored as a string, so
+ * "2023 — Present" becomes "2023 — 2026" the day an editor sets an end date, in both languages,
+ * without anybody editing a label.
+ */
 export const Experience = () => {
   const {t} = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
@@ -17,7 +31,12 @@ export const Experience = () => {
   const {motion} = useA11y();
   useScrollReveal(sectionRef);
 
-  const milestones = t("experience:milestones", {returnObjects: true}) as Milestone[];
+  const {data, loading, error, reload} = useCmsCollections(TIMELINE_COLLECTIONS);
+
+  const milestones = useMemo(
+    () => [...(data ?? [])].sort(byPeriod),
+    [data],
+  );
 
   useLayoutEffect(() => {
     if (!timelineRef.current || !lineRef.current) return;
@@ -44,7 +63,11 @@ export const Experience = () => {
     );
 
     return () => mm.revert();
-  }, [motion]);
+    /*
+     * Re-run once the entries land: the trigger measures the timeline's height when it is created,
+     * and setting it up against an empty list would scrub a line that is about to grow.
+     */
+  }, [motion, milestones.length]);
 
   return (
     <section id="experience" ref={sectionRef} className="container mx-auto px-4 py-24">
@@ -55,24 +78,42 @@ export const Experience = () => {
         {t("experience:title")}
       </h2>
 
-      <div ref={timelineRef} className="relative mx-auto max-w-190 pl-9">
-        <div
-          ref={lineRef}
-          className="absolute left-3.5 top-0 bottom-0 w-px"
-          style={{background: "linear-gradient(to bottom, var(--color-accent-600), var(--color-neutral-800))"}}
-        />
-
-        <div className="space-y-14">
-          {milestones.map((milestone) => (
-            <div key={milestone.label} className="reveal relative">
-              <span className="absolute -left-7 top-1 h-3 w-3 rounded-full border border-accent-300 bg-bg"/>
-              <p className="text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-1">{milestone.label}</p>
-              <h3 className="text-lg text-text">{milestone.title}</h3>
-              <p className="mt-2 text-sm leading-[1.6] text-neutral-300">{milestone.description}</p>
-            </div>
-          ))}
+      {loading && <SectionSkeleton count={1} className="mx-auto max-w-190" itemClassName="h-[420px]"/>}
+      {!loading && error && (
+        <div className="mx-auto max-w-190">
+          <SectionError error={error} onRetry={reload}/>
         </div>
-      </div>
+      )}
+
+      {!loading && !error && (
+        <div ref={timelineRef} className="relative mx-auto max-w-190 pl-9">
+          <div
+            ref={lineRef}
+            className="absolute left-3.5 top-0 bottom-0 w-px"
+            style={{background: "linear-gradient(to bottom, var(--color-accent-600), var(--color-neutral-800))"}}
+          />
+
+          <div className="space-y-14">
+            {milestones.map((entry) => {
+              const organisation = text(entry.subtitle);
+              const summary = text(entry.summary);
+
+              return (
+                <div key={entry.id} className="reveal relative">
+                  <span className="absolute -left-7 top-1 h-3 w-3 rounded-full border border-accent-300 bg-bg"/>
+                  <p className="text-[13px] uppercase tracking-[0.08em] text-accent-300 mb-1">
+                    {periodLabel(entry, {present: t("experience:present"), undated: t("experience:undated")})}
+                  </p>
+                  <h3 className="text-lg text-text">
+                    {organisation ? `${organisation} · ${entry.title}` : entry.title}
+                  </h3>
+                  {summary && <p className="mt-2 text-sm leading-[1.6] text-neutral-300">{summary}</p>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

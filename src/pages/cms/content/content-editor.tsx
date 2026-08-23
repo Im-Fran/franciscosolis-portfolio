@@ -15,13 +15,14 @@ import {SLUG_PATTERN, fromDateTimeLocal, orNull, slugify, toDateTimeLocal} from 
 import {parseJsonObject, stringifyJson} from "@/lib/cms/json.ts";
 import {useToast} from "@/lib/cms/toast-context.ts";
 import {CONTENT_STATUSES} from "@/lib/cms/types.ts";
-import type {ContentItem, ContentPayload, ContentStatus, NewContent} from "@/lib/cms/types.ts";
+import type {ContentItem, ContentPayload, ContentStatus, NewContent, Translations} from "@/lib/cms/types.ts";
 import {useMutation} from "@/lib/cms/useMutation.ts";
 import {ConfirmDialog} from "@/pages/cms/components/confirm-dialog.tsx";
 import {JsonEditor} from "@/pages/cms/components/json-editor.tsx";
 import {MarkdownEditor} from "@/pages/cms/components/markdown-editor.tsx";
 import {PageHeader} from "@/pages/cms/components/page-header.tsx";
 import {TagInput} from "@/pages/cms/components/tag-input.tsx";
+import {TranslationsPanel} from "@/pages/cms/components/translations-panel.tsx";
 import {useCollectionMeta} from "@/pages/cms/content/use-collection.ts";
 
 /** Every limit here is the API's own, from `openapi.json`; the form refuses what it would reject. */
@@ -34,6 +35,9 @@ const LIMITS = {
   position: 9999,
   tag: 60,
 } as const;
+
+/** The prose the API lets a translation override, in the order the panel shows it. */
+const TRANSLATABLE = ["title", "subtitle", "summary", "body"] as const;
 
 type FormState = {
   title: string;
@@ -50,6 +54,7 @@ type FormState = {
   imageUrl: string;
   tags: string[];
   data: string;
+  translations: Translations;
 };
 
 type FormErrors = Partial<Record<keyof FormState, string>>;
@@ -69,6 +74,7 @@ const EMPTY: FormState = {
   imageUrl: "",
   tags: [],
   data: "",
+  translations: {},
 };
 
 const fromItem = (item: ContentItem): FormState => ({
@@ -86,6 +92,7 @@ const fromItem = (item: ContentItem): FormState => ({
   imageUrl: item.image_url ?? "",
   tags: item.tags ?? [],
   data: stringifyJson(item.data),
+  translations: item.translations ?? {},
 });
 
 /** The id of every control, so a validation message can send the focus to the field it belongs to. */
@@ -104,6 +111,7 @@ const FIELD_ID: Record<keyof FormState, string> = {
   imageUrl: "content-image-url",
   tags: "content-tags",
   data: "content-data",
+  translations: "content-translations",
 };
 
 /** Absolute http(s) only: the API takes a `uri`, and a relative path is never what was meant here. */
@@ -275,6 +283,8 @@ export const ContentEditor = () => {
       url: orNull(form.url),
       image_url: orNull(form.imageUrl),
       tags: form.tags,
+      /* Replaced wholesale by the API, like `data`, so the panel's whole map goes every time. */
+      translations: form.translations,
     };
 
     const slug = form.slug.trim();
@@ -529,6 +539,16 @@ export const ContentEditor = () => {
             />
           </Field>
         </Panel>
+
+        <TranslationsPanel
+          ns="cms_content"
+          fields={TRANSLATABLE}
+          source={{title: form.title, subtitle: form.subtitle, summary: form.summary, body: form.body}}
+          value={form.translations}
+          onChange={(value) => update("translations", value)}
+          limits={{title: LIMITS.title, subtitle: LIMITS.subtitle, summary: LIMITS.summary, body: LIMITS.body}}
+          disabled={submitting}
+        />
 
         <Panel title={t("cms_content:editor.links_title")} description={t("cms_content:editor.links_description")}>
           <div className="grid gap-4 sm:grid-cols-2">

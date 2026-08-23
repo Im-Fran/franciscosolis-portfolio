@@ -6,6 +6,16 @@ export type CmsContextValue = {
   editor: CmsEditor | null;
   /** The collections the service manages — what the navigation is built from. */
   collections: CmsCollection[];
+  /**
+   * The languages an entry can be translated into: every locale the service publishes except the
+   * default one, which lives in the entry's own fields rather than in its translation map.
+   *
+   * Read from the service rather than mirrored from the site's own language list: which languages
+   * the *content* is published in is the CMS's decision, and the two are free to differ.
+   */
+  translationLocales: string[];
+  /** The locale an entry's own columns hold. */
+  defaultLocale: string;
   loading: boolean;
   error: string | null;
   /** Signed in, but holding no role in this application: the API answered 403 to `/admin/me`. */

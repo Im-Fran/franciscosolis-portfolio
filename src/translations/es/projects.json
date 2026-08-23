@@ -6,43 +6,5 @@
   "open_in_github": "Abrir en GitHub",
   "view_all": "Ver todos los proyectos en GitHub",
   "skills_label": "Skills",
-  "toolbox_label": "Toolbox",
-  "categories": {
-    "landing": "Landing Page",
-    "mobile": "Aplicación Móvil",
-    "webapp": "Web App",
-    "api": "API & Backend"
-  },
-  "featured": {
-    "mi-utem": {
-      "title": "Mi UTEM",
-      "description": "La app oficial de la Universidad Tecnológica Metropolitana para sus estudiantes.",
-      "long_description": "App móvil para los estudiantes de la UTEM: horarios, notas, asistencia y credencial digital en un solo lugar. Trabajo en ella desde 2023 dentro del Club de Desarrollo Experimental (ExDev), desarrollando nuevas funcionalidades en Flutter y automatizando el despliegue a la App Store y Google Play con Fastlane y CI/CD."
-    },
-    "oktobeer": {
-      "title": "OKTOBEER",
-      "description": "Landing page para un pub en Calama, Chile.",
-      "long_description": "Sitio de una sola página que muestra el menú, la ubicación y los datos de contacto de un pub en Calama. Construido con Next.js y Tailwind CSS, pensado para cargar rápido en móvil y para que el dueño pueda actualizar el menú sin tocar código."
-    },
-    "portfolio": {
-      "title": "franciscosolis.cl",
-      "description": "Este mismo sitio: portafolio, auth propio y CMS sobre Cloudflare.",
-      "long_description": "Mi portafolio personal, reescrito sobre React 19 y Vite con un backend propio en Hono.dev corriendo en Cloudflare Workers. Incluye internacionalización ES/EN, un centro de accesibilidad con paleta de comandos, y un CMS propio respaldado por D1 y R2 para administrar proyectos y contenido sin volver a desplegar."
-    },
-    "craftaro": {
-      "title": "Marketplace Craftaro",
-      "description": "Marketplace de plugins y extensiones, construido desde cero.",
-      "long_description": "Dirigí el desarrollo de un marketplace completo desde cero: catálogo, cuentas de vendedores, licencias y descargas. Backend en Laravel con PostgreSQL y Redis, frontend en React y Tailwind CSS, pagos y payouts integrados con Stripe, y la infraestructura de servidores Linux, despliegue continuo y APIs REST que lo sostienen."
-    }
-  },
-  "secondary": {
-    "rubybox": {
-      "title": "RubyBox",
-      "description": "Inventario y panel de control empresarial."
-    },
-    "sonatype-central-upload": {
-      "title": "SonatypeCentralUpload",
-      "description": "Plugin Gradle para publicar artefactos en Sonatype Central."
-    }
-  }
+  "toolbox_label": "Toolbox"
 }
